@@ -9,7 +9,7 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
     public interface IRifaService : IServiceBase
     {
 
-        Task<Rifa> GetRifa(Int64 RifaId);
+        Task<Rifa> GetRifa(Int32 RifaId);
 
     }
 }

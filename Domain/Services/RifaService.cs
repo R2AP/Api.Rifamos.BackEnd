@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 //using Api.Rifamos.BackEnd.Adapter;
 //using Api.Rifamos.BackEnd.Common;
-using Api.Rifamos.Backend.Domain.Interfaces.Repositories;
+using Api.Rifamos.BackEnd.Domain.Interfaces.Repositories;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -17,23 +17,24 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
     {
         private readonly IRifaRepository _rifaRepository;
 
-        public IConfiguration _configuration { get; }
-        private IHostingEnvironment _environment;
+        // public IConfiguration _configuration { get; }
+        // private IHostingEnvironment _environment;
         //private static readonly ILog log = LogManager.GetLogger(typeof(UltimusService));
 
         public RifaService(IRifaRepository rifaRepository,
-                            IConfiguration configuration,
-                            IHostingEnvironment environment
+                            IConfiguration configuration/*,
+                            IHostingEnvironment environment*/
                             )
         {
             _rifaRepository = rifaRepository;
-            _configuration = configuration;
-            _environment = environment;
+            // _configuration = configuration;
+            // _environment = environment;
         }
 
-        public async Task<List<Rifa>> GetRifa(Int64 RifaId)
+        public async Task<Rifa> GetRifa(Int32 RifaId)
         {
-            return await _rifaRepository.GetRifa(RifaId);
+            // var ejemplo = _configuration["prueba"];
+            return await _rifaRepository.Get(RifaId);
         }                
     }
 

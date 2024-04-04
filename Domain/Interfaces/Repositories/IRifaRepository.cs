@@ -1,14 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-//using Interseguro.ADMWR.Backend.Adapter;
-using Api.Rifamos.Backend.Domain;
-using Api.Rifamos.BackEnd.Domain.Interfaces.Repositories;
-
-//using Api.Rifamos.BackEnd.Domain.Interfaces.Repositories;
 using Api.Rifamos.BackEnd.Domain.Models;
 
-namespace Api.Rifamos.Backend.Domain.Interfaces.Repositories
+namespace Api.Rifamos.BackEnd.Domain.Interfaces.Repositories
+
 {
     public interface IRifaRepository : IRepositoryBase<Rifa>
     {
@@ -19,7 +12,7 @@ namespace Api.Rifamos.Backend.Domain.Interfaces.Repositories
         // Task<List<DetalleEndosoPensionDTO>> ListarDetalleEndosoPension(Int64 codEndoso);
         // Task<EndosoApoderadoDTO> ObtenerDetalleEndosoApoderado(Int64 codEndoso);
         // Task<int> GetNumEndosoPoliza(decimal codPoliza);
-        Task<Rifa> GetRifa(Int64 IDRifa);
+        //Task<Rifa> GetRifa(Int64 IDRifa);
         // Task<EndosoDTO> ObtenerEndosoCabecera(Int64 codPoliza, Int64 codEndoso);
         // Task<Int64> GetNumEndosoConfirmadoAnteriorPoliza(Int64 codPoliza, Int64 codEndoso);
     }

@@ -2679,26 +2679,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\romul\\.nuget\\packages\\": {}
+    "C:\\Users\\cg\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\romul\\source\\repos\\BackEnd\\Api.Rifamos.BackEnd\\Api.Rifamos.BackEnd.csproj",
+      "projectUniqueName": "D:\\Rifa\\Api.Rifamos.BackEnd\\Api.Rifamos.BackEnd.csproj",
       "projectName": "Api.Rifamos.BackEnd",
-      "projectPath": "C:\\Users\\romul\\source\\repos\\BackEnd\\Api.Rifamos.BackEnd\\Api.Rifamos.BackEnd.csproj",
-      "packagesPath": "C:\\Users\\romul\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\romul\\source\\repos\\BackEnd\\Api.Rifamos.BackEnd\\obj\\",
+      "projectPath": "D:\\Rifa\\Api.Rifamos.BackEnd\\Api.Rifamos.BackEnd.csproj",
+      "packagesPath": "C:\\Users\\cg\\.nuget\\packages\\",
+      "outputPath": "D:\\Rifa\\Api.Rifamos.BackEnd\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\romul\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\cg\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

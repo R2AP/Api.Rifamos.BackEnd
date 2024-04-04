@@ -7,13 +7,13 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Repositories
 
     public interface IRepositoryBase<TEntity> : IDisposable where TEntity : class
     {
-        // Task<IEnumerable<TEntity>> GetAll();
-        Task<TEntity> Get(int id);
-        // Task Post(TEntity entity);
-        // Task PostList(List<TEntity> lstEntity);
-        // Task Put(TEntity entity);
-        // Task PutList(List<TEntity> lstEntity);
-        // Task Delete(TEntity entity);
-        // Task<int> SaveChanges();
+        Task<IEnumerable<TEntity>> GetAll();
+        Task<TEntity> Get(dynamic id);
+        Task Post(TEntity entity);
+        Task PostList(List<TEntity> lstEntity);
+        Task Put(TEntity entity);
+        Task PutList(List<TEntity> lstEntity);
+        Task Delete(TEntity entity);
+        Task<int> SaveChanges();
     }
 }
