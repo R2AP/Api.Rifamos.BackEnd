@@ -6,11 +6,10 @@ using Api.Rifamos.BackEnd.Domain.Models;
 
 namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
 {
-    public interface IRifaService : IServiceBase
+    public interface IPrecioService : IServiceBase
     {
 
-        Task<Rifa> GetRifa(Int32 RifaId);
-        Task<List<Rifa>> GetListRifa(Int32 UsuarioId);
-
+        Task<Precio> GetPrecio(Int32 PrecioId);
+        Task<List<Precio>> GetListPrecio(Int32 RifaId);
     }
 }

@@ -5,7 +5,7 @@ namespace Api.Rifamos.BackEnd.Domain.Models;
 
 public partial class TipoDocumento
 {
-    public string CodigoTipoDocumento { get; set; } = null!;
+    public int TipoDocumentoId { get; set; }
 
     public string DescripcionTipoDocumento { get; set; } = null!;
 

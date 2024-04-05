@@ -10,7 +10,7 @@ namespace Api.Rifamos.BackEnd.Domain.Models;
 /// </summary>
 public partial class TipoPago
 {
-    public string CodigoTipoPago { get; set; } = null!;
+    public int TipoPagoId { get; set; }
 
     public string DescripcionTipoPago { get; set; } = null!;
 

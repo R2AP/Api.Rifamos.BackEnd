@@ -15,7 +15,7 @@ public partial class Usuario
 
     public string Email { get; set; } = null!;
 
-    public string CodigoTipoDocumento { get; set; } = null!;
+    public int TipoDocumento { get; set; }
 
     public string NumeroDocumento { get; set; } = null!;
 
@@ -29,9 +29,9 @@ public partial class Usuario
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
 
-    public virtual TipoDocumento CodigoTipoDocumentoNavigation { get; set; } = null!;
-
     public virtual ICollection<Opcion> Opcions { get; set; } = new List<Opcion>();
 
     public virtual ICollection<Sesion> Sesions { get; set; } = new List<Sesion>();
+
+    public virtual TipoDocumento TipoDocumentoNavigation { get; set; } = null!;
 }

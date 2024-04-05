@@ -5,7 +5,7 @@ namespace Api.Rifamos.BackEnd.Domain.Models;
 
 public partial class EstadoPago
 {
-    public string CodigoEstadoPago { get; set; } = null!;
+    public int EstadoPagoId { get; set; }
 
     public string DescripcionEstadoPago { get; set; } = null!;
 
@@ -17,5 +17,5 @@ public partial class EstadoPago
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
 
-    public virtual Pago CodigoEstadoPagoNavigation { get; set; } = null!;
+    public virtual Pago EstadoPagoNavigation { get; set; } = null!;
 }

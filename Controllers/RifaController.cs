@@ -50,6 +50,36 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }        
 
+        //GET: api/obtener-lista-rifa
+        ///<summary>
+        ///Obtener una lista de rifas de un usuario especifico
+        ///</summary>
+        ///<param name="UsuarioId">Específica el id del usuario.</param>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpGet]
+        [Route("api/rifa/obtener-lista-rifa/{UsuarioId}")]
+        public async Task<ActionResult> GetListRifa(Int32 UsuarioId)
+        {
+            try
+            {
+                //log.Info("Inicio EndosoController/GetListaEndosos");
+
+                var listaRifa = await _rifaService.GetListRifa(UsuarioId);
+
+                if (listaRifa == null)
+                {
+                    return NoContent();
+                }
+
+                //log.Info("Fin EndosoController/GetListaEndosos");
+                return Ok(listaRifa);
+            }
+            catch(Exception ex)
+            {
+                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }  
     }
 
 }

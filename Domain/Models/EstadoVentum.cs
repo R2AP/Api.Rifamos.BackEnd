@@ -5,7 +5,7 @@ namespace Api.Rifamos.BackEnd.Domain.Models;
 
 public partial class EstadoVentum
 {
-    public string CodigoEstadoVenta { get; set; } = null!;
+    public int EstadoVentaId { get; set; }
 
     public string DescripcionEstadoVenta { get; set; } = null!;
 

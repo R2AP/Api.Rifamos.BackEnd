@@ -9,7 +9,7 @@ public partial class Sesion
 
     public int UsuarioId { get; set; }
 
-    public string CodigoTipoEvento { get; set; } = null!;
+    public int TipoEvento { get; set; }
 
     public string Ip { get; set; } = null!;
 
@@ -23,7 +23,7 @@ public partial class Sesion
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
 
-    public virtual TipoEvento CodigoTipoEventoNavigation { get; set; } = null!;
+    public virtual TipoEvento TipoEventoNavigation { get; set; } = null!;
 
     public virtual Usuario Usuario { get; set; } = null!;
 }

@@ -5,7 +5,7 @@ namespace Api.Rifamos.BackEnd.Domain.Models;
 
 public partial class TipoEvento
 {
-    public string CodigoTipoEvento { get; set; } = null!;
+    public int TipoEventoId { get; set; }
 
     public string DescripcionTipoEvento { get; set; } = null!;
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Api.Rifamos.BackEnd.Domain.Models;
@@ -13,7 +14,11 @@ public partial class Rifa
 
     public TimeOnly HoraSorteo { get; set; }
 
+    public BitArray? Imagen { get; set; }
+
     public string Sponsor { get; set; } = null!;
+
+    public int EstadoRifa { get; set; }
 
     public string AuditoriaUsuarioIngreso { get; set; } = null!;
 
@@ -22,6 +27,8 @@ public partial class Rifa
     public string? AuditoriaUsuarioModificacion { get; set; }
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
+
+    public virtual EstadoRifa EstadoRifaNavigation { get; set; } = null!;
 
     public virtual ICollection<Opcion> Opcions { get; set; } = new List<Opcion>();
 

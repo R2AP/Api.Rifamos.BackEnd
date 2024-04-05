@@ -20,6 +20,8 @@ public partial class RifamosContext : DbContext
 
     public virtual DbSet<EstadoPago> EstadoPagos { get; set; }
 
+    public virtual DbSet<EstadoRifa> EstadoRifas { get; set; }
+
     public virtual DbSet<EstadoVentum> EstadoVenta { get; set; }
 
     public virtual DbSet<Opcion> Opcions { get; set; }
@@ -52,11 +54,11 @@ public partial class RifamosContext : DbContext
     {
         modelBuilder.Entity<EstadoOpcion>(entity =>
         {
-            entity.HasKey(e => e.CodigoEstadoOpcion).HasName("EstadoOpcion_pkey");
+            entity.HasKey(e => e.EstadoOpcionId).HasName("EstadoOpcion_pkey");
 
             entity.ToTable("EstadoOpcion");
 
-            entity.Property(e => e.CodigoEstadoOpcion).HasMaxLength(8);
+            entity.Property(e => e.EstadoOpcionId).HasColumnName("EstadoOpcionID");
             entity.Property(e => e.AuditoriaFechaIngreso)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("auditoria_fecha_ingreso");
@@ -74,11 +76,13 @@ public partial class RifamosContext : DbContext
 
         modelBuilder.Entity<EstadoPago>(entity =>
         {
-            entity.HasKey(e => e.CodigoEstadoPago).HasName("EstadoPago_pkey");
+            entity.HasKey(e => e.EstadoPagoId).HasName("EstadoPago_pkey");
 
             entity.ToTable("EstadoPago");
 
-            entity.Property(e => e.CodigoEstadoPago).HasMaxLength(8);
+            entity.Property(e => e.EstadoPagoId)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("EstadoPagoID");
             entity.Property(e => e.AuditoriaFechaIngreso)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("auditoria_fecha_ingreso");
@@ -93,18 +97,40 @@ public partial class RifamosContext : DbContext
                 .HasColumnName("auditoria_usuario_modificacion");
             entity.Property(e => e.DescripcionEstadoPago).HasMaxLength(128);
 
-            entity.HasOne(d => d.CodigoEstadoPagoNavigation).WithOne(p => p.EstadoPago)
-                .HasPrincipalKey<Pago>(p => p.CodigoEstadoPago)
-                .HasForeignKey<EstadoPago>(d => d.CodigoEstadoPago)
+            entity.HasOne(d => d.EstadoPagoNavigation).WithOne(p => p.EstadoPagoNavigation)
+                .HasPrincipalKey<Pago>(p => p.EstadoPago)
+                .HasForeignKey<EstadoPago>(d => d.EstadoPagoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("EstadoPago_CodigoEstadoPago_fkey");
+                .HasConstraintName("EstadoPago_EstadoPagoID_fkey");
+        });
+
+        modelBuilder.Entity<EstadoRifa>(entity =>
+        {
+            entity.HasKey(e => e.EstadoRifaId).HasName("EstadoRifa_pkey");
+
+            entity.ToTable("EstadoRifa");
+
+            entity.Property(e => e.EstadoRifaId).HasColumnName("EstadoRifaID");
+            entity.Property(e => e.AuditoriaFechaIngreso)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("auditoria_fecha_ingreso");
+            entity.Property(e => e.AuditoriaFechaModificacion)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("auditoria_fecha_modificacion");
+            entity.Property(e => e.AuditoriaUsuarioIngreso)
+                .HasMaxLength(64)
+                .HasColumnName("auditoria_usuario_ingreso");
+            entity.Property(e => e.AuditoriaUsuarioModificacion)
+                .HasMaxLength(64)
+                .HasColumnName("auditoria_usuario_modificacion");
+            entity.Property(e => e.DescripcionEstadoRifa).HasMaxLength(128);
         });
 
         modelBuilder.Entity<EstadoVentum>(entity =>
         {
-            entity.HasKey(e => e.CodigoEstadoVenta).HasName("EstadoVenta_pkey");
+            entity.HasKey(e => e.EstadoVentaId).HasName("EstadoVenta_pkey");
 
-            entity.Property(e => e.CodigoEstadoVenta).HasMaxLength(8);
+            entity.Property(e => e.EstadoVentaId).HasColumnName("EstadoVentaID");
             entity.Property(e => e.AuditoriaFechaIngreso)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("auditoria_fecha_ingreso");
@@ -139,15 +165,14 @@ public partial class RifamosContext : DbContext
             entity.Property(e => e.AuditoriaUsuarioModificacion)
                 .HasMaxLength(64)
                 .HasColumnName("auditoria_usuario_modificacion");
-            entity.Property(e => e.CodigoEstadoOpcion).HasMaxLength(8);
             entity.Property(e => e.RifaId).HasColumnName("RifaID");
             entity.Property(e => e.TokenOpcion).HasMaxLength(128);
             entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
 
-            entity.HasOne(d => d.CodigoEstadoOpcionNavigation).WithMany(p => p.Opcions)
-                .HasForeignKey(d => d.CodigoEstadoOpcion)
+            entity.HasOne(d => d.EstadoOpcionNavigation).WithMany(p => p.Opcions)
+                .HasForeignKey(d => d.EstadoOpcion)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Opcion_CodigoEstadoOpcion_fkey");
+                .HasConstraintName("Opcion_EstadoOpcion_fkey");
 
             entity.HasOne(d => d.Rifa).WithMany(p => p.Opcions)
                 .HasForeignKey(d => d.RifaId)
@@ -166,7 +191,7 @@ public partial class RifamosContext : DbContext
 
             entity.ToTable("Pago");
 
-            entity.HasIndex(e => e.CodigoEstadoPago, "Pago_key").IsUnique();
+            entity.HasIndex(e => e.EstadoPago, "Pago_key").IsUnique();
 
             entity.Property(e => e.PagoId).HasColumnName("PagoID");
             entity.Property(e => e.AuditoriaFechaIngreso)
@@ -181,8 +206,6 @@ public partial class RifamosContext : DbContext
             entity.Property(e => e.AuditoriaUsuarioModificacion)
                 .HasMaxLength(64)
                 .HasColumnName("auditoria_usuario_modificacion");
-            entity.Property(e => e.CodigoEstadoPago).HasMaxLength(8);
-            entity.Property(e => e.CodigoTipoPago).HasMaxLength(8);
             entity.Property(e => e.CodigoTransaccion)
                 .HasMaxLength(32)
                 .HasComment("Código ofrecido por la pasarela");
@@ -190,10 +213,10 @@ public partial class RifamosContext : DbContext
             entity.Property(e => e.Monto).HasPrecision(18, 2);
             entity.Property(e => e.VentaId).HasColumnName("VentaID");
 
-            entity.HasOne(d => d.CodigoTipoPagoNavigation).WithMany(p => p.Pagos)
-                .HasForeignKey(d => d.CodigoTipoPago)
+            entity.HasOne(d => d.TipoPagoNavigation).WithMany(p => p.Pagos)
+                .HasForeignKey(d => d.TipoPago)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Pago_CodigoTipoPago_fkey");
+                .HasConstraintName("Pago_TipoPago_fkey");
 
             entity.HasOne(d => d.Venta).WithMany(p => p.Pagos)
                 .HasForeignKey(d => d.VentaId)
@@ -280,6 +303,11 @@ public partial class RifamosContext : DbContext
                 .HasColumnName("auditoria_usuario_modificacion");
             entity.Property(e => e.RifaDescripcion).HasMaxLength(128);
             entity.Property(e => e.Sponsor).HasMaxLength(128);
+
+            entity.HasOne(d => d.EstadoRifaNavigation).WithMany(p => p.Rifas)
+                .HasForeignKey(d => d.EstadoRifa)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Rifa_EstadoRifa_fkey");
         });
 
         modelBuilder.Entity<Sesion>(entity =>
@@ -301,17 +329,16 @@ public partial class RifamosContext : DbContext
             entity.Property(e => e.AuditoriaUsuarioModificacion)
                 .HasMaxLength(64)
                 .HasColumnName("auditoria_usuario_modificacion");
-            entity.Property(e => e.CodigoTipoEvento).HasMaxLength(8);
             entity.Property(e => e.Email).HasMaxLength(64);
             entity.Property(e => e.Ip)
                 .HasMaxLength(16)
                 .HasColumnName("IP");
             entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
 
-            entity.HasOne(d => d.CodigoTipoEventoNavigation).WithMany(p => p.Sesions)
-                .HasForeignKey(d => d.CodigoTipoEvento)
+            entity.HasOne(d => d.TipoEventoNavigation).WithMany(p => p.Sesions)
+                .HasForeignKey(d => d.TipoEvento)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Sesion_CodigoTipoEvento_fkey");
+                .HasConstraintName("Sesion_TipoEvento_fkey");
 
             entity.HasOne(d => d.Usuario).WithMany(p => p.Sesions)
                 .HasForeignKey(d => d.UsuarioId)
@@ -321,11 +348,11 @@ public partial class RifamosContext : DbContext
 
         modelBuilder.Entity<TipoDocumento>(entity =>
         {
-            entity.HasKey(e => e.CodigoTipoDocumento).HasName("TipoDocumento_pkey");
+            entity.HasKey(e => e.TipoDocumentoId).HasName("TipoDocumento_pkey");
 
             entity.ToTable("TipoDocumento");
 
-            entity.Property(e => e.CodigoTipoDocumento).HasMaxLength(8);
+            entity.Property(e => e.TipoDocumentoId).HasColumnName("TipoDocumentoID");
             entity.Property(e => e.AuditoriaFechaIngreso)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("auditoria_fecha_ingreso");
@@ -343,11 +370,11 @@ public partial class RifamosContext : DbContext
 
         modelBuilder.Entity<TipoEvento>(entity =>
         {
-            entity.HasKey(e => e.CodigoTipoEvento).HasName("TipoEvento_pkey");
+            entity.HasKey(e => e.TipoEventoId).HasName("TipoEvento_pkey");
 
             entity.ToTable("TipoEvento");
 
-            entity.Property(e => e.CodigoTipoEvento).HasMaxLength(8);
+            entity.Property(e => e.TipoEventoId).HasColumnName("TipoEventoID");
             entity.Property(e => e.AuditoriaFechaIngreso)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("auditoria_fecha_ingreso");
@@ -365,11 +392,11 @@ public partial class RifamosContext : DbContext
 
         modelBuilder.Entity<TipoPago>(entity =>
         {
-            entity.HasKey(e => e.CodigoTipoPago).HasName("TipoPago_pkey");
+            entity.HasKey(e => e.TipoPagoId).HasName("TipoPago_pkey");
 
             entity.ToTable("TipoPago", tb => tb.HasComment("1. Tarjetas de crédito o débito.\r\n2. Pagos en efectivo.\r\n3. Transferencias bancarias"));
 
-            entity.Property(e => e.CodigoTipoPago).HasMaxLength(8);
+            entity.Property(e => e.TipoPagoId).HasColumnName("TipoPagoID");
             entity.Property(e => e.AuditoriaFechaIngreso)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("auditoria_fecha_ingreso");
@@ -406,16 +433,15 @@ public partial class RifamosContext : DbContext
             entity.Property(e => e.AuditoriaUsuarioModificacion)
                 .HasMaxLength(64)
                 .HasColumnName("auditoria_usuario_modificacion");
-            entity.Property(e => e.CodigoTipoDocumento).HasMaxLength(8);
             entity.Property(e => e.Email).HasMaxLength(325);
             entity.Property(e => e.Nombres).HasMaxLength(128);
             entity.Property(e => e.NumeroDocumento).HasMaxLength(16);
             entity.Property(e => e.Telefono).HasMaxLength(18);
 
-            entity.HasOne(d => d.CodigoTipoDocumentoNavigation).WithMany(p => p.Usuarios)
-                .HasForeignKey(d => d.CodigoTipoDocumento)
+            entity.HasOne(d => d.TipoDocumentoNavigation).WithMany(p => p.Usuarios)
+                .HasForeignKey(d => d.TipoDocumento)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Usuario_CodigoTipoDocumento_fkey");
+                .HasConstraintName("Usuario_TipoDocumento_fkey");
         });
 
         modelBuilder.Entity<Ventum>(entity =>
@@ -437,7 +463,6 @@ public partial class RifamosContext : DbContext
             entity.Property(e => e.AuditoriaUsuarioModificacion)
                 .HasMaxLength(64)
                 .HasColumnName("auditoria_usuario_modificacion");
-            entity.Property(e => e.CodigoEstadoVenta).HasMaxLength(8);
             entity.Property(e => e.Moneda).HasMaxLength(8);
             entity.Property(e => e.Monto).HasPrecision(18, 2);
             entity.Property(e => e.NumeroComprobante).HasMaxLength(16);
@@ -445,10 +470,10 @@ public partial class RifamosContext : DbContext
             entity.Property(e => e.SerieComprobante).HasMaxLength(8);
             entity.Property(e => e.TipoComprobante).HasMaxLength(8);
 
-            entity.HasOne(d => d.CodigoEstadoVentaNavigation).WithMany(p => p.Venta)
-                .HasForeignKey(d => d.CodigoEstadoVenta)
+            entity.HasOne(d => d.EstadoVentaNavigation).WithMany(p => p.Venta)
+                .HasForeignKey(d => d.EstadoVenta)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Venta_CodigoEstadoVenta_fkey");
+                .HasConstraintName("Venta_EstadoVenta_fkey");
 
             entity.HasOne(d => d.Venta).WithOne(p => p.Ventum)
                 .HasForeignKey<Ventum>(d => d.VentaId)

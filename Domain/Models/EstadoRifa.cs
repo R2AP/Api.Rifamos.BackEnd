@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Api.Rifamos.BackEnd.Domain.Models;
 
-public partial class EstadoOpcion
+public partial class EstadoRifa
 {
-    public int EstadoOpcionId { get; set; }
+    public int EstadoRifaId { get; set; }
 
-    public string DescripcionEstadoOpcion { get; set; } = null!;
+    public string DescripcionEstadoRifa { get; set; } = null!;
 
     public string AuditoriaUsuarioIngreso { get; set; } = null!;
 
@@ -17,5 +17,5 @@ public partial class EstadoOpcion
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
 
-    public virtual ICollection<Opcion> Opcions { get; set; } = new List<Opcion>();
+    public virtual ICollection<Rifa> Rifas { get; set; } = new List<Rifa>();
 }

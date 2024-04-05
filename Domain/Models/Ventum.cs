@@ -19,7 +19,7 @@ public partial class Ventum
 
     public decimal Monto { get; set; }
 
-    public string CodigoEstadoVenta { get; set; } = null!;
+    public int EstadoVenta { get; set; }
 
     public string AuditoriaUsuarioIngreso { get; set; } = null!;
 
@@ -29,7 +29,7 @@ public partial class Ventum
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
 
-    public virtual EstadoVentum CodigoEstadoVentaNavigation { get; set; } = null!;
+    public virtual EstadoVentum EstadoVentaNavigation { get; set; } = null!;
 
     public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
 

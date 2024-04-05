@@ -13,36 +13,36 @@ using Microsoft.Extensions.Configuration;
 //using Newtonsoft.Json;
 
 namespace Api.Rifamos.BackEnd.Domain.Services{
-    public class RifaService : IRifaService
+
+    public class PrecioService : IPrecioService
     {
-        private readonly IRifaRepository _rifaRepository;
+        private readonly IPrecioRepository _PrecioRepository;
 
         // public IConfiguration _configuration { get; }
         // private IHostingEnvironment _environment;
         //private static readonly ILog log = LogManager.GetLogger(typeof(UltimusService));
 
-        public RifaService(IRifaRepository rifaRepository,
+        public PrecioService(IPrecioRepository PrecioRepository,
                             IConfiguration configuration/*,
                             IHostingEnvironment environment*/
                             )
         {
-            _rifaRepository = rifaRepository;
+            _PrecioRepository = PrecioRepository;
             // _configuration = configuration;
             // _environment = environment;
         }
 
-        public async Task<Rifa> GetRifa(Int32 RifaId)
+        public async Task<Precio> GetPrecio(Int32 PrecioId)
         {
             // var ejemplo = _configuration["prueba"];
-            return await _rifaRepository.Get(RifaId);
+            return await _PrecioRepository.Get(PrecioId);
         }
 
-        public async Task<List<Rifa>> GetListRifa(Int32 UsuarioId)
+        public async Task<List<Precio>> GetListPrecio(Int32 RifaId)
         {
             // var ejemplo = _configuration["prueba"];
-            return await _rifaRepository.GetListRifa(UsuarioId);
-        }   
+            return await _PrecioRepository.GetListPrecio(RifaId);
+        }                            
     }
 
-    
 }

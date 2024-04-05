@@ -15,7 +15,7 @@ public partial class Opcion
 
     public string TokenOpcion { get; set; } = null!;
 
-    public string CodigoEstadoOpcion { get; set; } = null!;
+    public int EstadoOpcion { get; set; }
 
     public string AuditoriaUsuarioIngreso { get; set; } = null!;
 
@@ -25,7 +25,7 @@ public partial class Opcion
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
 
-    public virtual EstadoOpcion CodigoEstadoOpcionNavigation { get; set; } = null!;
+    public virtual EstadoOpcion EstadoOpcionNavigation { get; set; } = null!;
 
     public virtual Rifa Rifa { get; set; } = null!;
 

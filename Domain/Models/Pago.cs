@@ -9,7 +9,7 @@ public partial class Pago
 
     public int VentaId { get; set; }
 
-    public string CodigoTipoPago { get; set; } = null!;
+    public int TipoPago { get; set; }
 
     /// <summary>
     /// Código ofrecido por la pasarela
@@ -24,7 +24,7 @@ public partial class Pago
 
     public decimal Monto { get; set; }
 
-    public string CodigoEstadoPago { get; set; } = null!;
+    public int EstadoPago { get; set; }
 
     public string AuditoriaUsuarioIngreso { get; set; } = null!;
 
@@ -34,9 +34,9 @@ public partial class Pago
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
 
-    public virtual TipoPago CodigoTipoPagoNavigation { get; set; } = null!;
+    public virtual EstadoPago? EstadoPagoNavigation { get; set; }
 
-    public virtual EstadoPago? EstadoPago { get; set; }
+    public virtual TipoPago TipoPagoNavigation { get; set; } = null!;
 
     public virtual Ventum Venta { get; set; } = null!;
 }
