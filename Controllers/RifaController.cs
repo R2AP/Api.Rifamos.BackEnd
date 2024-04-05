@@ -57,14 +57,14 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<param name="UsuarioId">Específica el id del usuario.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
-        [Route("api/rifa/obtener-lista-rifa/{UsuarioId}")]
-        public async Task<ActionResult> GetListRifa(Int32 UsuarioId)
+        [Route("api/rifa/obtener-lista-rifa-usuario/{UsuarioId}")]
+        public async Task<ActionResult> GetListRifaUsuario(Int32 UsuarioId)
         {
             try
             {
                 //log.Info("Inicio EndosoController/GetListaEndosos");
 
-                var listaRifa = await _rifaService.GetListRifa(UsuarioId);
+                var listaRifa = await _rifaService.GetListRifaUsuario(UsuarioId);
 
                 if (listaRifa == null)
                 {
@@ -80,37 +80,39 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }  
+
+        //GET: api/obtener-lista-rifa
+        ///<summary>
+        ///Obtener una lista de rifas
+        ///</summary>
+        ///<param name="EstadoId">Específica el id del usuario.</param>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpGet]
+        [Route("api/rifa/obtener-lista-rifa-estado/{EstadoId}")]
+        public async Task<ActionResult> GetListRifa(Int32 EstadoId)
+        {
+            try
+            {
+                //log.Info("Inicio EndosoController/GetListaEndosos");
+
+                var listaRifa = await _rifaService.GetListRifaEstado(EstadoId);
+
+                if (listaRifa == null)
+                {
+                    return NoContent();
+                }
+
+                //log.Info("Fin EndosoController/GetListaEndosos");
+                return Ok(listaRifa);
+            }
+            catch(Exception ex)
+            {
+                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        } 
+
     }
 
 }
 
-// [ApiController]
-// [Route("[controller]")]
-// public class RifaController : ControllerBase
-// {
-//     // private static readonly string[] Summaries = new[]
-//     // {
-//     //     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-//     // };
-
-//     private readonly ILogger<RifaController> _logger;
-
-//     public RifaController(ILogger<RifaController> logger)
-//     {
-//          _logger = logger;
-//     }
-
-//     [HttpGet(Name = "GetRifa")]
-//     public IEnumerable<Rifa> Get()
-//     {
-//         return Enumerable.Range(1, 5).Select(index => new Rifa
-//         {
-//             RifaDescripcion = "Rifa Ejemplo",
-//             FechaSorteo = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-//             AuditoriaUsuarioIngreso = "ralegre"
-//             //FechaSorteo = DateTime.Today,
-//             //HoraSorteo = DateTime.Now
-//         })
-//         .ToArray();
-//     }
-// }

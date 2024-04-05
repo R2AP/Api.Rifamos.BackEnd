@@ -11,7 +11,7 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
     {
         public RifaRepository(RifamosContext context) : base(context) { }
 
-        public async Task<List<Rifa>> GetListRifa(Int32 UsuarioId)
+        public async Task<List<Rifa>> GetListRifaUsuario(Int32 UsuarioId)
         {
 
             var rifa = (from opc in _context.Opcions
@@ -24,6 +24,7 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
                                 FechaSorteo = rif.FechaSorteo,
                                 HoraSorteo = rif.HoraSorteo,
                                 Sponsor = rif.Sponsor,
+                                EstadoRifa = rif.EstadoRifa,                                
                                 AuditoriaUsuarioIngreso = rif.AuditoriaUsuarioIngreso,
                                 AuditoriaFechaIngreso = rif.AuditoriaFechaIngreso,
                                 AuditoriaUsuarioModificacion = rif.AuditoriaUsuarioModificacion,
@@ -32,6 +33,29 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
                             }).ToListAsync();
 
             return await rifa;
-        }        
+        }
+
+        public async Task<List<Rifa>> GetListRifaEstado(Int32 EstadoId)
+        {
+
+            var rifa = (from rif in _context.Rifas 
+                            where rif.EstadoRifa == EstadoId
+                            select new Rifa
+                            {
+                                RifaId = rif.RifaId,
+                                RifaDescripcion = rif.RifaDescripcion,
+                                FechaSorteo = rif.FechaSorteo,
+                                HoraSorteo = rif.HoraSorteo,
+                                Sponsor = rif.Sponsor,
+                                EstadoRifa = rif.EstadoRifa,
+                                AuditoriaUsuarioIngreso = rif.AuditoriaUsuarioIngreso,
+                                AuditoriaFechaIngreso = rif.AuditoriaFechaIngreso,
+                                AuditoriaUsuarioModificacion = rif.AuditoriaUsuarioModificacion,
+                                AuditoriaFechaModificacion = rif.AuditoriaFechaModificacion, 
+
+                            }).ToListAsync();
+
+            return await rifa;
+        }
     }
 }

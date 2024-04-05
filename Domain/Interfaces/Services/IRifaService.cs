@@ -10,7 +10,8 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
     {
 
         Task<Rifa> GetRifa(Int32 RifaId);
-        Task<List<Rifa>> GetListRifa(Int32 UsuarioId);
+        Task<List<Rifa>> GetListRifaUsuario(Int32 UsuarioId);
+        Task<List<Rifa>> GetListRifaEstado(Int32 UsuarioId);
 
     }
 }

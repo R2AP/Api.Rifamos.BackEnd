@@ -5,7 +5,8 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Repositories
 {
     public interface IRifaRepository : IRepositoryBase<Rifa>
     {
-        Task<List<Rifa>> GetListRifa(Int32 UsuarioId);
+        Task<List<Rifa>> GetListRifaUsuario(Int32 UsuarioId);
+        Task<List<Rifa>> GetListRifaEstado(Int32 EstadoId);
         // Task<bool> ValidarEndosoPendientes(string glsPoliza);
         // Task<List<DetalleEndosoDTO>> ListarDetalleBaseEndoso(Int64 codPoliza);
         // Task<List<DetalleEndosoDTO>> ListarDetalleEndoso(Int64 codEndoso);

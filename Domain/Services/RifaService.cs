@@ -37,11 +37,17 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return await _rifaRepository.Get(RifaId);
         }
 
-        public async Task<List<Rifa>> GetListRifa(Int32 UsuarioId)
+        public async Task<List<Rifa>> GetListRifaUsuario(Int32 UsuarioId)
         {
             // var ejemplo = _configuration["prueba"];
-            return await _rifaRepository.GetListRifa(UsuarioId);
-        }   
+            return await _rifaRepository.GetListRifaUsuario(UsuarioId);
+        } 
+
+        public async Task<List<Rifa>> GetListRifaEstado(Int32 EstadoId)
+        {
+            // var ejemplo = _configuration["prueba"];
+            return await _rifaRepository.GetListRifaEstado(EstadoId);
+        }           
     }
 
     
