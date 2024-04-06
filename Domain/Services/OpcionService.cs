@@ -13,41 +13,30 @@ using Microsoft.Extensions.Configuration;
 //using Newtonsoft.Json;
 
 namespace Api.Rifamos.BackEnd.Domain.Services{
-    public class RifaService : IRifaService
+    public class OpcionService : IOpcionService
     {
-        private readonly IRifaRepository _rifaRepository;
+        private readonly IOpcionRepository _opcionRepository;
 
         // public IConfiguration _configuration { get; }
         // private IHostingEnvironment _environment;
         //private static readonly ILog log = LogManager.GetLogger(typeof(UltimusService));
 
-        public RifaService(IRifaRepository rifaRepository,
+        public OpcionService(IOpcionRepository opcionRepository,
                             IConfiguration configuration/*,
                             IHostingEnvironment environment*/
                             )
         {
-            _rifaRepository = rifaRepository;
+            _opcionRepository = opcionRepository;
             // _configuration = configuration;
             // _environment = environment;
         }
 
-        public async Task<Rifa> GetRifa(Int32 RifaId)
+        public async Task<List<Opcion>> GetListOpcion(Int32 RifaId, Int32 UsuarioId)
         {
             // var ejemplo = _configuration["prueba"];
-            return await _rifaRepository.Get(RifaId);
-        }
-
-        public async Task<List<Rifa>> GetListRifaUsuario(Int32 UsuarioId)
-        {
-            // var ejemplo = _configuration["prueba"];
-            return await _rifaRepository.GetListRifaUsuario(UsuarioId);
+            return await _opcionRepository.GetListOpcion(RifaId, UsuarioId);
         } 
 
-        public async Task<List<Rifa>> GetListRifaEstado(Int32 EstadoId)
-        {
-            // var ejemplo = _configuration["prueba"];
-            return await _rifaRepository.GetListRifaEstado(EstadoId);
-        }           
     }
 
 }

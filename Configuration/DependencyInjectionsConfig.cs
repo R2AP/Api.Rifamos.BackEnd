@@ -16,11 +16,13 @@ namespace Api.Rifamos.BackEnd.Configuration
             //services.AddScoped<IPolizaService, PolizaService>();
             services.AddScoped<IRifaService, RifaService>();
             services.AddScoped<IPrecioService, PrecioService>();
+            services.AddScoped<IOpcionService, OpcionService>();
 
             //Repositorios
             //services.AddScoped<IPolizaRepository, PolizaRepository>();
             services.AddScoped<IRifaRepository, RifaRepository>();
             services.AddScoped<IPrecioRepository, PrecioRepository>();
+            services.AddScoped<IOpcionRepository, OpcionRepository>();
 
             return services;
         }
