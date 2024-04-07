@@ -61,7 +61,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             {        
                 //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
 
-                var respuesta = await _premioService.InsertOpcion(Premio);
+                var respuesta = await _premioService.InsertPremio(Premio);
 
                 //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
 

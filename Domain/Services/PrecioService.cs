@@ -16,7 +16,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
     public class PrecioService : IPrecioService
     {
-        private readonly IPrecioRepository _PrecioRepository;
+        private readonly IPrecioRepository _precioRepository;
 
         // public IConfiguration _configuration { get; }
         // private IHostingEnvironment _environment;
@@ -27,7 +27,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                             IHostingEnvironment environment*/
                             )
         {
-            _PrecioRepository = PrecioRepository;
+            _precioRepository = PrecioRepository;
             // _configuration = configuration;
             // _environment = environment;
         }
@@ -35,14 +35,23 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public async Task<Precio> GetPrecio(Int32 PrecioId)
         {
             // var ejemplo = _configuration["prueba"];
-            return await _PrecioRepository.Get(PrecioId);
+            return await _precioRepository.Get(PrecioId);
         }
 
         public async Task<List<Precio>> GetListPrecio(Int32 RifaId)
         {
             // var ejemplo = _configuration["prueba"];
-            return await _PrecioRepository.GetListPrecio(RifaId);
-        }                            
+            return await _precioRepository.GetListPrecio(RifaId);
+        }
+
+        public async Task<Precio> InsertPrecio(Precio Precio)
+        {
+            // var ejemplo = _configuration["prueba"];
+            await _precioRepository.Post(Precio);
+
+            return Precio;
+
+        }        
     }
 
 }

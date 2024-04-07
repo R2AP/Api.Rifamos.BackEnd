@@ -50,6 +50,54 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }  
 
-    }
+        //POST: api/opcion/registro-opcion
+        /// <summary>
+        /// Crear una opción en la Rifa .
+        /// </summary>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpPost("api/opcion/registro-opcion")]
+        public async Task<ActionResult> InsertOpcion(Opcion Opcion)
+        {
+            try
+            {        
+                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
 
+                var respuesta = await _opcionService.InsertOpcion(Opcion);
+
+                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+
+                return Ok(respuesta); 
+            }
+            catch (Exception ex)
+            {
+                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }
+
+        //PUT: api/opcion/actualizar-opcion
+        /// <summary>
+        /// Actualizar una opción en la Rifa .
+        /// </summary>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpPut("api/opcion/actualizar-opcion")]
+        public async Task<ActionResult> UpdateOpcion(Opcion Opcion)
+        {
+            try
+            {        
+                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+
+                var respuesta = await _opcionService.UpdateOpcion(Opcion);
+
+                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+
+                return Ok(respuesta); 
+            }
+            catch (Exception ex)
+            {
+                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }           
+    }
 }

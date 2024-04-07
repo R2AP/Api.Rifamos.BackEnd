@@ -8,12 +8,12 @@ namespace Api.Rifamos.BackEnd.Controllers{
     [ApiController]
     public class PrecioController : ControllerBase{
 
-        private readonly IPrecioService _PrecioService;
+        private readonly IPrecioService _precioService;
         //private static readonly ILog log = LogManager.GetLogger(typeof(PrecioController));
 
         public PrecioController(IPrecioService PrecioService)
         {
-            _PrecioService = PrecioService;
+            _precioService = PrecioService;
 
             //log4net.GlobalContext.Properties["fDirectory"] = AppContext.BaseDirectory;
             //Logger.InicializarLog();
@@ -33,7 +33,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             {
                 //log.Info("Inicio EndosoController/GetListaEndosos");
 
-                var listaPrecio = await _PrecioService.GetPrecio(PrecioId);
+                var listaPrecio = await _precioService.GetPrecio(PrecioId);
 
                 if (listaPrecio == null)
                 {
@@ -64,7 +64,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             {
                 //log.Info("Inicio EndosoController/GetListaEndosos");
 
-                var listPrecio = await _PrecioService.GetListPrecio(RifaId);
+                var listPrecio = await _precioService.GetListPrecio(RifaId);
 
                 if (listPrecio == null)
                 {
@@ -80,6 +80,31 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
+
+        //POST: api/precio/registro-precio
+        /// <summary>
+        /// Crear los precios de la Rifa .
+        /// </summary>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpPost("api/precio/registro-precio")]
+        public async Task<ActionResult> InsertPrecio(Precio Precio)
+        {
+            try
+            {        
+                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+
+                var respuesta = await _precioService.InsertPrecio(Precio);
+
+                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+
+                return Ok(respuesta); 
+            }
+            catch (Exception ex)
+            {
+                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }            
 
     }
 

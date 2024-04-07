@@ -8,9 +8,8 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
 {
     public interface IPrecioService : IServiceBase
     {
-
         Task<Precio> GetPrecio(Int32 PrecioId);
         Task<List<Precio>> GetListPrecio(Int32 RifaId);
-        Task<Premio> InsertPremio(Premio Premio);
+        Task<Precio> InsertPrecio(Precio Precio);        
     }
 }

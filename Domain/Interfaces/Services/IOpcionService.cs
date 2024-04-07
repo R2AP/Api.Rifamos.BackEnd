@@ -10,6 +10,7 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
     {
 
         Task<List<Opcion>> GetListOpcion(Int32 RifaId, Int32 UsuarioId);
-
+        Task<Opcion> InsertOpcion(Opcion Opcion);
+        Task<Opcion> UpdateOpcion(Opcion Opcion);        
     }
 }

@@ -37,6 +37,24 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return await _opcionRepository.GetListOpcion(RifaId, UsuarioId);
         } 
 
+        public async Task<Opcion> InsertOpcion(Opcion Opcion)
+        {
+            // var ejemplo = _configuration["prueba"];
+            await _opcionRepository.Post(Opcion);
+
+            return Opcion;
+
+        }
+
+        public async Task<Opcion> UpdateOpcion(Opcion Opcion)
+        {
+            // var ejemplo = _configuration["prueba"];
+            await _opcionRepository.Put(Opcion);
+
+            return Opcion;
+
+        }
+
     }
 
 }
