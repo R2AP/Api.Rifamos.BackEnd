@@ -56,6 +56,15 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return Rifa;
 
         }
+
+        public async Task<Rifa> UpdateRifa(Rifa Rifa)
+        {
+            // var ejemplo = _configuration["prueba"];
+            await _rifaRepository.Put(Rifa);
+
+            return Rifa;
+
+        }        
     }
 
 }

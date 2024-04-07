@@ -1,21 +1,21 @@
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-//using log4net;
+using log4net;
 
 namespace Api.Rifamos.BackEnd.Controllers{
     [ApiController]
     public class OpcionController : ControllerBase{
 
         private readonly IOpcionService _opcionService;
-        //private static readonly ILog log = LogManager.GetLogger(typeof(RifaController));
+        private static readonly ILog log = LogManager.GetLogger(typeof(RifaController));
 
         public OpcionController(IOpcionService opcionService)
         {
             _opcionService = opcionService;
 
-            //log4net.GlobalContext.Properties["fDirectory"] = AppContext.BaseDirectory;
-            //Logger.InicializarLog();
+            log4net.GlobalContext.Properties["fDirectory"] = AppContext.BaseDirectory;
+            Logger.InicializarLog();
         }
 
         //GET: api/obtener-lista-opcion
@@ -31,7 +31,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                //log.Info("Inicio EndosoController/GetListaEndosos");
+                log.Info("Inicio opcion/obtener-lista-opcion");
 
                 var listaOpcion = await _opcionService.GetListOpcion(RifaId, UsuarioId);
 
@@ -40,12 +40,12 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return NoContent();
                 }
 
-                //log.Info("Fin EndosoController/GetListaEndosos");
+                log.Info("Fin opcion/obtener-lista-opcion");
                 return Ok(listaOpcion);
             }
             catch(Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }  

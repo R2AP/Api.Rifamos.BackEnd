@@ -137,6 +137,31 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }
 
+        //PUT: api/rifa/actualizar-rifa
+        /// <summary>
+        /// Actualizar un registro Rifa.
+        /// </summary>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpPut("api/rifa/actualizar-rifa")]
+        public async Task<ActionResult> UpdateRifa(Rifa Rifa)
+        {
+            try
+            {        
+                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+
+                var respuesta = await _rifaService.UpdateRifa(Rifa);
+
+                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+
+                return Ok(respuesta); 
+            }
+            catch (Exception ex)
+            {
+                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }        
+
     }
 
 }
