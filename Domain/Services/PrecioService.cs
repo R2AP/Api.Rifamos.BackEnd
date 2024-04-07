@@ -51,7 +51,15 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             return Precio;
 
-        }        
+        }
+        public async Task<Precio> UpdatePrecio(Precio Precio)
+        {
+            // var ejemplo = _configuration["prueba"];
+            await _precioRepository.Put(Precio);
+
+            return Precio;
+
+        }
     }
 
 }

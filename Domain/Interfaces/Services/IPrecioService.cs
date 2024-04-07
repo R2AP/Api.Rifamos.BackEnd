@@ -10,6 +10,7 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
     {
         Task<Precio> GetPrecio(Int32 PrecioId);
         Task<List<Precio>> GetListPrecio(Int32 RifaId);
-        Task<Precio> InsertPrecio(Precio Precio);        
+        Task<Precio> InsertPrecio(Precio Precio);
+        Task<Precio> UpdatePrecio(Precio Precio);        
     }
 }

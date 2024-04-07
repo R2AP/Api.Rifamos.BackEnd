@@ -98,6 +98,6 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
-        }           
+        }
     }
 }
