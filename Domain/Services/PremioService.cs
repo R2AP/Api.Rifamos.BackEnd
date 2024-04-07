@@ -36,7 +36,16 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         {
             // var ejemplo = _configuration["prueba"];
             return await _premioRepository.GetListPremio(RifaId);
-        } 
+        }
+
+        public async Task<Premio> InsertPremio(Premio Premio)
+        {
+            // var ejemplo = _configuration["prueba"];
+            await _premioRepository.Post(Premio);
+
+            return Premio;
+
+        }         
 
     }
 
