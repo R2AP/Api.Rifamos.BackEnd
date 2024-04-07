@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
-//using Api.Rifamos.BackEnd.Adapter;
-//using Api.Rifamos.BackEnd.Common;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Repositories;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 //using Newtonsoft.Json;
 
@@ -47,7 +46,16 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         {
             // var ejemplo = _configuration["prueba"];
             return await _rifaRepository.GetListRifaEstado(EstadoId);
-        }           
+        }
+
+        public async Task<Rifa> InsertRifa(Rifa Rifa)
+        {
+            // var ejemplo = _configuration["prueba"];
+            await _rifaRepository.Post(Rifa);
+
+            return Rifa;
+
+        }
     }
 
 }

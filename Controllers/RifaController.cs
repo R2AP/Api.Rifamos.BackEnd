@@ -21,7 +21,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
 
         //GET: api/obtener-rifa
         ///<summary>
-        ///Obtener una lista de un registro con la rifa seleccionada.
+        ///Obtener un registro con la rifa seleccionada.
         ///</summary>
         ///<param name="RifaId">Específica el id de la Rifa seleccionada.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
@@ -50,7 +50,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }        
 
-        //GET: api/obtener-lista-rifa
+        //GET: api/obtener-lista-rifa-usuario
         ///<summary>
         ///Obtener una lista de rifas de un usuario especifico
         ///</summary>
@@ -81,11 +81,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }  
 
-        //GET: api/obtener-lista-rifa
+        //GET: api/obtener-lista-rifa-estado
         ///<summary>
-        ///Obtener una lista de rifas
+        ///Obtener una lista de rifas por estado
         ///</summary>
-        ///<param name="EstadoId">Específica el id del usuario.</param>
+        ///<param name="EstadoId">Específica el id del estado selecconado.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
         [Route("api/rifa/obtener-lista-rifa-estado/{EstadoId}")]
@@ -110,7 +110,32 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
-        } 
+        }
+
+        //POST: api/rifa/registro-rifa
+        /// <summary>
+        /// Crear una nueva Rifa.
+        /// </summary>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpPost("api/rifa/registro-rifa")]
+        public async Task<ActionResult> InsertRifa(Rifa Rifa)
+        {
+            try
+            {        
+                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+
+                var respuesta = await _rifaService.InsertRifa(Rifa);
+
+                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+
+                return Ok(respuesta); 
+            }
+            catch (Exception ex)
+            {
+                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }
 
     }
 
