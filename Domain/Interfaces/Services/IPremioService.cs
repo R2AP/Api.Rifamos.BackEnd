@@ -10,5 +10,6 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
     {
         Task<List<Premio>> GetListPremio(Int32 RifaId);
         Task<Premio> InsertPremio(Premio Premio);
+        Task<Premio> UpdatePremio(Premio Premio);        
     }
 }

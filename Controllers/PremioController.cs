@@ -72,7 +72,32 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
-        }        
+        }
+
+        //PUT: api/premio/actualizar-premio
+        /// <summary>
+        /// Actualizar uno de los registros de premio de la Rifa .
+        /// </summary>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpPut("api/premio/actualizar-premio")]
+        public async Task<ActionResult> UpdatePremio(Premio Premio)
+        {
+            try
+            {        
+                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+
+                var respuesta = await _premioService.UpdatePremio(Premio);
+
+                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+
+                return Ok(respuesta); 
+            }
+            catch (Exception ex)
+            {
+                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }
 
     }
 }
