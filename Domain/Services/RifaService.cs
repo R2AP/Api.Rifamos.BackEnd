@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using Api.Rifamos.BackEnd.Adapter;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Repositories;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
@@ -48,21 +49,45 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return await _rifaRepository.GetListRifaEstado(EstadoId);
         }
 
-        public async Task<Rifa> InsertRifa(Rifa Rifa)
+        public async Task<Rifa> InsertRifa(RifaDTO RifaDTO)
         {
             // var ejemplo = _configuration["prueba"];
-            await _rifaRepository.Post(Rifa);
 
-            return Rifa;
+            Rifa oRifa = new Rifa(){
+                RifaId = RifaDTO.RifaId,
+                RifaDescripcion = RifaDTO.RifaDescripcion,
+                FechaSorteo = RifaDTO.FechaSorteo,
+                HoraSorteo =  RifaDTO.HoraSorteo,
+                Imagen = RifaDTO.Imagen,
+                Sponsor = RifaDTO.Sponsor,
+                EstadoRifa = RifaDTO.EstadoRifa,
+                AuditoriaUsuarioIngreso = RifaDTO.AuditoriaUsuarioIngreso,
+                AuditoriaFechaIngreso = DateTime.Now //RifaDTO.AuditoriaFechaIngreso
+            };
+
+            await _rifaRepository.Post(oRifa);
+
+            return oRifa;
 
         }
 
-        public async Task<Rifa> UpdateRifa(Rifa Rifa)
+        public async Task<Rifa> UpdateRifa(RifaDTO RifaDTO)
         {
-            // var ejemplo = _configuration["prueba"];
-            await _rifaRepository.Put(Rifa);
 
-            return Rifa;
+            Rifa oRifa = await _rifaRepository.Get(RifaDTO.RifaId);
+
+            oRifa.RifaDescripcion = RifaDTO.RifaDescripcion;
+            oRifa.FechaSorteo = RifaDTO.FechaSorteo;
+            oRifa.HoraSorteo =  RifaDTO.HoraSorteo;
+            oRifa.Imagen = RifaDTO.Imagen;
+            oRifa.Sponsor = RifaDTO.Sponsor;
+            oRifa.EstadoRifa = RifaDTO.EstadoRifa;
+            oRifa.AuditoriaUsuarioModificacion = RifaDTO.AuditoriaUsuarioIngreso;
+            oRifa.AuditoriaFechaModificacion = DateTime.Now;
+
+            await _rifaRepository.Put(oRifa);
+
+            return oRifa;
 
         }        
     }

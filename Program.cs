@@ -14,6 +14,9 @@ IConfiguration Configuration = configurer.Build();
 // Add services to the container.
 builder.Services.AddDbContext<RifamosContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Rifamos")));
 
+// 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 builder.Services.AddControllers();
 builder.Services.ResolveDependencies();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

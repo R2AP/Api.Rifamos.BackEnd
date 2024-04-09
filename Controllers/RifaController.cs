@@ -1,5 +1,6 @@
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
+using Api.Rifamos.BackEnd.Adapter;
 using Microsoft.AspNetCore.Mvc;
 //using log4net;
 
@@ -118,13 +119,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPost("api/rifa/registro-rifa")]
-        public async Task<ActionResult> InsertRifa(Rifa Rifa)
+        public async Task<ActionResult> InsertRifa(RifaDTO RifaDTO)
         {
             try
             {        
                 //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
 
-                var respuesta = await _rifaService.InsertRifa(Rifa);
+                var respuesta = await _rifaService.InsertRifa(RifaDTO);
 
                 //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
 
@@ -143,13 +144,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPut("api/rifa/actualizar-rifa")]
-        public async Task<ActionResult> UpdateRifa(Rifa Rifa)
+        public async Task<ActionResult> UpdateRifa(RifaDTO RifaDTO)
         {
             try
             {        
                 //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
 
-                var respuesta = await _rifaService.UpdateRifa(Rifa);
+                var respuesta = await _rifaService.UpdateRifa(RifaDTO);
 
                 //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
 
