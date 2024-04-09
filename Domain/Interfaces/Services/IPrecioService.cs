@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-//using Interseguro.ADMWR.Backend.Adapter;
 using Api.Rifamos.BackEnd.Domain.Models;
+using Api.Rifamos.BackEnd.Adapter;
 
 namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
 {
@@ -10,7 +10,7 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
     {
         Task<Precio> GetPrecio(Int32 PrecioId);
         Task<List<Precio>> GetListPrecio(Int32 RifaId);
-        Task<Precio> InsertPrecio(Precio Precio);
-        Task<Precio> UpdatePrecio(Precio Precio);        
+        Task<Precio> InsertPrecio(PrecioDTO PrecioDTO);
+        Task<Precio> UpdatePrecio(PrecioDTO PrecioDTO);        
     }
 }

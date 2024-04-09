@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Api.Rifamos.BackEnd")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+45c21c8ed03867954568e12f9fea183561241b17")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+070de406992b9258883f8e3c9078bf1f9fd92260")]
 [assembly: System.Reflection.AssemblyProductAttribute("Api.Rifamos.BackEnd")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Api.Rifamos.BackEnd")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

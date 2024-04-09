@@ -1,5 +1,6 @@
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
+using Api.Rifamos.BackEnd.Adapter;
 using Microsoft.AspNetCore.Mvc;
 //using log4net;
 
@@ -55,13 +56,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPost("api/premio/registro-premio")]
-        public async Task<ActionResult> InsertPremio(Premio Premio)
+        public async Task<ActionResult> InsertPremio(PremioDTO PremioDTO)
         {
             try
             {        
                 //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
 
-                var respuesta = await _premioService.InsertPremio(Premio);
+                var respuesta = await _premioService.InsertPremio(PremioDTO);
 
                 //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
 
@@ -80,13 +81,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPut("api/premio/actualizar-premio")]
-        public async Task<ActionResult> UpdatePremio(Premio Premio)
+        public async Task<ActionResult> UpdatePremio(PremioDTO PremioDTO)
         {
             try
             {        
                 //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
 
-                var respuesta = await _premioService.UpdatePremio(Premio);
+                var respuesta = await _premioService.UpdatePremio(PremioDTO);
 
                 //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
 

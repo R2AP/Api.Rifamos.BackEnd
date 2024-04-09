@@ -1,5 +1,6 @@
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
+using Api.Rifamos.BackEnd.Adapter;
 using Microsoft.AspNetCore.Mvc;
 //using log4net;
 
@@ -87,13 +88,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPost("api/precio/registro-precio")]
-        public async Task<ActionResult> InsertPrecio(Precio Precio)
+        public async Task<ActionResult> InsertPrecio(PrecioDTO PrecioDTO)
         {
             try
             {        
                 //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
 
-                var respuesta = await _precioService.InsertPrecio(Precio);
+                var respuesta = await _precioService.InsertPrecio(PrecioDTO);
 
                 //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
 
@@ -112,13 +113,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPut("api/precio/actualizar-precio")]
-        public async Task<ActionResult> UpdatePrecio(Precio Precio)
+        public async Task<ActionResult> UpdatePrecio(PrecioDTO PrecioDTO)
         {
             try
             {        
                 //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
 
-                var respuesta = await _precioService.UpdatePrecio(Precio);
+                var respuesta = await _precioService.UpdatePrecio(PrecioDTO);
 
                 //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
 

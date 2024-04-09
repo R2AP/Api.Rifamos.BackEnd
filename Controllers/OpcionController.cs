@@ -1,5 +1,6 @@
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
+using Api.Rifamos.BackEnd.Adapter;
 using Microsoft.AspNetCore.Mvc;
 using log4net;
 
@@ -50,19 +51,51 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }  
 
+        //GET: api/obtener-opcion
+        ///<summary>
+        ///Obtener una opción comprada por un cliente
+        ///</summary>
+        ///<param name="RifaId">Específica el id de la rifa.</param>
+        ///<param name="UsuarioId">Específica el id del usuario.</param>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpGet]
+        [Route("api/opcion/obtener-opcion/{OpcionId}")]
+        public async Task<ActionResult> GetOpcion(Int32 OpcionId)
+        {
+            try
+            {
+                log.Info("Inicio opcion/obtener-opcion");
+
+                var listaOpcion = await _opcionService.GetOpcion(OpcionId);
+
+                if (listaOpcion == null)
+                {
+                    return NoContent();
+                }
+
+                log.Info("Fin opcion/obtener-opcion");
+                return Ok(listaOpcion);
+            }
+            catch(Exception ex)
+            {
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }  
+
         //POST: api/opcion/registro-opcion
         /// <summary>
         /// Crear una opción en la Rifa .
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPost("api/opcion/registro-opcion")]
-        public async Task<ActionResult> InsertOpcion(Opcion Opcion)
+        public async Task<ActionResult> InsertOpcion(OpcionDTO OpcionDTO)
         {
             try
             {        
                 log.Info("Inicio opcion/registro-opcion");
 
-                var respuesta = await _opcionService.InsertOpcion(Opcion);
+                var respuesta = await _opcionService.InsertOpcion(OpcionDTO);
 
                 log.Info("Fin opcion/registro-opcion");
 
@@ -81,15 +114,15 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPut("api/opcion/actualizar-opcion")]
-        public async Task<ActionResult> UpdateOpcion(Opcion Opcion)
+        public async Task<ActionResult> UpdateOpcion(OpcionDTO OpcionDTO)
         {
             try
             {        
-                log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Inicio opcion/actualizar-opcion");
 
-                var respuesta = await _opcionService.UpdateOpcion(Opcion);
+                var respuesta = await _opcionService.UpdateOpcion(OpcionDTO);
 
-                log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Fin opcion/actualizar-opcion");
 
                 return Ok(respuesta); 
             }

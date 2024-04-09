@@ -8,6 +8,7 @@ using System.Transactions;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Repositories;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
+using Api.Rifamos.BackEnd.Adapter;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 //using Newtonsoft.Json;
@@ -38,21 +39,47 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return await _premioRepository.GetListPremio(RifaId);
         }
 
-        public async Task<Premio> InsertPremio(Premio Premio)
+        public async Task<Premio> GetPremio(Int32 PremioId)
         {
-            // var ejemplo = _configuration["prueba"];
-            await _premioRepository.Post(Premio);
+            return await _premioRepository.Get(PremioId);
+        }
 
-            return Premio;
+        public async Task<Premio> InsertPremio(PremioDTO PremioDTO)
+        {
+
+            Premio oPremio = new Premio{
+
+                RifaId = PremioDTO.RifaId,
+                PremioDescripcion = PremioDTO.PremioDescripcion,
+                PremioDetalle = PremioDTO.PremioDetalle,
+                Url = PremioDTO.Url,
+                //Imagen = PremioDTO.Imagen,
+                AuditoriaUsuarioIngreso = PremioDTO.AuditoriaUsuarioIngreso,
+                AuditoriaFechaIngreso = DateTime.Now,
+
+            };
+
+            await _premioRepository.Post(oPremio);
+
+            return oPremio;
 
         }
 
-        public async Task<Premio> UpdatePremio(Premio Premio)
+        public async Task<Premio> UpdatePremio(PremioDTO PremioDTO)
         {
-            // var ejemplo = _configuration["prueba"];
-            await _premioRepository.Put(Premio);
+            Premio oPremio = await _premioRepository.Get(PremioDTO.PremioId);
 
-            return Premio;
+            oPremio.RifaId = PremioDTO.RifaId;
+            oPremio.PremioDescripcion = PremioDTO.PremioDescripcion;
+            oPremio.PremioDetalle = PremioDTO.PremioDetalle;
+            oPremio.Url = PremioDTO.Url;
+            //oPremio.Imagen = PremioDTO.Imagen;
+            oPremio.AuditoriaUsuarioModificacion = PremioDTO.AuditoriaUsuarioIngreso;
+            oPremio.AuditoriaFechaModificacion = DateTime.Now;
+
+            await _premioRepository.Put(oPremio);
+
+            return oPremio;
 
         }
 

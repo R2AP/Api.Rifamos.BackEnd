@@ -4,20 +4,18 @@ using System.Collections.Generic;
 
 namespace Api.Rifamos.BackEnd.Adapter{
 
-public class RifaDTO{
+public class PremioDTO{
+    public int PremioId { get; set; }
+
     public int RifaId { get; set; }
 
-    public string RifaDescripcion { get; set; } = null!;
+    public string PremioDescripcion { get; set; } = null!;
 
-    public DateOnly FechaSorteo { get; set; }
+    public string PremioDetalle { get; set; } = null!;
 
-    public TimeOnly HoraSorteo { get; set; }
+    public string Url { get; set; } = null!;
 
     public BitArray? Imagen { get; set; }
-
-    public string Sponsor { get; set; } = null!;
-
-    public int EstadoRifa { get; set; }
 
     public string AuditoriaUsuarioIngreso { get; set; } = null!;
 
