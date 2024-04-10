@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "V3CUtLaJx+qO9ieskQ6SycWyhsaoqn+ncyrVjTs3txoLXn8woacSn6mkBOYEh0rtIXFyHayOsxG5eUu39Ly/WA==",
+  "dgSpecHash": "z11zaJPNb+O3fpdUNiRLJ+ax224mdnif00pQPA9iDFmhy/SDaKdq2j/DB/kzrepKXMeSewqFqlBJw/jZNzriJg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\romul\\source\\repos\\BackEnd\\Api.Rifamos.BackEnd\\Api.Rifamos.BackEnd.csproj",
+  "projectFilePath": "c:\\Users\\romul\\source\\repos\\BackEnd\\Api.Rifamos.BackEnd\\Api.Rifamos.BackEnd.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\romul\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\romul\\.nuget\\packages\\log4net\\2.0.17\\log4net.2.0.17.nupkg.sha512",
