@@ -161,8 +161,32 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
-        }        
+        }
 
+        //DELETE: api/rifa/eliminar-rifa
+        /// <summary>
+        /// Eliminar un registro de Rifa.
+        /// </summary>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpDelete("api/rifa/eliminar-rifa")]
+        public async Task<ActionResult> DeleteRifa(Int32 RifaId)
+        {
+            try
+            {        
+                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+
+                var respuesta = await _rifaService.DeleteRifa(RifaId);
+
+                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+
+                return Ok(respuesta); 
+            }
+            catch (Exception ex)
+            {
+                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }
     }
 
 }

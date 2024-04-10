@@ -83,6 +83,18 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         }
 
+        public async Task<Premio> DeletePremio(Int32 PremioId)
+        {
+            Premio oPremio = new Premio{
+                PremioId = PremioId
+            };
+
+            await _premioRepository.Delete(oPremio);
+
+            return oPremio;
+
+        }
+
     }
 
 }

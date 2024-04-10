@@ -91,6 +91,20 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             return oRifa;
 
+        }
+
+        public async Task<Rifa> DeleteRifa(Int32 RifaId)
+        {
+            Rifa oRifa = new Rifa(){
+
+                RifaId = RifaId
+                
+            };
+
+            await _rifaRepository.Delete(oRifa);
+
+            return oRifa;
+
         }        
     }
 

@@ -83,6 +83,18 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         }
 
+        public async Task<Opcion> DeleteOpcion(Int32 OpcionId)
+        {
+
+            Opcion oOpcion = new Opcion{
+                OpcionId =  OpcionId       
+            };
+
+            await _opcionRepository.Delete(oOpcion);
+
+            return oOpcion;
+
+        }
     }
 
 }

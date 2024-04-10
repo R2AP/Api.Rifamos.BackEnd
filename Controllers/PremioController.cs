@@ -100,5 +100,30 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }
 
+        //DELETE: api/premio/eliminar-premio
+        /// <summary>
+        /// Eliminar uno de los premios de la Rifa .
+        /// </summary>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpDelete("api/premio/eliminar-premio")]
+        public async Task<ActionResult> DeletePremio(Int32 PremioId)
+        {
+            try
+            {        
+                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+
+                var respuesta = await _premioService.DeletePremio(PremioId);
+
+                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+
+                return Ok(respuesta); 
+            }
+            catch (Exception ex)
+            {
+                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }
+
     }
 }

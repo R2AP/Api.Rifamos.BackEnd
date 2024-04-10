@@ -132,5 +132,31 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
+
+        //DELETE: api/opcion/eliminar-opcion
+        /// <summary>
+        /// Elimina una opción de la Rifa .
+        /// </summary>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpDelete("api/opcion/eliminar-opcion")]
+        public async Task<ActionResult> DeleteOpcion(Int32 OpcionId)
+        {
+            try
+            {        
+                log.Info("Inicio opcion/eliminar-opcion");
+
+                var respuesta = await _opcionService.DeleteOpcion(OpcionId);
+
+                log.Info("Fin opcion/eliminar-opcion");
+
+                return Ok(respuesta); 
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }
+
     }
 }

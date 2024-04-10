@@ -76,6 +76,19 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return oPrecio;
 
         }
+
+        public async Task<Precio> DeletePrecio(Int32 PrecioId)
+        {
+
+            Precio oPrecio = new Precio{
+                PrecioId = PrecioId
+            };
+
+            await _precioRepository.Delete(oPrecio);
+
+            return oPrecio;
+        }
+
     }
 
 }

@@ -14,5 +14,6 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
         Task<List<Rifa>> GetListRifaEstado(Int32 UsuarioId);
         Task<Rifa> InsertRifa(RifaDTO RifaDTO);
         Task<Rifa> UpdateRifa(RifaDTO RifaDTO);
+        Task<Rifa> DeleteRifa(Int32 RifaId);
     }
 }
