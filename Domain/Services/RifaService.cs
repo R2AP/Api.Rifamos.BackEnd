@@ -84,7 +84,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oRifa.Imagen = RifaDTO.Imagen;
             oRifa.Sponsor = RifaDTO.Sponsor;
             oRifa.EstadoRifa = RifaDTO.EstadoRifa;
-            oRifa.AuditoriaUsuarioModificacion = RifaDTO.AuditoriaUsuarioIngreso;
+            oRifa.AuditoriaUsuarioModificacion = RifaDTO.AuditoriaUsuarioModificacion;
             oRifa.AuditoriaFechaModificacion = DateTime.Now;
 
             await _rifaRepository.Put(oRifa);
@@ -95,11 +95,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         public async Task<Rifa> DeleteRifa(Int32 RifaId)
         {
-            Rifa oRifa = new Rifa(){
 
-                RifaId = RifaId
-                
-            };
+            Rifa oRifa = await _rifaRepository.Get(RifaId);
 
             await _rifaRepository.Delete(oRifa);
 

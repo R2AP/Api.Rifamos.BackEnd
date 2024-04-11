@@ -32,21 +32,22 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                //log.Info("Inicio EndosoController/GetListaEndosos");
+                log.Info("Inicio api/rifa/obtener-rifa");
 
-                var listaRifa = await _rifaService.GetRifa(RifaId);
+                Rifa oRifa = await _rifaService.GetRifa(RifaId);
 
-                if (listaRifa == null)
+                if (oRifa == null)
                 {
                     return NoContent();
                 }
 
-                //log.Info("Fin EndosoController/GetListaEndosos");
-                return Ok(listaRifa);
+                log.Info("Fin api/rifa/obtener-rifa");
+                
+                return Ok(oRifa);
             }
             catch(Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }        
@@ -63,24 +64,25 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                //log.Info("Inicio EndosoController/GetListaEndosos");
+                log.Info("Inicio api/obtener-lista-rifa-usuario");
 
-                var listaRifa = await _rifaService.GetListRifaUsuario(UsuarioId);
+                var oListaRifa = await _rifaService.GetListRifaUsuario(UsuarioId);
 
-                if (listaRifa == null)
+                if (oListaRifa == null)
                 {
                     return NoContent();
                 }
 
-                //log.Info("Fin EndosoController/GetListaEndosos");
-                return Ok(listaRifa);
+                log.Info("Fin api/obtener-lista-rifa-usuario");
+                
+                return Ok(oListaRifa);
             }
             catch(Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
-        }  
+        }
 
         //GET: api/obtener-lista-rifa-estado
         ///<summary>
@@ -94,21 +96,22 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                //log.Info("Inicio EndosoController/GetListaEndosos");
+                log.Info("Inicio api/obtener-lista-rifa-estado");
 
-                var listaRifa = await _rifaService.GetListRifaEstado(EstadoId);
+                var oListaRifa = await _rifaService.GetListRifaEstado(EstadoId);
 
-                if (listaRifa == null)
+                if (oListaRifa == null)
                 {
                     return NoContent();
                 }
 
-                //log.Info("Fin EndosoController/GetListaEndosos");
-                return Ok(listaRifa);
+                log.Info("Fin api/obtener-lista-rifa-estado");
+
+                return Ok(oListaRifa);
             }
             catch(Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
@@ -125,11 +128,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
             {        
                 log.Info("Inicio rifa/registro-rifa");
 
-                var respuesta = await _rifaService.InsertRifa(RifaDTO);
+                Rifa oRifa = await _rifaService.InsertRifa(RifaDTO);
 
                 log.Info("Fin rifa/registro-rifa");
 
-                return Ok(respuesta); 
+                return Ok(oRifa); 
             }
             catch (Exception ex)
             {
@@ -148,17 +151,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Inicio api/rifa/actualizar-rifa");
 
-                var respuesta = await _rifaService.UpdateRifa(RifaDTO);
+                Rifa oRifa = await _rifaService.UpdateRifa(RifaDTO);
 
-                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Fin api/rifa/actualizar-rifa");
 
-                return Ok(respuesta); 
+                return Ok(oRifa); 
             }
             catch (Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
@@ -173,21 +176,20 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Inicio api/rifa/eliminar-rifa");
 
-                var respuesta = await _rifaService.DeleteRifa(RifaId);
+                var oRifa = await _rifaService.DeleteRifa(RifaId);
 
-                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Fin api/rifa/eliminar-rifa");
 
-                return Ok(respuesta); 
+                return Ok(oRifa); 
             }
             catch (Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
     }
 
 }
-
