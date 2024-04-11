@@ -9,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 var configurer = new ConfigurationBuilder()
                 .AddEnvironmentVariables();
 
+//Cors
+var RifamosPolicyAllowSpecificOrigins = "_RifamosPolicyAllowSpecificOrigins";
+
 IConfiguration Configuration = configurer.Build();
 
 // Add services to the container.
@@ -23,6 +26,13 @@ builder.Services.ResolveDependencies();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Cors
+builder.Services.AddCors(options => {
+    options.AddPolicy( name: RifamosPolicyAllowSpecificOrigins, policy => {
+        policy.WithOrigins("http://localhost:4200");
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,6 +43,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//Habilitar el uso de cors
+app.UseCors(RifamosPolicyAllowSpecificOrigins);
 
 app.UseAuthorization();
 
