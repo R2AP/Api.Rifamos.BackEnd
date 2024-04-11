@@ -24,6 +24,8 @@ public partial class RifamosContext : DbContext
 
     public virtual DbSet<EstadoVentum> EstadoVenta { get; set; }
 
+    public virtual DbSet<Monedum> Moneda { get; set; }
+
     public virtual DbSet<Opcion> Opcions { get; set; }
 
     public virtual DbSet<Pago> Pagos { get; set; }
@@ -35,6 +37,8 @@ public partial class RifamosContext : DbContext
     public virtual DbSet<Rifa> Rifas { get; set; }
 
     public virtual DbSet<Sesion> Sesions { get; set; }
+
+    public virtual DbSet<TipoComprobante> TipoComprobantes { get; set; }
 
     public virtual DbSet<TipoDocumento> TipoDocumentos { get; set; }
 
@@ -59,18 +63,10 @@ public partial class RifamosContext : DbContext
             entity.ToTable("EstadoOpcion");
 
             entity.Property(e => e.EstadoOpcionId).HasColumnName("EstadoOpcionID");
-            entity.Property(e => e.AuditoriaFechaIngreso)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_ingreso");
-            entity.Property(e => e.AuditoriaFechaModificacion)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_modificacion");
-            entity.Property(e => e.AuditoriaUsuarioIngreso)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_ingreso");
-            entity.Property(e => e.AuditoriaUsuarioModificacion)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_modificacion");
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.DescripcionEstadoOpcion).HasMaxLength(128);
         });
 
@@ -80,28 +76,12 @@ public partial class RifamosContext : DbContext
 
             entity.ToTable("EstadoPago");
 
-            entity.Property(e => e.EstadoPagoId)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("EstadoPagoID");
-            entity.Property(e => e.AuditoriaFechaIngreso)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_ingreso");
-            entity.Property(e => e.AuditoriaFechaModificacion)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_modificacion");
-            entity.Property(e => e.AuditoriaUsuarioIngreso)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_ingreso");
-            entity.Property(e => e.AuditoriaUsuarioModificacion)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_modificacion");
+            entity.Property(e => e.EstadoPagoId).HasColumnName("EstadoPagoID");
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.DescripcionEstadoPago).HasMaxLength(128);
-
-            entity.HasOne(d => d.EstadoPagoNavigation).WithOne(p => p.EstadoPagoNavigation)
-                .HasPrincipalKey<Pago>(p => p.EstadoPago)
-                .HasForeignKey<EstadoPago>(d => d.EstadoPagoId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("EstadoPago_EstadoPagoID_fkey");
         });
 
         modelBuilder.Entity<EstadoRifa>(entity =>
@@ -111,18 +91,10 @@ public partial class RifamosContext : DbContext
             entity.ToTable("EstadoRifa");
 
             entity.Property(e => e.EstadoRifaId).HasColumnName("EstadoRifaID");
-            entity.Property(e => e.AuditoriaFechaIngreso)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_ingreso");
-            entity.Property(e => e.AuditoriaFechaModificacion)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_modificacion");
-            entity.Property(e => e.AuditoriaUsuarioIngreso)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_ingreso");
-            entity.Property(e => e.AuditoriaUsuarioModificacion)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_modificacion");
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.DescripcionEstadoRifa).HasMaxLength(128);
         });
 
@@ -131,19 +103,23 @@ public partial class RifamosContext : DbContext
             entity.HasKey(e => e.EstadoVentaId).HasName("EstadoVenta_pkey");
 
             entity.Property(e => e.EstadoVentaId).HasColumnName("EstadoVentaID");
-            entity.Property(e => e.AuditoriaFechaIngreso)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_ingreso");
-            entity.Property(e => e.AuditoriaFechaModificacion)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_modificacion");
-            entity.Property(e => e.AuditoriaUsuarioIngreso)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_ingreso");
-            entity.Property(e => e.AuditoriaUsuarioModificacion)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_modificacion");
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.DescripcionEstadoVenta).HasMaxLength(128);
+        });
+
+        modelBuilder.Entity<Monedum>(entity =>
+        {
+            entity.HasKey(e => e.MonedaId).HasName("Moneda_pkey");
+
+            entity.Property(e => e.MonedaId).HasColumnName("MonedaID");
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
+            entity.Property(e => e.DescripcionMoneda).HasMaxLength(128);
         });
 
         modelBuilder.Entity<Opcion>(entity =>
@@ -153,18 +129,10 @@ public partial class RifamosContext : DbContext
             entity.ToTable("Opcion");
 
             entity.Property(e => e.OpcionId).HasColumnName("OpcionID");
-            entity.Property(e => e.AuditoriaFechaIngreso)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_ingreso");
-            entity.Property(e => e.AuditoriaFechaModificacion)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_modificacion");
-            entity.Property(e => e.AuditoriaUsuarioIngreso)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_ingreso");
-            entity.Property(e => e.AuditoriaUsuarioModificacion)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_modificacion");
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.RifaId).HasColumnName("RifaID");
             entity.Property(e => e.TokenOpcion).HasMaxLength(128);
             entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
@@ -191,27 +159,22 @@ public partial class RifamosContext : DbContext
 
             entity.ToTable("Pago");
 
-            entity.HasIndex(e => e.EstadoPago, "Pago_key").IsUnique();
-
             entity.Property(e => e.PagoId).HasColumnName("PagoID");
-            entity.Property(e => e.AuditoriaFechaIngreso)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_ingreso");
-            entity.Property(e => e.AuditoriaFechaModificacion)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_modificacion");
-            entity.Property(e => e.AuditoriaUsuarioIngreso)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_ingreso");
-            entity.Property(e => e.AuditoriaUsuarioModificacion)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_modificacion");
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.CodigoTransaccion)
                 .HasMaxLength(32)
                 .HasComment("Código ofrecido por la pasarela");
             entity.Property(e => e.Moneda).HasMaxLength(8);
             entity.Property(e => e.Monto).HasPrecision(18, 2);
             entity.Property(e => e.VentaId).HasColumnName("VentaID");
+
+            entity.HasOne(d => d.EstadoPagoNavigation).WithMany(p => p.Pagos)
+                .HasForeignKey(d => d.EstadoPago)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Pago_EstadoPago_fkey");
 
             entity.HasOne(d => d.TipoPagoNavigation).WithMany(p => p.Pagos)
                 .HasForeignKey(d => d.TipoPago)
@@ -231,18 +194,10 @@ public partial class RifamosContext : DbContext
             entity.ToTable("Precio");
 
             entity.Property(e => e.PrecioId).HasColumnName("PrecioID");
-            entity.Property(e => e.AuditoriaFechaIngreso)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_ingreso");
-            entity.Property(e => e.AuditoriaFechaModificacion)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_modificacion");
-            entity.Property(e => e.AuditoriaUsuarioIngreso)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_ingreso");
-            entity.Property(e => e.AuditoriaUsuarioModificacion)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_modificacion");
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.PrecioUnitario).HasPrecision(18, 2);
             entity.Property(e => e.RifaId).HasColumnName("RifaID");
 
@@ -259,18 +214,10 @@ public partial class RifamosContext : DbContext
             entity.ToTable("Premio");
 
             entity.Property(e => e.PremioId).HasColumnName("PremioID");
-            entity.Property(e => e.AuditoriaFechaIngreso)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_ingreso");
-            entity.Property(e => e.AuditoriaFechaModificacion)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_modificacion");
-            entity.Property(e => e.AuditoriaUsuarioIngreso)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_ingreso");
-            entity.Property(e => e.AuditoriaUsuarioModificacion)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_modificacion");
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.PremioDescripcion).HasMaxLength(128);
             entity.Property(e => e.PremioDetalle).HasMaxLength(256);
             entity.Property(e => e.RifaId).HasColumnName("RifaID");
@@ -289,18 +236,10 @@ public partial class RifamosContext : DbContext
             entity.ToTable("Rifa");
 
             entity.Property(e => e.RifaId).HasColumnName("RifaID");
-            entity.Property(e => e.AuditoriaFechaIngreso)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_ingreso");
-            entity.Property(e => e.AuditoriaFechaModificacion)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_modificacion");
-            entity.Property(e => e.AuditoriaUsuarioIngreso)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_ingreso");
-            entity.Property(e => e.AuditoriaUsuarioModificacion)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_modificacion");
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.RifaDescripcion).HasMaxLength(128);
             entity.Property(e => e.Sponsor).HasMaxLength(128);
 
@@ -317,18 +256,10 @@ public partial class RifamosContext : DbContext
             entity.ToTable("Sesion");
 
             entity.Property(e => e.SesionId).HasColumnName("SesionID");
-            entity.Property(e => e.AuditoriaFechaIngreso)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_ingreso");
-            entity.Property(e => e.AuditoriaFechaModificacion)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_modificacion");
-            entity.Property(e => e.AuditoriaUsuarioIngreso)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_ingreso");
-            entity.Property(e => e.AuditoriaUsuarioModificacion)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_modificacion");
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.Email).HasMaxLength(64);
             entity.Property(e => e.Ip)
                 .HasMaxLength(16)
@@ -346,6 +277,20 @@ public partial class RifamosContext : DbContext
                 .HasConstraintName("Sesion_UsuarioID_fkey");
         });
 
+        modelBuilder.Entity<TipoComprobante>(entity =>
+        {
+            entity.HasKey(e => e.TipoComprobanteId).HasName("TipoComprobante_pkey");
+
+            entity.ToTable("TipoComprobante");
+
+            entity.Property(e => e.TipoComprobanteId).HasColumnName("TipoComprobanteID");
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
+            entity.Property(e => e.DescripcionComprobante).HasMaxLength(128);
+        });
+
         modelBuilder.Entity<TipoDocumento>(entity =>
         {
             entity.HasKey(e => e.TipoDocumentoId).HasName("TipoDocumento_pkey");
@@ -353,18 +298,10 @@ public partial class RifamosContext : DbContext
             entity.ToTable("TipoDocumento");
 
             entity.Property(e => e.TipoDocumentoId).HasColumnName("TipoDocumentoID");
-            entity.Property(e => e.AuditoriaFechaIngreso)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_ingreso");
-            entity.Property(e => e.AuditoriaFechaModificacion)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_modificacion");
-            entity.Property(e => e.AuditoriaUsuarioIngreso)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_ingreso");
-            entity.Property(e => e.AuditoriaUsuarioModificacion)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_modificacion");
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.DescripcionTipoDocumento).HasMaxLength(128);
         });
 
@@ -375,18 +312,10 @@ public partial class RifamosContext : DbContext
             entity.ToTable("TipoEvento");
 
             entity.Property(e => e.TipoEventoId).HasColumnName("TipoEventoID");
-            entity.Property(e => e.AuditoriaFechaIngreso)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_ingreso");
-            entity.Property(e => e.AuditoriaFechaModificacion)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_modificacion");
-            entity.Property(e => e.AuditoriaUsuarioIngreso)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_ingreso");
-            entity.Property(e => e.AuditoriaUsuarioModificacion)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_modificacion");
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.DescripcionTipoEvento).HasMaxLength(128);
         });
 
@@ -397,18 +326,10 @@ public partial class RifamosContext : DbContext
             entity.ToTable("TipoPago", tb => tb.HasComment("1. Tarjetas de crédito o débito.\r\n2. Pagos en efectivo.\r\n3. Transferencias bancarias"));
 
             entity.Property(e => e.TipoPagoId).HasColumnName("TipoPagoID");
-            entity.Property(e => e.AuditoriaFechaIngreso)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_ingreso");
-            entity.Property(e => e.AuditoriaFechaModificacion)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_modificacion");
-            entity.Property(e => e.AuditoriaUsuarioIngreso)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_ingreso");
-            entity.Property(e => e.AuditoriaUsuarioModificacion)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_modificacion");
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.DescripcionTipoPago).HasMaxLength(128);
         });
 
@@ -421,18 +342,10 @@ public partial class RifamosContext : DbContext
             entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
             entity.Property(e => e.ApellidoMaterno).HasMaxLength(128);
             entity.Property(e => e.ApellidoPaterno).HasMaxLength(128);
-            entity.Property(e => e.AuditoriaFechaIngreso)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_ingreso");
-            entity.Property(e => e.AuditoriaFechaModificacion)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_modificacion");
-            entity.Property(e => e.AuditoriaUsuarioIngreso)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_ingreso");
-            entity.Property(e => e.AuditoriaUsuarioModificacion)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_modificacion");
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.Email).HasMaxLength(325);
             entity.Property(e => e.Nombres).HasMaxLength(128);
             entity.Property(e => e.NumeroDocumento).HasMaxLength(16);
@@ -451,29 +364,29 @@ public partial class RifamosContext : DbContext
             entity.Property(e => e.VentaId)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("VentaID");
-            entity.Property(e => e.AuditoriaFechaIngreso)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_ingreso");
-            entity.Property(e => e.AuditoriaFechaModificacion)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("auditoria_fecha_modificacion");
-            entity.Property(e => e.AuditoriaUsuarioIngreso)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_ingreso");
-            entity.Property(e => e.AuditoriaUsuarioModificacion)
-                .HasMaxLength(64)
-                .HasColumnName("auditoria_usuario_modificacion");
-            entity.Property(e => e.Moneda).HasMaxLength(8);
+            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
+            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.Monto).HasPrecision(18, 2);
             entity.Property(e => e.NumeroComprobante).HasMaxLength(16);
             entity.Property(e => e.OpcionId).HasColumnName("OpcionID");
             entity.Property(e => e.SerieComprobante).HasMaxLength(8);
-            entity.Property(e => e.TipoComprobante).HasMaxLength(8);
 
             entity.HasOne(d => d.EstadoVentaNavigation).WithMany(p => p.Venta)
                 .HasForeignKey(d => d.EstadoVenta)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Venta_EstadoVenta_fkey");
+
+            entity.HasOne(d => d.MonedaNavigation).WithMany(p => p.Venta)
+                .HasForeignKey(d => d.Moneda)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Venta_Moneda_fkey");
+
+            entity.HasOne(d => d.TipoComprobanteNavigation).WithMany(p => p.Venta)
+                .HasForeignKey(d => d.TipoComprobante)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Venta_TipoComprobante_fkey");
 
             entity.HasOne(d => d.Venta).WithOne(p => p.Ventum)
                 .HasForeignKey<Ventum>(d => d.VentaId)

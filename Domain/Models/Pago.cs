@@ -34,7 +34,7 @@ public partial class Pago
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
 
-    public virtual EstadoPago? EstadoPagoNavigation { get; set; }
+    public virtual EstadoPago EstadoPagoNavigation { get; set; } = null!;
 
     public virtual TipoPago TipoPagoNavigation { get; set; } = null!;
 

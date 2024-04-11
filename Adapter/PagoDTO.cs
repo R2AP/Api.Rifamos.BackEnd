@@ -3,22 +3,27 @@ using System.Collections.Generic;
 
 namespace Api.Rifamos.BackEnd.Adapter{
 
-public class VentaDTO{
+public class PagoDTO{
+    public int PagoId { get; set; }
+
     public int VentaId { get; set; }
 
-    public int OpcionId { get; set; }
+    public int TipoPago { get; set; }
 
-    public int TipoComprobante { get; set; }
+    /// <summary>
+    /// Código ofrecido por la pasarela
+    /// </summary>
+    public string CodigoTransaccion { get; set; } = null!;
 
-    public string SerieComprobante { get; set; } = null!;
+    public DateOnly FechaPago { get; set; }
 
-    public string NumeroComprobante { get; set; } = null!;
+    public TimeOnly HoraPago { get; set; }
 
-    public int Moneda { get; set; }
+    public string Moneda { get; set; } = null!;
 
     public decimal Monto { get; set; }
 
-    public int EstadoVenta { get; set; }
+    public int EstadoPago { get; set; }
 
     public string AuditoriaUsuarioIngreso { get; set; } = null!;
 
@@ -27,7 +32,7 @@ public class VentaDTO{
     public string? AuditoriaUsuarioModificacion { get; set; }
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
-
+    
     }
 
 }

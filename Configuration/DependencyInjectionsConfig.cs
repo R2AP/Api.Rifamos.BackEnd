@@ -14,6 +14,7 @@ namespace Api.Rifamos.BackEnd.Configuration
         {
             //Servicios
             services.AddScoped<IOpcionService, OpcionService>();
+            services.AddScoped<IPagoService, PagoService>();            
             services.AddScoped<IPrecioService, PrecioService>();
             services.AddScoped<IPremioService, PremioService>();
             services.AddScoped<IRifaService, RifaService>();
@@ -21,6 +22,7 @@ namespace Api.Rifamos.BackEnd.Configuration
 
             //Repositorios
             services.AddScoped<IOpcionRepository, OpcionRepository>();
+            services.AddScoped<IPagoRepository, PagoRepository>();
             services.AddScoped<IPrecioRepository, PrecioRepository>();
             services.AddScoped<IPremioRepository, PremioRepository>();
             services.AddScoped<IRifaRepository, RifaRepository>();

@@ -6,7 +6,6 @@ namespace Api.Rifamos.BackEnd.Domain.Models;
 
 public partial class Rifa
 {
-
     public int RifaId { get; set; }
 
     public string RifaDescripcion { get; set; } = null!;

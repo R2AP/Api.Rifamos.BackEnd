@@ -16,7 +16,7 @@ public partial class Premio
 
     public string Url { get; set; } = null!;
 
-    public BitArray Imagen { get; set; } = null!;
+    public BitArray? Imagen { get; set; }
 
     public string AuditoriaUsuarioIngreso { get; set; } = null!;
 

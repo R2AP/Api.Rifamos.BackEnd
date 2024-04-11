@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Api.Rifamos.BackEnd.Domain.Models;
 
-public partial class EstadoPago
+public partial class Monedum
 {
-    public int EstadoPagoId { get; set; }
+    public int MonedaId { get; set; }
 
-    public string DescripcionEstadoPago { get; set; } = null!;
+    public string DescripcionMoneda { get; set; } = null!;
 
     public string AuditoriaUsuarioIngreso { get; set; } = null!;
 
@@ -17,5 +17,5 @@ public partial class EstadoPago
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
 
-    public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
+    public virtual ICollection<Ventum> Venta { get; set; } = new List<Ventum>();
 }

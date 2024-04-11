@@ -2,7 +2,7 @@ using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
 using Api.Rifamos.BackEnd.Adapter;
 using Microsoft.AspNetCore.Mvc;
-//using log4net;
+using log4net;
 
 namespace Api.Rifamos.BackEnd.Controllers{
 
@@ -10,14 +10,14 @@ namespace Api.Rifamos.BackEnd.Controllers{
     public class RifaController : ControllerBase{
 
         private readonly IRifaService _rifaService;
-        //private static readonly ILog log = LogManager.GetLogger(typeof(RifaController));
+        private static readonly ILog log = LogManager.GetLogger(typeof(RifaController));
 
         public RifaController(IRifaService rifaService)
         {
             _rifaService = rifaService;
 
-            //log4net.GlobalContext.Properties["fDirectory"] = AppContext.BaseDirectory;
-            //Logger.InicializarLog();
+            log4net.GlobalContext.Properties["fDirectory"] = AppContext.BaseDirectory;
+            Logger.InicializarLog();
         }
 
         //GET: api/obtener-rifa
@@ -123,17 +123,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Inicio rifa/registro-rifa");
 
                 var respuesta = await _rifaService.InsertRifa(RifaDTO);
 
-                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Fin rifa/registro-rifa");
 
                 return Ok(respuesta); 
             }
             catch (Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
