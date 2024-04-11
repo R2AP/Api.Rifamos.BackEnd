@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using Api.Rifamos.BackEnd.Adapter;
+
 //using Api.Rifamos.BackEnd.Adapter;
 //using Api.Rifamos.BackEnd.Common;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Repositories;
@@ -37,24 +39,62 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return await _opcionRepository.GetListOpcion(RifaId, UsuarioId);
         } 
 
-        public async Task<Opcion> InsertOpcion(Opcion Opcion)
+        public async Task<Opcion> GetOpcion(Int32 OpcionId)
         {
             // var ejemplo = _configuration["prueba"];
-            await _opcionRepository.Post(Opcion);
+            return await _opcionRepository.Get(OpcionId);
+        } 
 
-            return Opcion;
+        public async Task<Opcion> InsertOpcion(OpcionDTO OpcionDTO)
+        {
+            
+            Opcion oOpcion = new Opcion{
+                RifaId = OpcionDTO.RifaId,
+                UsuarioId = OpcionDTO.UsuarioId,
+                CantidadOpciones = OpcionDTO.CantidadOpciones,
+                TokenOpcion = OpcionDTO.TokenOpcion,
+                EstadoOpcion = OpcionDTO.EstadoOpcion, 
+                AuditoriaUsuarioIngreso = OpcionDTO.AuditoriaUsuarioIngreso,
+                AuditoriaFechaIngreso = DateTime.Now
+            };
+
+            await _opcionRepository.Post(oOpcion);
+
+            return oOpcion;
 
         }
 
-        public async Task<Opcion> UpdateOpcion(Opcion Opcion)
+        public async Task<Opcion> UpdateOpcion(OpcionDTO OpcionDTO)
         {
-            // var ejemplo = _configuration["prueba"];
-            await _opcionRepository.Put(Opcion);
 
-            return Opcion;
+            Opcion oOpcion = await _opcionRepository.Get(OpcionDTO.OpcionId);
+
+            oOpcion.RifaId = OpcionDTO.RifaId;
+            oOpcion.UsuarioId = OpcionDTO.UsuarioId;
+            oOpcion.CantidadOpciones = OpcionDTO.CantidadOpciones;
+            oOpcion.TokenOpcion = OpcionDTO.TokenOpcion;
+            oOpcion.EstadoOpcion = OpcionDTO.EstadoOpcion;
+            oOpcion.AuditoriaUsuarioModificacion = OpcionDTO.AuditoriaUsuarioModificacion;
+            oOpcion.AuditoriaFechaModificacion = DateTime.Now;
+
+            await _opcionRepository.Put(oOpcion);
+
+            return oOpcion;
 
         }
 
+        public async Task<Opcion> DeleteOpcion(Int32 OpcionId)
+        {
+
+            Opcion oOpcion = new Opcion{
+                OpcionId =  OpcionId       
+            };
+
+            await _opcionRepository.Delete(oOpcion);
+
+            return oOpcion;
+
+        }
     }
 
 }

@@ -12,19 +12,21 @@ namespace Api.Rifamos.BackEnd.Configuration
 
         public static IServiceCollection ResolveDependencies(this IServiceCollection services)
         {
-            //servicios
-            //services.AddScoped<IPolizaService, PolizaService>();
-            services.AddScoped<IRifaService, RifaService>();
-            services.AddScoped<IPrecioService, PrecioService>();
+            //Servicios
             services.AddScoped<IOpcionService, OpcionService>();
+            services.AddScoped<IPagoService, PagoService>();            
+            services.AddScoped<IPrecioService, PrecioService>();
             services.AddScoped<IPremioService, PremioService>();
+            services.AddScoped<IRifaService, RifaService>();
+            services.AddScoped<IVentaService, VentaService>();
 
             //Repositorios
-            //services.AddScoped<IPolizaRepository, PolizaRepository>();
-            services.AddScoped<IRifaRepository, RifaRepository>();
-            services.AddScoped<IPrecioRepository, PrecioRepository>();
             services.AddScoped<IOpcionRepository, OpcionRepository>();
+            services.AddScoped<IPagoRepository, PagoRepository>();
+            services.AddScoped<IPrecioRepository, PrecioRepository>();
             services.AddScoped<IPremioRepository, PremioRepository>();
+            services.AddScoped<IRifaRepository, RifaRepository>();
+            services.AddScoped<IVentaRepository, VentaRepository>();
 
             return services;
         }

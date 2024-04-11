@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 namespace Api.Rifamos.BackEnd.Adapter{
 
-public class RifaDTO
-{
+public class RifaDTO{
     public int RifaId { get; set; }
 
     public string RifaDescripcion { get; set; } = null!;

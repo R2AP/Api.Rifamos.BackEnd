@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace Api.Rifamos.BackEnd.Domain.Models;
+namespace Api.Rifamos.BackEnd.Adapter{
 
-public partial class Ventum
-{
+public class VentaDTO{
     public int VentaId { get; set; }
 
     public int OpcionId { get; set; }
@@ -29,13 +28,6 @@ public partial class Ventum
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
 
-    public virtual EstadoVentum EstadoVentaNavigation { get; set; } = null!;
+    }
 
-    public virtual Monedum MonedaNavigation { get; set; } = null!;
-
-    public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
-
-    public virtual TipoComprobante TipoComprobanteNavigation { get; set; } = null!;
-
-    public virtual Opcion Venta { get; set; } = null!;
 }

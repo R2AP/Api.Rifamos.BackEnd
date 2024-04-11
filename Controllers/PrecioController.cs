@@ -1,5 +1,6 @@
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
+using Api.Rifamos.BackEnd.Adapter;
 using Microsoft.AspNetCore.Mvc;
 //using log4net;
 
@@ -87,13 +88,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPost("api/precio/registro-precio")]
-        public async Task<ActionResult> InsertPrecio(Precio Precio)
+        public async Task<ActionResult> InsertPrecio(PrecioDTO PrecioDTO)
         {
             try
             {        
                 //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
 
-                var respuesta = await _precioService.InsertPrecio(Precio);
+                var respuesta = await _precioService.InsertPrecio(PrecioDTO);
 
                 //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
 
@@ -112,13 +113,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPut("api/precio/actualizar-precio")]
-        public async Task<ActionResult> UpdatePrecio(Precio Precio)
+        public async Task<ActionResult> UpdatePrecio(PrecioDTO PrecioDTO)
         {
             try
             {        
                 //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
 
-                var respuesta = await _precioService.UpdatePrecio(Precio);
+                var respuesta = await _precioService.UpdatePrecio(PrecioDTO);
 
                 //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
 
@@ -130,6 +131,28 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
+
+        //DELETE: api/precio/eliminar-precio
+        /// <summary>
+        /// Elimina el precio de la Rifa .
+        /// </summary>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpDelete("api/precio/eliminar-precio")]
+        public async Task<ActionResult> DeletePrecio(Int32 PrecioId)
+        {
+            try
+            {        
+
+                var respuesta = await _precioService.DeletePrecio(PrecioId);
+
+                return Ok(respuesta); 
+            }
+            catch (Exception ex)
+            {
+                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }        
     }
 
 }

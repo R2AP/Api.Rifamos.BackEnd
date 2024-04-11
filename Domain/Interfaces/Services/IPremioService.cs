@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-//using Interseguro.ADMWR.Backend.Adapter;
+using Api.Rifamos.BackEnd.Adapter;
 using Api.Rifamos.BackEnd.Domain.Models;
 
 namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
@@ -9,7 +9,8 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
     public interface IPremioService : IServiceBase
     {
         Task<List<Premio>> GetListPremio(Int32 RifaId);
-        Task<Premio> InsertPremio(Premio Premio);
-        Task<Premio> UpdatePremio(Premio Premio);        
+        Task<Premio> InsertPremio(PremioDTO PremioDTO);
+        Task<Premio> UpdatePremio(PremioDTO PremioDTO);
+        Task<Premio> DeletePremio(Int32 PremioId);  
     }
 }

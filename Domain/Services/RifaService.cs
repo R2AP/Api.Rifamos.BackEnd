@@ -54,6 +54,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             // var ejemplo = _configuration["prueba"];
 
             Rifa oRifa = new Rifa(){
+
                 RifaId = RifaDTO.RifaId,
                 RifaDescripcion = RifaDTO.RifaDescripcion,
                 FechaSorteo = RifaDTO.FechaSorteo,
@@ -62,7 +63,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 Sponsor = RifaDTO.Sponsor,
                 EstadoRifa = RifaDTO.EstadoRifa,
                 AuditoriaUsuarioIngreso = RifaDTO.AuditoriaUsuarioIngreso,
-                AuditoriaFechaIngreso = DateTime.Now //RifaDTO.AuditoriaFechaIngreso
+                AuditoriaFechaIngreso = DateTime.Now
+                
             };
 
             await _rifaRepository.Post(oRifa);
@@ -86,6 +88,20 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oRifa.AuditoriaFechaModificacion = DateTime.Now;
 
             await _rifaRepository.Put(oRifa);
+
+            return oRifa;
+
+        }
+
+        public async Task<Rifa> DeleteRifa(Int32 RifaId)
+        {
+            Rifa oRifa = new Rifa(){
+
+                RifaId = RifaId
+                
+            };
+
+            await _rifaRepository.Delete(oRifa);
 
             return oRifa;
 

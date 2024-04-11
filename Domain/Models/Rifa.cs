@@ -6,19 +6,6 @@ namespace Api.Rifamos.BackEnd.Domain.Models;
 
 public partial class Rifa
 {
-
-    public Rifa(){
-        // RifaId =  RifaDTO.RifaId,
-        // RifaDescripcion =  RifaDTO.RifaDescripcion,
-        // FechaSorteo =  RifaDTO.FechaSorteo,
-        // HoraSorteo =  RifaDTO.HoraSorteo,
-        // Imagen =  RifaDTO.Imagen,
-        // Sponsor =  RifaDTO.Sponsor,
-        // EstadoRifa =  RifaDTO.EstadoRifa,
-        // AuditoriaUsuarioIngreso =  RifaDTO.AuditoriaUsuarioIngreso,
-        // AuditoriaFechaIngreso =  RifaDTO.AuditoriaFechaIngreso
-    }
-
     public int RifaId { get; set; }
 
     public string RifaDescripcion { get; set; } = null!;

@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Api.Rifamos.BackEnd.Adapter;
-
-//using Interseguro.ADMWR.Backend.Adapter;
 using Api.Rifamos.BackEnd.Domain.Models;
 
 namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
@@ -16,5 +14,6 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
         Task<List<Rifa>> GetListRifaEstado(Int32 UsuarioId);
         Task<Rifa> InsertRifa(RifaDTO RifaDTO);
         Task<Rifa> UpdateRifa(RifaDTO RifaDTO);
+        Task<Rifa> DeleteRifa(Int32 RifaId);
     }
 }

@@ -1,11 +1,10 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Api.Rifamos.BackEnd.Domain.Models;
+namespace Api.Rifamos.BackEnd.Adapter{
 
-public partial class Premio
-{
+public class PremioDTO{
     public int PremioId { get; set; }
 
     public int RifaId { get; set; }
@@ -26,5 +25,6 @@ public partial class Premio
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
 
-    public virtual Rifa Rifa { get; set; } = null!;
+    }
 }
+

@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace Api.Rifamos.BackEnd.Domain.Models;
+namespace Api.Rifamos.BackEnd.Adapter{
 
-public partial class Pago
-{
+public class PagoDTO{
     public int PagoId { get; set; }
 
     public int VentaId { get; set; }
@@ -33,10 +32,7 @@ public partial class Pago
     public string? AuditoriaUsuarioModificacion { get; set; }
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
+    
+    }
 
-    public virtual EstadoPago EstadoPagoNavigation { get; set; } = null!;
-
-    public virtual TipoPago TipoPagoNavigation { get; set; } = null!;
-
-    public virtual Ventum Venta { get; set; } = null!;
 }

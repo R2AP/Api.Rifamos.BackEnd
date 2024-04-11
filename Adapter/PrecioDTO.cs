@@ -1,13 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace Api.Rifamos.BackEnd.Domain.Models;
+namespace Api.Rifamos.BackEnd.Adapter{
 
-public partial class EstadoPago
-{
-    public int EstadoPagoId { get; set; }
+public class PrecioDTO{
+    public int PrecioId { get; set; }
 
-    public string DescripcionEstadoPago { get; set; } = null!;
+    public int RifaId { get; set; }
+
+    public decimal PrecioUnitario { get; set; }
 
     public string AuditoriaUsuarioIngreso { get; set; } = null!;
 
@@ -17,5 +18,7 @@ public partial class EstadoPago
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
 
-    public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
+    }
+
 }
+
