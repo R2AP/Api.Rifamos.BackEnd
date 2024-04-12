@@ -7,49 +7,50 @@ using log4net;
 namespace Api.Rifamos.BackEnd.Controllers{
 
     [ApiController]
-    public class PagoController : ControllerBase{
+    public class UsuarioController : ControllerBase{
 
-        private readonly IPagoService _pagoService;
+        private readonly IUsuarioService _usuarioService;
         private static readonly ILog log = LogManager.GetLogger(typeof(RifaController));
 
-        public PagoController(IPagoService pagoService)
+        public UsuarioController(IUsuarioService usuarioService)
         {
-            _pagoService = pagoService;
+            _usuarioService = usuarioService;
 
             log4net.GlobalContext.Properties["fDirectory"] = AppContext.BaseDirectory;
             Logger.InicializarLog();
         }
 
-        //GET: api/pago/obtener-pago
+        //GET: api/usuario/obtener-usuario
         ///<summary>
-        ///Obtener una pago de la opción comprada
+        ///Obtener una usuario de la opción comprada
         ///</summary>
-        ///<param name="PagoId">Específica el id de la Rifa seleccionada.</param>
+        ///<param name="UsuarioId">Específica el id de la Rifa seleccionada.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
-        [Route("api/pago/obtener-pago/{PagoId}")]
-        public async Task<ActionResult> GetPago(Int32 PagoId)
+        [Route("api/usuario/obtener-usuario/{UsuarioId}")]
+        public async Task<ActionResult> GetUsuario(Int32 UsuarioId)
         {
             try
             {
-                log.Info("Inicio api/pago/obtener-pago");
+                log.Info("Inicio api/usuario/obtener-usuario");
 
-                var oPago = await _pagoService.GetPago(PagoId);
+                var oUsuario = await _usuarioService.GetUsuario(UsuarioId);
 
-                if (oPago == null)
+                if (oUsuario == null)
                 {
                     return NoContent();
                 }
 
-                log.Info("Fin api/pago/obtener-pago");
-                return Ok(oPago);
+                log.Info("Fin api/usuario/obtener-usuario");
+
+                return Ok(oUsuario);
             }
             catch(Exception ex)
             {
                 log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
-        }
+        }        
 
         //GET: api/obtener-lista-rifa-estado
         ///<summary>
@@ -82,23 +83,23 @@ namespace Api.Rifamos.BackEnd.Controllers{
         //     }
         // }
 
-        //POST: api/pago/registro-pago
+        //POST: api/usuario/registro-usuario
         /// <summary>
-        /// Crear un nuevo Pago.
+        /// Crear una nueva Usuario.
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        [HttpPost("api/pago/registro-pago")]
-        public async Task<ActionResult> InsertPago(PagoDTO PagoDTO)
+        [HttpPost("api/usuario/registro-usuario")]
+        public async Task<ActionResult> InsertUsuario(UsuarioDTO UsuarioDTO)
         {
             try
             {        
-                log.Info("Inicio api/pago/registro-pago");
+                log.Info("Inicio api/usuario/registro-usuario");
 
-                var oPago = await _pagoService.InsertPago(PagoDTO);
+                var respuesta = await _usuarioService.InsertUsuario(UsuarioDTO);
 
-                log.Info("Fin api/pago/registro-pago");
+                log.Info("Fin api/usuario/registro-usuario");
 
-                return Ok(oPago); 
+                return Ok(respuesta); 
             }
             catch (Exception ex)
             {
@@ -107,23 +108,23 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }
 
-        //PUT: api/pago/actualizar-pago
+        //PUT: api/usuario/actualizar-usuario
         /// <summary>
-        /// Actualizar un registro de pago.
+        /// Actualizar un registro de usuario.
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        [HttpPut("api/pago/actualizar-pago")]
-        public async Task<ActionResult> UpdatePago(PagoDTO PagoDTO)
+        [HttpPut("api/usuario/actualizar-usuario")]
+        public async Task<ActionResult> UpdateUsuario(UsuarioDTO UsuarioDTO)
         {
             try
             {        
-                log.Info("Inicio api/pago/actualizar-pago");
+                log.Info("Inicio api/usuario/actualizar-usuario");
 
-                var oPago = await _pagoService.UpdatePago(PagoDTO);
+                var respuesta = await _usuarioService.UpdateUsuario(UsuarioDTO);
 
-                log.Info("Fin api/pago/actualizar-pago");
+                log.Info("Fin api/usuario/actualizar-usuario");
 
-                return Ok(oPago); 
+                return Ok(respuesta); 
             }
             catch (Exception ex)
             {
@@ -132,23 +133,23 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }
 
-        //DELETE: api/pago/eliminar-pago
+        //DELETE: api/usuario/eliminar-usuario
         /// <summary>
-        /// Eliminar un registro de pago.
+        /// Eliminar un registro de usuario.
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        [HttpDelete("api/pago/eliminar-pago")]
-        public async Task<ActionResult> DeletePago(Int32 PagoId)
+        [HttpDelete("api/usuario/eliminar-usuario")]
+        public async Task<ActionResult> DeleteUsuario(Int32 UsuarioId)
         {
             try
             {        
-                log.Info("Inicio api/pago/eliminar-pago");
+                log.Info("Inicio api/usuario/eliminar-usuario");
 
-                var oPago = await _pagoService.DeletePago(PagoId);
+                var respuesta = await _usuarioService.DeleteUsuario(UsuarioId);
 
-                log.Info("Fin api/pago/eliminar-pago");
+                log.Info("Fin api/usuario/eliminar-usuario");
 
-                return Ok(oPago); 
+                return Ok(respuesta); 
             }
             catch (Exception ex)
             {

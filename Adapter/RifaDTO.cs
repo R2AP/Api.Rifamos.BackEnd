@@ -13,8 +13,8 @@ public class RifaDTO{
 
     public TimeOnly HoraSorteo { get; set; }
 
-    public BitArray? Imagen { get; set; }
-
+    public byte[]? Imagen { get; set; }
+    
     public string Sponsor { get; set; } = null!;
 
     public int EstadoRifa { get; set; }

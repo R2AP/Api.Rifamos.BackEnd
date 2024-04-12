@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Api.Rifamos.BackEnd.Domain.Models;
@@ -14,7 +13,7 @@ public partial class Rifa
 
     public TimeOnly HoraSorteo { get; set; }
 
-    public BitArray? Imagen { get; set; }
+    public byte[]? Imagen { get; set; }
 
     public string Sponsor { get; set; } = null!;
 

@@ -51,7 +51,19 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         public async Task<Rifa> InsertRifa(RifaDTO RifaDTO)
         {
-            // var ejemplo = _configuration["prueba"];
+
+            string sPath = @"C:\\Users\\romul\\Downloads\\_MG_6476 CARNET.jpg";
+
+            if (File.Exists(sPath)){
+                byte[] oFile = new byte[1024];
+                Stream oStream = File.Open(sPath,FileMode.Open,FileAccess.Read,FileShare.None);
+                MemoryStream oMemoryStream = new MemoryStream();
+                oStream.CopyTo(oMemoryStream);
+                oFile = oMemoryStream.ToArray();
+                RifaDTO.Imagen = oFile;
+                oMemoryStream.Close();
+                oStream.Close();
+            }
 
             Rifa oRifa = new Rifa(){
 

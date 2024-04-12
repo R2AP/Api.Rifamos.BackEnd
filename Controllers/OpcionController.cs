@@ -19,7 +19,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             Logger.InicializarLog();
         }
 
-        //GET: api/obtener-lista-opcion
+        //GET: api/opcion/obtener-lista-opcion
         ///<summary>
         ///Obtener una lista de opciones compradas por un clientes en una rifa especifica
         ///</summary>
@@ -32,17 +32,18 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                log.Info("Inicio opcion/obtener-lista-opcion");
+                log.Info("Inicio api/opcion/obtener-lista-opcion");
 
-                var listaOpcion = await _opcionService.GetListOpcion(RifaId, UsuarioId);
+                var oListaOpcion = await _opcionService.GetListOpcion(RifaId, UsuarioId);
 
-                if (listaOpcion == null)
+                if (oListaOpcion == null)
                 {
                     return NoContent();
                 }
 
-                log.Info("Fin opcion/obtener-lista-opcion");
-                return Ok(listaOpcion);
+                log.Info("Fin api/opcion/obtener-lista-opcion");
+                
+                return Ok(oListaOpcion);
             }
             catch(Exception ex)
             {
@@ -51,7 +52,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }  
 
-        //GET: api/obtener-opcion
+        //GET: api/opcion/obtener-opcion
         ///<summary>
         ///Obtener una opción comprada por un cliente
         ///</summary>
@@ -64,17 +65,18 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                log.Info("Inicio opcion/obtener-opcion");
+                log.Info("Inicio api/opcion/obtener-opcion");
 
-                var listaOpcion = await _opcionService.GetOpcion(OpcionId);
+                var oListaOpcion = await _opcionService.GetOpcion(OpcionId);
 
-                if (listaOpcion == null)
+                if (oListaOpcion == null)
                 {
                     return NoContent();
                 }
 
-                log.Info("Fin opcion/obtener-opcion");
-                return Ok(listaOpcion);
+                log.Info("Fin api/opcion/obtener-opcion");
+
+                return Ok(oListaOpcion);
             }
             catch(Exception ex)
             {
@@ -93,13 +95,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio opcion/registro-opcion");
+                log.Info("Inicio api/opcion/registro-opcion");
 
-                var respuesta = await _opcionService.InsertOpcion(OpcionDTO);
+                var oOpcion = await _opcionService.InsertOpcion(OpcionDTO);
 
-                log.Info("Fin opcion/registro-opcion");
+                log.Info("Fin api/opcion/registro-opcion");
 
-                return Ok(respuesta); 
+                return Ok(oOpcion); 
             }
             catch (Exception ex)
             {
@@ -118,11 +120,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio opcion/actualizar-opcion");
+                log.Info("Inicio api/opcion/actualizar-opcion");
 
                 var respuesta = await _opcionService.UpdateOpcion(OpcionDTO);
 
-                log.Info("Fin opcion/actualizar-opcion");
+                log.Info("Fin api/opcion/actualizar-opcion");
 
                 return Ok(respuesta); 
             }
@@ -143,11 +145,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio opcion/eliminar-opcion");
+                log.Info("Inicio api/opcion/eliminar-opcion");
 
                 var respuesta = await _opcionService.DeleteOpcion(OpcionId);
 
-                log.Info("Fin opcion/eliminar-opcion");
+                log.Info("Fin api/opcion/eliminar-opcion");
 
                 return Ok(respuesta); 
             }

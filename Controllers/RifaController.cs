@@ -20,7 +20,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             Logger.InicializarLog();
         }
 
-        //GET: api/obtener-rifa
+        //GET: api/rifa/obtener-rifa
         ///<summary>
         ///Obtener un registro con la rifa seleccionada.
         ///</summary>
@@ -52,7 +52,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }        
 
-        //GET: api/obtener-lista-rifa-usuario
+        //GET: api/rifa/obtener-lista-rifa-usuario
         ///<summary>
         ///Obtener una lista de rifas de un usuario especifico
         ///</summary>
@@ -64,7 +64,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                log.Info("Inicio api/obtener-lista-rifa-usuario");
+                log.Info("Inicio api/rifa/obtener-lista-rifa-usuario");
 
                 var oListaRifa = await _rifaService.GetListRifaUsuario(UsuarioId);
 
@@ -73,7 +73,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return NoContent();
                 }
 
-                log.Info("Fin api/obtener-lista-rifa-usuario");
+                log.Info("Fin api/rifa/obtener-lista-rifa-usuario");
                 
                 return Ok(oListaRifa);
             }
@@ -84,7 +84,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }
 
-        //GET: api/obtener-lista-rifa-estado
+        //GET: api/rifa/obtener-lista-rifa-estado
         ///<summary>
         ///Obtener una lista de rifas por estado
         ///</summary>
@@ -96,7 +96,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                log.Info("Inicio api/obtener-lista-rifa-estado");
+                log.Info("Inicio api/rifa/obtener-lista-rifa-estado");
 
                 var oListaRifa = await _rifaService.GetListRifaEstado(EstadoId);
 
@@ -105,7 +105,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return NoContent();
                 }
 
-                log.Info("Fin api/obtener-lista-rifa-estado");
+                log.Info("Fin api/rifa/obtener-lista-rifa-estado");
 
                 return Ok(oListaRifa);
             }
@@ -126,11 +126,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio rifa/registro-rifa");
+                log.Info("Inicio api/rifa/registro-rifa");
 
                 Rifa oRifa = await _rifaService.InsertRifa(RifaDTO);
 
-                log.Info("Fin rifa/registro-rifa");
+                log.Info("Fin api/rifa/registro-rifa");
 
                 return Ok(oRifa); 
             }

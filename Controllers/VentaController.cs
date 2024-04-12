@@ -2,7 +2,7 @@ using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
 using Api.Rifamos.BackEnd.Adapter;
 using Microsoft.AspNetCore.Mvc;
-//using log4net;
+using log4net;
 
 namespace Api.Rifamos.BackEnd.Controllers{
 
@@ -10,17 +10,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
     public class VentaController : ControllerBase{
 
         private readonly IVentaService _ventaService;
-        //private static readonly ILog log = LogManager.GetLogger(typeof(RifaController));
+        private static readonly ILog log = LogManager.GetLogger(typeof(RifaController));
 
         public VentaController(IVentaService ventaService)
         {
             _ventaService = ventaService;
 
-            //log4net.GlobalContext.Properties["fDirectory"] = AppContext.BaseDirectory;
-            //Logger.InicializarLog();
+            log4net.GlobalContext.Properties["fDirectory"] = AppContext.BaseDirectory;
+            Logger.InicializarLog();
         }
 
-        //GET: api/obtener-venta
+        //GET: api/venta/obtener-venta
         ///<summary>
         ///Obtener una venta de la opción comprada
         ///</summary>
@@ -32,21 +32,22 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                //log.Info("Inicio EndosoController/GetListaEndosos");
+                log.Info("Inicio api/venta/obtener-venta");
 
-                var venta = await _ventaService.GetVenta(VentaId);
+                var oVenta = await _ventaService.GetVenta(VentaId);
 
-                if (venta == null)
+                if (oVenta == null)
                 {
                     return NoContent();
                 }
 
-                //log.Info("Fin EndosoController/GetListaEndosos");
-                return Ok(venta);
+                log.Info("Fin api/venta/obtener-venta");
+
+                return Ok(oVenta);
             }
             catch(Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }        
@@ -92,17 +93,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Inicio api/venta/registro-venta");
 
                 var respuesta = await _ventaService.InsertVenta(VentaDTO);
 
-                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Fin api/venta/registro-venta");
 
                 return Ok(respuesta); 
             }
             catch (Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
@@ -117,17 +118,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Inicio api/venta/actualizar-venta");
 
                 var respuesta = await _ventaService.UpdateVenta(VentaDTO);
 
-                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Fin api/venta/actualizar-venta");
 
                 return Ok(respuesta); 
             }
             catch (Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
@@ -142,21 +143,20 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Inicio api/venta/eliminar-venta");
 
                 var respuesta = await _ventaService.DeleteVenta(VentaId);
 
-                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Fin api/venta/eliminar-venta");
 
                 return Ok(respuesta); 
             }
             catch (Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
     }
 
 }
-

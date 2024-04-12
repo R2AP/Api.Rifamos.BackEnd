@@ -2,24 +2,24 @@ using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
 using Api.Rifamos.BackEnd.Adapter;
 using Microsoft.AspNetCore.Mvc;
-//using log4net;
+using log4net;
 
 namespace Api.Rifamos.BackEnd.Controllers{
     [ApiController]
     public class PremioController : ControllerBase{
 
         private readonly IPremioService _premioService;
-        //private static readonly ILog log = LogManager.GetLogger(typeof(RifaController));
+        private static readonly ILog log = LogManager.GetLogger(typeof(RifaController));
 
         public PremioController(IPremioService premioService)
         {
             _premioService = premioService;
 
-            //log4net.GlobalContext.Properties["fDirectory"] = AppContext.BaseDirectory;
-            //Logger.InicializarLog();
+            log4net.GlobalContext.Properties["fDirectory"] = AppContext.BaseDirectory;
+            Logger.InicializarLog();
         }
 
-        //GET: api/obtener-lista-premio
+        //GET: api/premio/obtener-lista-premio
         ///<summary>
         ///Obtener una lista de premios de una rifa especifica
         ///</summary>
@@ -31,21 +31,21 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                //log.Info("Inicio EndosoController/GetListaEndosos");
+                log.Info("Inicio api/premio/obtener-lista-premio");
 
-                var listaPremio = await _premioService.GetListPremio(RifaId);
+                var oListaPremio = await _premioService.GetListPremio(RifaId);
 
-                if (listaPremio == null)
+                if (oListaPremio == null)
                 {
                     return NoContent();
                 }
 
-                //log.Info("Fin EndosoController/GetListaEndosos");
-                return Ok(listaPremio);
+                log.Info("Fin api/premio/obtener-lista-premio");
+                return Ok(oListaPremio);
             }
             catch(Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
@@ -60,17 +60,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Inicio api/premio/registro-premio");
 
-                var respuesta = await _premioService.InsertPremio(PremioDTO);
+                var oPremio = await _premioService.InsertPremio(PremioDTO);
 
-                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Fin api/premio/registro-premio");
 
-                return Ok(respuesta); 
+                return Ok(oPremio); 
             }
             catch (Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
@@ -85,17 +85,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Inicio api/premio/actualizar-premio");
 
-                var respuesta = await _premioService.UpdatePremio(PremioDTO);
+                var oPremio = await _premioService.UpdatePremio(PremioDTO);
 
-                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Fin api/premio/actualizar-premio");
 
-                return Ok(respuesta); 
+                return Ok(oPremio); 
             }
             catch (Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
@@ -110,17 +110,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Inicio api/premio/eliminar-premio");
 
-                var respuesta = await _premioService.DeletePremio(PremioId);
+                var oPremio = await _premioService.DeletePremio(PremioId);
 
-                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Fin api/premio/eliminar-premio");
 
-                return Ok(respuesta); 
+                return Ok(oPremio); 
             }
             catch (Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }

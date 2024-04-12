@@ -2,7 +2,7 @@ using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
 using Api.Rifamos.BackEnd.Adapter;
 using Microsoft.AspNetCore.Mvc;
-//using log4net;
+using log4net;
 
 namespace Api.Rifamos.BackEnd.Controllers{
 
@@ -10,17 +10,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
     public class PrecioController : ControllerBase{
 
         private readonly IPrecioService _precioService;
-        //private static readonly ILog log = LogManager.GetLogger(typeof(PrecioController));
+        private static readonly ILog log = LogManager.GetLogger(typeof(PrecioController));
 
         public PrecioController(IPrecioService PrecioService)
         {
             _precioService = PrecioService;
 
-            //log4net.GlobalContext.Properties["fDirectory"] = AppContext.BaseDirectory;
-            //Logger.InicializarLog();
+            log4net.GlobalContext.Properties["fDirectory"] = AppContext.BaseDirectory;
+            Logger.InicializarLog();
         }
 
-        //GET: api/obtener-precio
+        //GET: api/precio/obtener-precio
         ///<summary>
         ///Obtener una lista de un registro con la Precio seleccionada.
         ///</summary>
@@ -32,26 +32,27 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                //log.Info("Inicio EndosoController/GetListaEndosos");
+                log.Info("Inicio api/precio/obtener-precio");
 
-                var listaPrecio = await _precioService.GetPrecio(PrecioId);
+                var oListaPrecio = await _precioService.GetPrecio(PrecioId);
 
-                if (listaPrecio == null)
+                if (oListaPrecio == null)
                 {
                     return NoContent();
                 }
 
-                //log.Info("Fin EndosoController/GetListaEndosos");
-                return Ok(listaPrecio);
+                log.Info("Fin api/precio/obtener-precio");
+
+                return Ok(oListaPrecio);
             }
             catch(Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }        
 
-        //GET: api/listar-precio
+        //GET: api/precio/listar-precio
         ///<summary>
         ///Obtener una lista de un registro con el Precio por Rifa.
         ///</summary>
@@ -63,21 +64,22 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                //log.Info("Inicio EndosoController/GetListaEndosos");
+                log.Info("Inicio api/precio/listar-precio");
 
-                var listPrecio = await _precioService.GetListPrecio(RifaId);
+                var oListPrecio = await _precioService.GetListPrecio(RifaId);
 
-                if (listPrecio == null)
+                if (oListPrecio == null)
                 {
                     return NoContent();
                 }
 
-                //log.Info("Fin EndosoController/GetListaEndosos");
-                return Ok(listPrecio);
+                log.Info("Fin api/precio/listar-precio");
+
+                return Ok(oListPrecio);
             }
             catch(Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
@@ -92,17 +94,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Inicio api/precio/registro-precio");
 
-                var respuesta = await _precioService.InsertPrecio(PrecioDTO);
+                var oPrecio = await _precioService.InsertPrecio(PrecioDTO);
 
-                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Fin api/precio/registro-precio");
 
-                return Ok(respuesta); 
+                return Ok(oPrecio); 
             }
             catch (Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
@@ -117,17 +119,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                //log.Info("Inicio EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Inicio api/precio/actualizar-precio");
 
-                var respuesta = await _precioService.UpdatePrecio(PrecioDTO);
+                var oPrecio = await _precioService.UpdatePrecio(PrecioDTO);
 
-                //log.Info("Fin EndosoController/registrarEndosoApoderadoPago");
+                log.Info("Fin api/precio/actualizar-precio");
 
-                return Ok(respuesta); 
+                return Ok(oPrecio); 
             }
             catch (Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
@@ -143,13 +145,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
             try
             {        
 
-                var respuesta = await _precioService.DeletePrecio(PrecioId);
+                log.Info("Inicio api/precio/eliminar-precio");
 
-                return Ok(respuesta); 
+                var oPrecio = await _precioService.DeletePrecio(PrecioId);
+
+                log.Info("Fin api/precio/eliminar-precio");
+
+                return Ok(oPrecio); 
             }
             catch (Exception ex)
             {
-                //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }        

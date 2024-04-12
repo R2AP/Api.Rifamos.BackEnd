@@ -18,6 +18,7 @@ namespace Api.Rifamos.BackEnd.Configuration
             services.AddScoped<IPrecioService, PrecioService>();
             services.AddScoped<IPremioService, PremioService>();
             services.AddScoped<IRifaService, RifaService>();
+            services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IVentaService, VentaService>();
 
             //Repositorios
@@ -26,6 +27,7 @@ namespace Api.Rifamos.BackEnd.Configuration
             services.AddScoped<IPrecioRepository, PrecioRepository>();
             services.AddScoped<IPremioRepository, PremioRepository>();
             services.AddScoped<IRifaRepository, RifaRepository>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IVentaRepository, VentaRepository>();
 
             return services;
