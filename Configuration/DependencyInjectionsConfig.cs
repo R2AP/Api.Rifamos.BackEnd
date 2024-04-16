@@ -17,6 +17,7 @@ namespace Api.Rifamos.BackEnd.Configuration
             services.AddScoped<IPagoService, PagoService>();            
             services.AddScoped<IPrecioService, PrecioService>();
             services.AddScoped<IPremioService, PremioService>();
+            services.AddScoped<IQRService, QRService>();            
             services.AddScoped<IRifaService, RifaService>();
             services.AddScoped<ISesionService, SesionService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
