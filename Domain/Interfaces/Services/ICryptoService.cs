@@ -8,8 +8,8 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
 {
     public interface ICryptoService
     {
-        // byte[] Encrypt(string QRId);        
-        // byte[] Decrypt(string QRId);
+        public byte[] Encrypt(string simpletext, byte[] key, byte[] iv);
+        public string Decrypt(byte[] cipheredtext, byte[] key, byte[] iv);
 
     }
 }

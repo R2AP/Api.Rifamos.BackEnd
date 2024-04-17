@@ -10,7 +10,7 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
     {
 
         Task<Usuario>GetUsuario(Int32 UsuarioId);
-        Task<Usuario>InsertUsuario(UsuarioDTO UsuarioDTO);
+        Task<Usuario>InsertUsuario(UsuarioDTO UsuarioDTO, string Password);
         Task<Usuario>UpdateUsuario(UsuarioDTO UsuarioDTO);
         Task<Usuario>DeleteUsuario(Int32 UsuarioId);
         Task<Usuario>LoginUsuario(String Usuario, string Password);

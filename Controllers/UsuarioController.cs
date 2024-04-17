@@ -89,13 +89,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPost("api/usuario/registro-usuario")]
-        public async Task<ActionResult> InsertUsuario(UsuarioDTO UsuarioDTO)
+        public async Task<ActionResult>InsertUsuario(UsuarioDTO UsuarioDTO, string Password)
         {
             try
             {        
                 log.Info("Inicio api/usuario/registro-usuario");
 
-                var respuesta = await _usuarioService.InsertUsuario(UsuarioDTO);
+                var respuesta = await _usuarioService.InsertUsuario(UsuarioDTO, Password);
 
                 log.Info("Fin api/usuario/registro-usuario");
 
@@ -114,7 +114,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPut("api/usuario/actualizar-usuario")]
-        public async Task<ActionResult> UpdateUsuario(UsuarioDTO UsuarioDTO)
+        public async Task<ActionResult>UpdateUsuario(UsuarioDTO UsuarioDTO)
         {
             try
             {        
@@ -139,7 +139,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpDelete("api/usuario/eliminar-usuario")]
-        public async Task<ActionResult> DeleteUsuario(Int32 UsuarioId)
+        public async Task<ActionResult>DeleteUsuario(Int32 UsuarioId)
         {
             try
             {        
