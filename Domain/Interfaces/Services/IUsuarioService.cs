@@ -9,10 +9,10 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
     public interface IUsuarioService : IServiceBase
     {
 
-        Task<Usuario> GetUsuario(Int32 UsuarioId);
-        //Task<List<Rifa>> GetListRifaUsuario(Int32 UsuarioId);
-        Task<Usuario> InsertUsuario(UsuarioDTO UsuarioDTO);
-        Task<Usuario> UpdateUsuario(UsuarioDTO UsuarioDTO);
-        Task<Usuario> DeleteUsuario(Int32 UsuarioId);
+        Task<Usuario>GetUsuario(Int32 UsuarioId);
+        Task<Usuario>InsertUsuario(UsuarioDTO UsuarioDTO);
+        Task<Usuario>UpdateUsuario(UsuarioDTO UsuarioDTO);
+        Task<Usuario>DeleteUsuario(Int32 UsuarioId);
+        Task<Usuario>LoginUsuario(String Usuario, string Password);
     }
 }

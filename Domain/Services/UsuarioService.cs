@@ -99,7 +99,18 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             return oUsuario;
 
-        }        
+        }
+        
+        public async Task<Usuario>LoginUsuario(string Usuario, string Password)
+        {
+            Usuario oUsuario = await _usuarioRepository.LoginUsuario(Usuario, Password);
+
+            await _usuarioRepository.LoginUsuario(Usuario, Password);
+
+            return oUsuario;
+
+        }
+          
     }
 
 }
