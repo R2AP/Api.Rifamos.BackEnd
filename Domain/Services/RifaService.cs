@@ -57,7 +57,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             if (File.Exists(sPath)){
                 byte[] oFile = new byte[1024];
                 Stream oStream = File.Open(sPath,FileMode.Open,FileAccess.Read,FileShare.None);
-                MemoryStream oMemoryStream = new MemoryStream();
+                MemoryStream oMemoryStream = new();
                 oStream.CopyTo(oMemoryStream);
                 oFile = oMemoryStream.ToArray();
                 RifaDTO.Imagen = oFile;
@@ -65,7 +65,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 oStream.Close();
             }
 
-            Rifa oRifa = new Rifa(){
+            Rifa oRifa = new(){
 
                 RifaId = RifaDTO.RifaId,
                 RifaDescripcion = RifaDTO.RifaDescripcion,

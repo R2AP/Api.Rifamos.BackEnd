@@ -46,7 +46,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         {
             // var ejemplo = _configuration["prueba"];
 
-            Ventum oVenta = new Ventum(){
+            Ventum oVenta = new(){
 
                 VentaId =  VentaDTO.VentaId,
                 OpcionId = VentaDTO.OpcionId,

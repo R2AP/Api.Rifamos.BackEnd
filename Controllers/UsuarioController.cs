@@ -10,7 +10,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
     public class UsuarioController : ControllerBase{
 
         private readonly IUsuarioService _usuarioService;
-        private static readonly ILog log = LogManager.GetLogger(typeof(RifaController));
+        private static readonly ILog log = LogManager.GetLogger(typeof(UsuarioController));
 
         public UsuarioController(IUsuarioService usuarioService)
         {
@@ -50,38 +50,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
-        }        
-
-        //GET: api/obtener-lista-rifa-estado
-        ///<summary>
-        ///Obtener una lista de rifas por estado
-        ///</summary>
-        ///<param name="EstadoId">Específica el id del estado selecconado.</param>
-        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        // [HttpGet]
-        // [Route("api/rifa/obtener-lista-rifa-estado/{EstadoId}")]
-        // public async Task<ActionResult> GetListRifa(Int32 EstadoId)
-        // {
-        //     try
-        //     {
-        //         //log.Info("Inicio EndosoController/GetListaEndosos");
-
-        //         var listaRifa = await _rifaService.GetListRifaEstado(EstadoId);
-
-        //         if (listaRifa == null)
-        //         {
-        //             return NoContent();
-        //         }
-
-        //         //log.Info("Fin EndosoController/GetListaEndosos");
-        //         return Ok(listaRifa);
-        //     }
-        //     catch(Exception ex)
-        //     {
-        //         //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
-        //         return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
-        //     }
-        // }
+        }
 
         //POST: api/usuario/registro-usuario
         /// <summary>
@@ -89,17 +58,18 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPost("api/usuario/registro-usuario")]
-        public async Task<ActionResult> InsertUsuario(UsuarioDTO UsuarioDTO)
+        public async Task<ActionResult> InsertUsuario(Usuario Usuario, string Password)
         {
             try
             {        
                 log.Info("Inicio api/usuario/registro-usuario");
 
-                var respuesta = await _usuarioService.InsertUsuario(UsuarioDTO);
-var token = _usuarioService.GenerarToken(UsuarioDTO);
+                var respuesta = await _usuarioService.InsertUsuario(Usuario, Password);
+//var token = _usuarioService.GenerarToken(UsuarioDTO);
+
                 log.Info("Fin api/usuario/registro-usuario");
 
-                return Ok(token); 
+                return Ok(respuesta); 
             }
             catch (Exception ex)
             {
@@ -114,13 +84,13 @@ var token = _usuarioService.GenerarToken(UsuarioDTO);
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPut("api/usuario/actualizar-usuario")]
-        public async Task<ActionResult> UpdateUsuario(UsuarioDTO UsuarioDTO)
+        public async Task<ActionResult> UpdateUsuario(Usuario Usuario)
         {
             try
             {        
                 log.Info("Inicio api/usuario/actualizar-usuario");
 
-                var respuesta = await _usuarioService.UpdateUsuario(UsuarioDTO);
+                var respuesta = await _usuarioService.UpdateUsuario(Usuario);
 
                 log.Info("Fin api/usuario/actualizar-usuario");
 
@@ -157,6 +127,38 @@ var token = _usuarioService.GenerarToken(UsuarioDTO);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
-    }
 
+        //GET: api/usuario/login-usuario
+        ///<summary>
+        ///Logear un usuario
+        ///</summary>
+        ///<param name="Usuario">Nombre de usuario.</param>
+        ///<param name="Password">Password.</param>///
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpGet]
+        [Route("api/usuario/login-usuario/{Usuario}/{Password}")]
+        public async Task<ActionResult> LoginUsuario(string Usuario, string Password)
+        {
+            try
+            {
+                log.Info("Inicio api/usuario/login-usuario");
+
+                var oUsuario = await _usuarioService.LoginUsuario(Usuario, Password);
+
+                if (oUsuario == null)
+                {
+                    return NoContent();
+                }
+
+                log.Info("Fin api/usuario/login-usuario");
+
+                return Ok(oUsuario);
+            }
+            catch(Exception ex)
+            {
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }             
+    }
 }

@@ -50,38 +50,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
-        }        
-
-        //GET: api/obtener-lista-rifa-estado
-        ///<summary>
-        ///Obtener una lista de rifas por estado
-        ///</summary>
-        ///<param name="EstadoId">Específica el id del estado selecconado.</param>
-        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        // [HttpGet]
-        // [Route("api/rifa/obtener-lista-rifa-estado/{EstadoId}")]
-        // public async Task<ActionResult> GetListRifa(Int32 EstadoId)
-        // {
-        //     try
-        //     {
-        //         //log.Info("Inicio EndosoController/GetListaEndosos");
-
-        //         var listaRifa = await _rifaService.GetListRifaEstado(EstadoId);
-
-        //         if (listaRifa == null)
-        //         {
-        //             return NoContent();
-        //         }
-
-        //         //log.Info("Fin EndosoController/GetListaEndosos");
-        //         return Ok(listaRifa);
-        //     }
-        //     catch(Exception ex)
-        //     {
-        //         //log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
-        //         return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
-        //     }
-        // }
+        } 
 
         //POST: api/sesion/registro-sesion
         /// <summary>
