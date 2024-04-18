@@ -105,41 +105,6 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             return oUsuario;
 
-        }
-        
-        public async Task<Usuario?> LoginUsuario(string Email, string Password)
-        {
-
-            string sError = "";
-
-            Usuario oUsuario = await _usuarioRepository.GetUsuarioEmail(Email);
-
-            if (oUsuario == null)
-            {
-                sError = "No se encontró la cuenta indicada: " + Email;
-                log.Error(sError);                
-                return null;
-            }
-
-            byte[] oKey = new byte[16];
-            byte[] oIV  = new byte[16];
-            byte[] oEncryptedPassword = oUsuario.Password;
-            
-            oKey = oUsuario.Key1;
-            oIV = oUsuario.Key2;
-
-            //Decrypt the password
-            string sDecryptedPassword = _cryptoService.Decrypt(oEncryptedPassword, oKey, oIV);
-            
-            if (Password != sDecryptedPassword)
-            {
-                sError = "Password incorrecto: " + Email;
-                log.Error(sError);                
-                return null;
-            }
-
-            return oUsuario;
-
-        }     
+        }   
     }
 }

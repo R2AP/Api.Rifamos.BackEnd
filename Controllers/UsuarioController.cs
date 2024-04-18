@@ -126,38 +126,5 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
-
-        //GET: api/usuario/login-usuario
-        ///<summary>
-        ///Logear un usuario
-        ///</summary>
-        ///<param name="Usuario">Nombre de usuario.</param>
-        ///<param name="Password">Password.</param>///
-        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        [HttpGet]
-        [Route("api/usuario/login-usuario/{Usuario}/{Password}")]
-        public async Task<ActionResult> LoginUsuario(string Usuario, string Password)
-        {
-            try
-            {
-                log.Info("Inicio api/usuario/login-usuario");
-
-                var oUsuario = await _usuarioService.LoginUsuario(Usuario, Password);
-
-                if (oUsuario == null)
-                {
-                    return NoContent();
-                }
-
-                log.Info("Fin api/usuario/login-usuario");
-
-                return Ok(oUsuario);
-            }
-            catch(Exception ex)
-            {
-                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
-            }
-        }             
     }
 }

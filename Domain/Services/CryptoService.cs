@@ -5,14 +5,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
     public class CryptoService : ICryptoService
     {
 
-        public CryptoService(IConfiguration configuration/*,
-                            IHostingEnvironment environment*/
-                            )
-        {
-            //_QRRepository = QRRepository;
-            // _configuration = configuration;
-            // _environment = environment;
-        }
+        public CryptoService(IConfiguration configuration){}
 
         public byte[] Encrypt(string simpletext, byte[] key, byte[] iv)
         {

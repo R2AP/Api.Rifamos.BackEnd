@@ -6,7 +6,7 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Repositories
 {
     public interface IUsuarioRepository : IRepositoryBase<Usuario>
     {
-        Task<Usuario>GetUsuarioEmail(string Email);
+        
     }
 
 }

@@ -13,6 +13,7 @@ namespace Api.Rifamos.BackEnd.Configuration
         public static IServiceCollection ResolveDependencies(this IServiceCollection services)
         {
             //Servicios
+            services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<ICryptoService, CryptoService>();
             services.AddScoped<IOpcionService, OpcionService>();
             services.AddScoped<IPagoService, PagoService>();            
@@ -25,6 +26,7 @@ namespace Api.Rifamos.BackEnd.Configuration
             services.AddScoped<IVentaService, VentaService>();
 
             //Repositorios
+            services.AddScoped<ILoginRepository, LoginRepository>();
             services.AddScoped<IOpcionRepository, OpcionRepository>();
             services.AddScoped<IPagoRepository, PagoRepository>();
             services.AddScoped<IPrecioRepository, PrecioRepository>();

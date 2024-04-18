@@ -10,6 +10,6 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
         Task<Usuario>InsertUsuario(Usuario Usuario, string Password);
         Task<Usuario>UpdateUsuario(Usuario Usuario);
         Task<Usuario>DeleteUsuario(Int32 UsuarioId);
-        Task<Usuario>LoginUsuario(string Email, string Password);
     }
+
 }
