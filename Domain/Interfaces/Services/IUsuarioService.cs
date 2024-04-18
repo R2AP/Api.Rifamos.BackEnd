@@ -14,5 +14,6 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
         Task<Usuario> InsertUsuario(UsuarioDTO UsuarioDTO);
         Task<Usuario> UpdateUsuario(UsuarioDTO UsuarioDTO);
         Task<Usuario> DeleteUsuario(Int32 UsuarioId);
+        string GenerarToken(UsuarioDTO usuarioDTO);
     }
 }
