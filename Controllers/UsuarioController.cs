@@ -35,7 +35,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 log.Info("Inicio api/usuario/obtener-usuario");
 
                 var oUsuario = await _usuarioService.GetUsuario(UsuarioId);
-
+                
                 if (oUsuario == null)
                 {
                     return NoContent();
@@ -65,6 +65,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 log.Info("Inicio api/usuario/registro-usuario");
 
                 var respuesta = await _usuarioService.InsertUsuario(Usuario, Password);
+//var token = _usuarioService.GenerarToken(UsuarioDTO);
 
                 log.Info("Fin api/usuario/registro-usuario");
 
