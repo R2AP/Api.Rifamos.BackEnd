@@ -4,13 +4,15 @@ using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
 using System.Security.Cryptography;
 using System.Text;
+using log4net;
 
 namespace Api.Rifamos.BackEnd.Domain.Services{
     public class UsuarioService : IUsuarioService
     {
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly ICryptoService _cryptoService;
-        
+        private static readonly ILog log = LogManager.GetLogger(typeof(UsuarioService));
+
         public UsuarioService(
                             IUsuarioRepository usuarioRepository,
                             ICryptoService cryptoService,
@@ -24,66 +26,69 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             // _environment = environment;
         }
 
-        public async Task<Usuario>GetUsuario(Int32 UsuarioId)
+        public async Task<Usuario> GetUsuario(Int32 UsuarioId)
         {
             return await _usuarioRepository.Get(UsuarioId);
         }
 
-        public async Task<Usuario>InsertUsuario(UsuarioDTO UsuarioDTO, string Password)
+        public async Task<Usuario> InsertUsuario(Usuario Usuario, string Password)
         {
 
-            byte[] key = new byte[16];
-            byte[] iv = new byte[16];
+            byte[] oKey = new byte[16];
+            byte[] oIV = new byte[16];
 
             using(RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
-            rng.GetBytes(key);
-            rng.GetBytes(iv);
-            }            
+            rng.GetBytes(oKey);
+            rng.GetBytes(oIV);
+            }
 
             //Encrypt the password
-            byte[] encryptedPassword = _cryptoService.Encrypt(Password, key, iv);
-            string encryptedPasswordString = Convert.ToBase64String(encryptedPassword);
+            byte[] oEncryptedPassword = _cryptoService.Encrypt(Password, oKey, oIV);
             
-            Usuario oUsuario = new Usuario(){
+            Usuario.Password = oEncryptedPassword;
 
-                UsuarioId = UsuarioDTO.UsuarioId,
-                Nombres = UsuarioDTO.Nombres, 
-                ApellidoPaterno = UsuarioDTO.ApellidoPaterno, 
-                ApellidoMaterno = UsuarioDTO.ApellidoMaterno,
-                Email = UsuarioDTO.Email,
-                Password = encryptedPassword,
-                Key1 = key,
-                Key2 = iv,
-                TipoDocumento = UsuarioDTO.TipoDocumento,
-                NumeroDocumento = UsuarioDTO.NumeroDocumento,
-                Telefono = UsuarioDTO.Telefono,
-                AuditoriaUsuarioIngreso = UsuarioDTO.AuditoriaUsuarioIngreso, 
-                AuditoriaFechaIngreso = DateTime.Now 
+            // Usuario oUsuario = new(){
+
+            //     UsuarioId = UsuarioDTO.UsuarioId,
+            //     Nombres = UsuarioDTO.Nombres, 
+            //     ApellidoPaterno = UsuarioDTO.ApellidoPaterno, 
+            //     ApellidoMaterno = UsuarioDTO.ApellidoMaterno,
+            //     Email = UsuarioDTO.Email,
+            //     Password = oEncryptedPassword,
+            //     Key1 = oKey,
+            //     Key2 = oIV,
+            //     TipoDocumento = UsuarioDTO.TipoDocumento,
+            //     NumeroDocumento = UsuarioDTO.NumeroDocumento,
+            //     Telefono = UsuarioDTO.Telefono,
+            //     AuditoriaUsuarioIngreso = UsuarioDTO.AuditoriaUsuarioIngreso, 
+            //     AuditoriaFechaIngreso = DateTime.Now 
                 
-            };
+            // };
 
-            await _usuarioRepository.Post(oUsuario);
+            await _usuarioRepository.Post(Usuario);
 
-            return oUsuario;
+            Usuario = await GetUsuario(Usuario.UsuarioId);
+
+            return Usuario;
 
         }
 
-        public async Task<Usuario>UpdateUsuario(UsuarioDTO UsuarioDTO)
+        public async Task<Usuario> UpdateUsuario(Usuario Usuario)
         {
 
-            Usuario oUsuario = await _usuarioRepository.Get(UsuarioDTO.UsuarioId);
+            Usuario oUsuario = await _usuarioRepository.Get(Usuario.UsuarioId);
 
-            oUsuario.UsuarioId = UsuarioDTO.UsuarioId;
-            oUsuario.Nombres = UsuarioDTO.Nombres;
-            oUsuario.ApellidoPaterno = UsuarioDTO.ApellidoPaterno;
-            oUsuario.ApellidoMaterno = UsuarioDTO.ApellidoMaterno;
-            oUsuario.Email = UsuarioDTO.Email;
-            oUsuario.TipoDocumento = UsuarioDTO.TipoDocumento;
-            oUsuario.NumeroDocumento = UsuarioDTO.NumeroDocumento;
-            oUsuario.Telefono = UsuarioDTO.Telefono;
-            oUsuario.AuditoriaUsuarioIngreso = UsuarioDTO.AuditoriaUsuarioIngreso;
-            oUsuario.AuditoriaUsuarioModificacion = UsuarioDTO.AuditoriaUsuarioModificacion; 
-            oUsuario.AuditoriaFechaModificacion = DateTime.Now;
+            // oUsuario.UsuarioId = UsuarioDTO.UsuarioId;
+            // oUsuario.Nombres = UsuarioDTO.Nombres;
+            // oUsuario.ApellidoPaterno = UsuarioDTO.ApellidoPaterno;
+            // oUsuario.ApellidoMaterno = UsuarioDTO.ApellidoMaterno;
+            // oUsuario.Email = UsuarioDTO.Email;
+            // oUsuario.TipoDocumento = UsuarioDTO.TipoDocumento;
+            // oUsuario.NumeroDocumento = UsuarioDTO.NumeroDocumento;
+            // oUsuario.Telefono = UsuarioDTO.Telefono;
+            // oUsuario.AuditoriaUsuarioIngreso = UsuarioDTO.AuditoriaUsuarioIngreso;
+            // oUsuario.AuditoriaUsuarioModificacion = UsuarioDTO.AuditoriaUsuarioModificacion; 
+            // oUsuario.AuditoriaFechaModificacion = DateTime.Now;
 
             await _usuarioRepository.Put(oUsuario);
 
@@ -91,7 +96,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         }
 
-        public async Task<Usuario>DeleteUsuario(Int32 UsuarioId)
+        public async Task<Usuario> DeleteUsuario(Int32 UsuarioId)
         {
 
             Usuario oUsuario = await _usuarioRepository.Get(UsuarioId);
@@ -102,35 +107,39 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         }
         
-        public async Task<Usuario>LoginUsuario(string Usuario, string Password)
+        public async Task<Usuario?> LoginUsuario(string Email, string Password)
         {
 
-            Usuario oUsuario = await _usuarioRepository.LoginUsuario(Usuario, Password);
+            string sError = "";
 
-            byte[] key = new byte[16];
-            byte[] iv = new byte[16];
-            byte[] encryptedPassword = oUsuario.Password;
-            key = oUsuario.Key1;
-            iv = oUsuario.Key2;
+            Usuario oUsuario = await _usuarioRepository.GetUsuarioEmail(Email);
+
+            if (oUsuario == null)
+            {
+                sError = "No se encontró la cuenta indicada: " + Email;
+                log.Error(sError);                
+                return null;
+            }
+
+            byte[] oKey = new byte[16];
+            byte[] oIV  = new byte[16];
+            byte[] oEncryptedPassword = oUsuario.Password;
+            
+            oKey = oUsuario.Key1;
+            oIV = oUsuario.Key2;
 
             //Decrypt the password
-            string decryptedPassword = _cryptoService.Decrypt(encryptedPassword, key, iv);
+            string sDecryptedPassword = _cryptoService.Decrypt(oEncryptedPassword, oKey, oIV);
             
-            if (Password == decryptedPassword)
+            if (Password != sDecryptedPassword)
             {
-                Console.WriteLine("Ok");
+                sError = "Password incorrecto: " + Email;
+                log.Error(sError);                
+                return null;
             }
-            else
-            {
-                Console.WriteLine("No Ok");
-            }
-
-            await _usuarioRepository.LoginUsuario(Usuario, Password);
 
             return oUsuario;
 
-        }
-          
+        }     
     }
-
 }

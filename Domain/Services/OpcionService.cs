@@ -48,7 +48,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public async Task<Opcion> InsertOpcion(OpcionDTO OpcionDTO)
         {
             
-            Opcion oOpcion = new Opcion{
+            Opcion oOpcion = new()
+            {
                 RifaId = OpcionDTO.RifaId,
                 UsuarioId = OpcionDTO.UsuarioId,
                 CantidadOpciones = OpcionDTO.CantidadOpciones,
@@ -86,7 +87,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public async Task<Opcion> DeleteOpcion(Int32 OpcionId)
         {
 
-            Opcion oOpcion = new Opcion{
+            Opcion oOpcion = new()
+            {
                 OpcionId =  OpcionId       
             };
 

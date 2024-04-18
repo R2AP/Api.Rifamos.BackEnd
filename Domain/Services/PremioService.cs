@@ -47,7 +47,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public async Task<Premio> InsertPremio(PremioDTO PremioDTO)
         {
 
-            Premio oPremio = new Premio{
+            Premio oPremio = new()
+            {
 
                 RifaId = PremioDTO.RifaId,
                 PremioDescripcion = PremioDTO.PremioDescripcion,
@@ -85,7 +86,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         public async Task<Premio> DeletePremio(Int32 PremioId)
         {
-            Premio oPremio = new Premio{
+            Premio oPremio = new()
+            {
                 PremioId = PremioId
             };
 

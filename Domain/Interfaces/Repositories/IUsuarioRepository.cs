@@ -1,11 +1,12 @@
 using Api.Rifamos.BackEnd.Domain.Models;
+using Api.Rifamos.BackEnd.Adapter;
 
 namespace Api.Rifamos.BackEnd.Domain.Interfaces.Repositories
 
 {
     public interface IUsuarioRepository : IRepositoryBase<Usuario>
     {
-        Task<Usuario>LoginUsuario(string UsuarioId, string Password);
+        Task<Usuario>GetUsuarioEmail(string Email);
     }
 
 }

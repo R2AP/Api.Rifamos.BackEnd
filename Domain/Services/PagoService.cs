@@ -45,7 +45,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public async Task<Pago> InsertPago(PagoDTO PagoDTO)
         {
 
-            Pago oPago = new Pago(){
+            Pago oPago = new(){
 
                 PagoId = PagoDTO.PagoId, 
                 VentaId = PagoDTO.VentaId, 

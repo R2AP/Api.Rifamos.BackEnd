@@ -12,7 +12,7 @@ namespace  Api.Rifamos.BackEnd
     {
         public static void InicializarLog()
         {
-            XmlDocument log4netConfig = new XmlDocument();
+            XmlDocument log4netConfig = new();
             log4netConfig.Load(File.OpenRead(Path.Combine(AppContext.BaseDirectory, "log4net.config")));
             var repo = LogManager.CreateRepository(Assembly.GetEntryAssembly(), typeof(Hierarchy));
             XmlConfigurator.Configure(repo, log4netConfig["log4net"]);

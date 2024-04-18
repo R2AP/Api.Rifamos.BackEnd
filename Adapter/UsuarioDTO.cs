@@ -15,11 +15,12 @@ public class UsuarioDTO{
 
     public string Email { get; set; } = null!;
 
-    public byte[]? Password { get; set; }
+    //public byte[]? Password { get; set; }
+    public string Password { get; set; } = null!;
 
-    public byte[]? Key1 { get; set; }
+    //public byte[]? Key1 { get; set; }
 
-    public byte[]? Key2 { get; set; }
+    //public byte[]? Key2 { get; set; }
 
     public int TipoDocumento { get; set; }
 

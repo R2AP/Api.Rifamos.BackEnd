@@ -20,11 +20,11 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             using (Aes aes = Aes.Create())
             {
                 ICryptoTransform encryptor = aes.CreateEncryptor(key, iv);
-                using (MemoryStream memoryStream = new MemoryStream())
+                using (MemoryStream memoryStream = new())
                 {
-                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
+                    using (CryptoStream cryptoStream = new(memoryStream, encryptor, CryptoStreamMode.Write))
                     {
-                        using (StreamWriter streamWriter = new StreamWriter(cryptoStream))
+                        using (StreamWriter streamWriter = new(cryptoStream))
                         {
                             streamWriter.Write(simpletext);
                         }
@@ -42,11 +42,11 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             using (Aes aes = Aes.Create())
             {
                 ICryptoTransform decryptor = aes.CreateDecryptor(key, iv);
-                using (MemoryStream memoryStream = new MemoryStream(cipheredtext))
+                using (MemoryStream memoryStream = new(cipheredtext))
                 {
-                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
+                    using (CryptoStream cryptoStream = new(memoryStream, decryptor, CryptoStreamMode.Read))
                     {
-                        using (StreamReader streamReader = new StreamReader(cryptoStream))
+                        using (StreamReader streamReader = new(cryptoStream))
                         {
                             simpletext = streamReader.ReadToEnd();
                         }

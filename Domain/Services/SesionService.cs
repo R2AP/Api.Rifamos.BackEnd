@@ -46,7 +46,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         {
             // var ejemplo = _configuration["prueba"];
 
-            Sesion oSesion = new Sesion(){
+            Sesion oSesion = new(){
 
                 SesionId = SesionDTO.SesionId,
                 UsuarioId = SesionDTO.UsuarioId,

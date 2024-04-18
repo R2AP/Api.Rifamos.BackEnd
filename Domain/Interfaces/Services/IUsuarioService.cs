@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Api.Rifamos.BackEnd.Adapter;
 using Api.Rifamos.BackEnd.Domain.Models;
+//using Api.Rifamos.BackEnd.Adapter;
 
 namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
 {
@@ -10,9 +7,9 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
     {
 
         Task<Usuario>GetUsuario(Int32 UsuarioId);
-        Task<Usuario>InsertUsuario(UsuarioDTO UsuarioDTO, string Password);
-        Task<Usuario>UpdateUsuario(UsuarioDTO UsuarioDTO);
+        Task<Usuario>InsertUsuario(Usuario Usuario, string Password);
+        Task<Usuario>UpdateUsuario(Usuario Usuario);
         Task<Usuario>DeleteUsuario(Int32 UsuarioId);
-        Task<Usuario>LoginUsuario(String Usuario, string Password);
+        Task<Usuario>LoginUsuario(string Email, string Password);
     }
 }

@@ -46,7 +46,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public async Task<Precio> InsertPrecio(PrecioDTO PrecioDTO)
         {
 
-            Precio oPrecio = new Precio{
+            Precio oPrecio = new()
+            {
                 RifaId = PrecioDTO.RifaId,
                 PrecioUnitario = PrecioDTO.PrecioUnitario,
                 AuditoriaUsuarioIngreso = PrecioDTO.AuditoriaUsuarioIngreso,
@@ -80,7 +81,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public async Task<Precio> DeletePrecio(Int32 PrecioId)
         {
 
-            Precio oPrecio = new Precio{
+            Precio oPrecio = new()
+            {
                 PrecioId = PrecioId
             };
 
