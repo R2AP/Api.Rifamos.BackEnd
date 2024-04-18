@@ -1,9 +1,21 @@
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using System.Transactions;
 using Api.Rifamos.BackEnd.Adapter;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Repositories;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+//using Newtonsoft.Json;
 using System.Security.Cryptography;
-using System.Text;
 using log4net;
 
 namespace Api.Rifamos.BackEnd.Domain.Services{
@@ -105,6 +117,27 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             return oUsuario;
 
-        }   
+        }
+
+        public string GenerarToken(UsuarioDTO UsuarioDTO)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Nim&jV@hy43UEbsMN>k}=84hF>h80qy_`96bD"));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var userClaims = new[]
+            {
+                // new Claim(ClaimTypes.NameIdentifier, UsuarioDTO.UsuarioId),
+                new Claim(ClaimTypes.Name, UsuarioDTO.Nombres),
+                new Claim(ClaimTypes.Email, UsuarioDTO.Email),
+                new Claim(ClaimTypes.Role, UsuarioDTO.Email)
+            };
+            var token = new JwtSecurityToken(
+                issuer: "Rifamos.com",
+                audience: "Rifamos.com",
+                claims: userClaims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: credentials
+                );
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
     }
 }
