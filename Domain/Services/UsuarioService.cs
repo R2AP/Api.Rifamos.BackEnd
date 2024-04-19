@@ -87,6 +87,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             await _usuarioRepository.Post(oUsuario);
 
+            UsuarioDTO.UsuarioId = oUsuario.UsuarioId;
+
             UsuarioDTO = await GetUsuario(UsuarioDTO);
 
             return UsuarioDTO;
