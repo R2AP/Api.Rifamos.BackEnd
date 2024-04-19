@@ -6,8 +6,7 @@ using Api.Rifamos.BackEnd.Persistence.Contexts;
 namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
 {
 
-    public class UsuarioRepository : RepositoryBase<Usuario>, IUsuarioRepository
+    public class UsuarioRepository(RifamosContext context) : RepositoryBase<Usuario>(context), IUsuarioRepository
     {
-        public UsuarioRepository(RifamosContext context) : base(context) { }
     }
 }

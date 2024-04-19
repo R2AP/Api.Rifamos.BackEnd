@@ -20,7 +20,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             Logger.InicializarLog();
         }
 
-        //POST: api/Login/login-Login
+        //POST: api/Login/loguearse
         ///<summary>
         ///Logear a un usuario
         ///</summary>

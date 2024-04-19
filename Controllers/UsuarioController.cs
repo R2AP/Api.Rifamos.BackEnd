@@ -22,7 +22,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
 
         //GET: api/usuario/obtener-usuario
         ///<summary>
-        ///Obtener una usuario de la opción comprada
+        ///Obtener un usuario por su id
         ///</summary>
         ///<param name="UsuarioId">Específica el id de la Rifa seleccionada.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
@@ -54,18 +54,19 @@ namespace Api.Rifamos.BackEnd.Controllers{
 
         //POST: api/usuario/registro-usuario
         /// <summary>
-        /// Crear una nueva Usuario.
+        /// Crear un nuevo Usuario.
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPost("api/usuario/registro-usuario")]
-        public async Task<ActionResult> InsertUsuario(Usuario Usuario, string Password)
+        //public async Task<ActionResult> InsertUsuario(Usuario Usuario, string Password)
+        public async Task<ActionResult> InsertUsuario(UsuarioDTO UsuarioDTO)
         {
             try
             {        
                 log.Info("Inicio api/usuario/registro-usuario");
 
-                var respuesta = await _usuarioService.InsertUsuario(Usuario, Password);
-//var token = _usuarioService.GenerarToken(UsuarioDTO);
+                //var respuesta = await _usuarioService.InsertUsuario(Usuario, Password);
+                var respuesta = await _usuarioService.InsertUsuario(UsuarioDTO);
 
                 log.Info("Fin api/usuario/registro-usuario");
 

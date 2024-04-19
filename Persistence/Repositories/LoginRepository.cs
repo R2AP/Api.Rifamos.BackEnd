@@ -12,34 +12,29 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
     {
         public LoginRepository(RifamosContext context) : base(context) { }
 
-        public async Task<Usuario> GetUsuarioEmail(LoginDTO LoginDTO)
+        public async Task<UsuarioDTO> GetUsuarioEmail(LoginDTO LoginDTO)
         {
 
-            return await _context.Usuarios.Where(x => x.Email == LoginDTO.Email).FirstOrDefaultAsync();
+            Usuario oUsuario = new();
+            UsuarioDTO oUsuarioDTO = new();
 
-            // oUsuario =  (
-            //                 from usr in _context.Usuarios 
-            //                 where usr.Email == LoginDTO.Email
-            //                 select new Usuario
-            //                 {
-            //                     UsuarioId = usr.UsuarioId,
-            //                     Nombres = usr.Nombres,
-            //                     ApellidoPaterno = usr.ApellidoPaterno,
-            //                     ApellidoMaterno = usr.ApellidoMaterno,
-            //                     Email = usr.Email,
-            //                     Password = usr.Password,
-            //                     Key1 = usr.Key1,
-            //                     Key2 = usr.Key2,
-            //                     TipoDocumento = usr.TipoDocumento,
-            //                     NumeroDocumento = usr.NumeroDocumento,
-            //                     Telefono = usr.Telefono,
-            //                     AuditoriaUsuarioIngreso = usr.AuditoriaUsuarioIngreso,
-            //                     AuditoriaFechaIngreso = usr.AuditoriaFechaIngreso,
-            //                     AuditoriaUsuarioModificacion = usr.AuditoriaUsuarioModificacion,
-            //                     AuditoriaFechaModificacion = usr.AuditoriaFechaModificacion
-            //                 }).FirstOrDefaultAsync();
+            oUsuario = await _context.Usuarios.Where(x => x.Email == LoginDTO.Email).FirstOrDefaultAsync();
 
-            //return await usuario;
+            oUsuarioDTO.UsuarioId = oUsuario.UsuarioId;
+            oUsuarioDTO.Nombres = oUsuario.Nombres;
+            oUsuarioDTO.ApellidoPaterno = oUsuario.ApellidoPaterno; 
+            oUsuarioDTO.ApellidoMaterno = oUsuario.ApellidoMaterno;
+            oUsuarioDTO.Email = oUsuario.Email;
+            oUsuarioDTO.Password = "****************";
+            oUsuarioDTO.TipoDocumento = oUsuario.TipoDocumento;
+            oUsuarioDTO.NumeroDocumento = oUsuario.NumeroDocumento;
+            oUsuarioDTO.Telefono = oUsuario.Telefono;
+            oUsuarioDTO.AuditoriaUsuarioIngreso = oUsuario.AuditoriaUsuarioIngreso; 
+            oUsuarioDTO.AuditoriaFechaIngreso = oUsuario.AuditoriaFechaIngreso;
+            oUsuarioDTO.AuditoriaUsuarioModificacion = oUsuario.AuditoriaUsuarioModificacion;
+            oUsuarioDTO.AuditoriaFechaModificacion = oUsuarioDTO.AuditoriaFechaModificacion;
+
+            return oUsuarioDTO;
 
         }
     }

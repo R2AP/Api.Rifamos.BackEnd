@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
 using Api.Rifamos.BackEnd.Adapter;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Repositories;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
@@ -14,7 +9,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-//using Newtonsoft.Json;
 using System.Security.Cryptography;
 using log4net;
 
@@ -38,12 +32,33 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             // _environment = environment;
         }
 
-        public async Task<Usuario> GetUsuario(Int32 UsuarioId)
+        public async Task<UsuarioDTO> GetUsuario(Int32 UsuarioId)
         {
-            return await _usuarioRepository.Get(UsuarioId);
+            Usuario oUsuario = new();
+            UsuarioDTO oUsuarioDTO = new();
+
+            oUsuario = await _usuarioRepository.Get(UsuarioId);
+
+            oUsuarioDTO.UsuarioId = oUsuario.UsuarioId;
+            oUsuarioDTO.Nombres = oUsuario.Nombres;
+            oUsuarioDTO.ApellidoPaterno = oUsuario.ApellidoPaterno; 
+            oUsuarioDTO.ApellidoMaterno = oUsuario.ApellidoMaterno;
+            oUsuarioDTO.Email = oUsuario.Email;
+            oUsuarioDTO.Password = "****************";
+            oUsuarioDTO.TipoDocumento = oUsuario.TipoDocumento;
+            oUsuarioDTO.NumeroDocumento = oUsuario.NumeroDocumento;
+            oUsuarioDTO.Telefono = oUsuario.Telefono;
+            oUsuarioDTO.AuditoriaUsuarioIngreso = oUsuario.AuditoriaUsuarioIngreso; 
+            oUsuarioDTO.AuditoriaFechaIngreso = oUsuario.AuditoriaFechaIngreso;
+            oUsuarioDTO.AuditoriaUsuarioModificacion = oUsuario.AuditoriaUsuarioModificacion;
+            oUsuarioDTO.AuditoriaFechaModificacion = oUsuarioDTO.AuditoriaFechaModificacion;
+            
+            //return await _usuarioRepository.Get(UsuarioId);
+            return oUsuarioDTO;
         }
 
-        public async Task<Usuario> InsertUsuario(Usuario Usuario, string Password)
+        //public async Task<Usuario> InsertUsuario(Usuario Usuario, string Password)
+        public async Task<UsuarioDTO> InsertUsuario(UsuarioDTO UsuarioDTO)
         {
 
             byte[] oKey = new byte[16];
@@ -55,33 +70,33 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             }
 
             //Encrypt the password
-            byte[] oEncryptedPassword = _cryptoService.Encrypt(Password, oKey, oIV);
+            byte[] oEncryptedPassword = _cryptoService.Encrypt(UsuarioDTO.Password, oKey, oIV);
             
-            Usuario.Password = oEncryptedPassword;
+            //Usuario.Password = oEncryptedPassword;
 
-            // Usuario oUsuario = new(){
+            Usuario oUsuario = new(){
 
-            //     UsuarioId = UsuarioDTO.UsuarioId,
-            //     Nombres = UsuarioDTO.Nombres, 
-            //     ApellidoPaterno = UsuarioDTO.ApellidoPaterno, 
-            //     ApellidoMaterno = UsuarioDTO.ApellidoMaterno,
-            //     Email = UsuarioDTO.Email,
-            //     Password = oEncryptedPassword,
-            //     Key1 = oKey,
-            //     Key2 = oIV,
-            //     TipoDocumento = UsuarioDTO.TipoDocumento,
-            //     NumeroDocumento = UsuarioDTO.NumeroDocumento,
-            //     Telefono = UsuarioDTO.Telefono,
-            //     AuditoriaUsuarioIngreso = UsuarioDTO.AuditoriaUsuarioIngreso, 
-            //     AuditoriaFechaIngreso = DateTime.Now 
+                UsuarioId = UsuarioDTO.UsuarioId,
+                Nombres = UsuarioDTO.Nombres, 
+                ApellidoPaterno = UsuarioDTO.ApellidoPaterno, 
+                ApellidoMaterno = UsuarioDTO.ApellidoMaterno,
+                Email = UsuarioDTO.Email,
+                Password = oEncryptedPassword,
+                Key1 = oKey,
+                Key2 = oIV,
+                TipoDocumento = UsuarioDTO.TipoDocumento,
+                NumeroDocumento = UsuarioDTO.NumeroDocumento,
+                Telefono = UsuarioDTO.Telefono,
+                AuditoriaUsuarioIngreso = UsuarioDTO.AuditoriaUsuarioIngreso, 
+                AuditoriaFechaIngreso = DateTime.Now 
                 
-            // };
+            };
 
-            await _usuarioRepository.Post(Usuario);
+            await _usuarioRepository.Post(oUsuario);
 
-            Usuario = await GetUsuario(Usuario.UsuarioId);
+            UsuarioDTO = await GetUsuario(oUsuario.UsuarioId);
 
-            return Usuario;
+            return UsuarioDTO;
 
         }
 
