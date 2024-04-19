@@ -18,6 +18,7 @@ public class UsuarioDTO{
     public string NumeroDocumento { get; set; } = null!;
 
     public string Telefono { get; set; } = null!;
+    public string? Token { get; set; }
 
     public string AuditoriaUsuarioIngreso { get; set; } = null!;
 
