@@ -20,21 +20,20 @@ namespace Api.Rifamos.BackEnd.Controllers{
             Logger.InicializarLog();
         }
 
-        //GET: api/usuario/obtener-usuario
+        //POST: api/usuario/obtener-usuario
         ///<summary>
         ///Obtener un usuario por su id
         ///</summary>
-        ///<param name="UsuarioId">Específica el id de la Rifa seleccionada.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        [HttpGet]
-        [Route("api/usuario/obtener-usuario/{UsuarioId}")]
-        public async Task<ActionResult> GetUsuario(Int32 UsuarioId)
+        [HttpPost]
+        [Route("api/usuario/obtener-usuario")]
+        public async Task<ActionResult> GetUsuario(UsuarioDTO UsuarioDTO)
         {
             try
             {
                 log.Info("Inicio api/usuario/obtener-usuario");
 
-                var oUsuario = await _usuarioService.GetUsuario(UsuarioId);
+                var oUsuario = await _usuarioService.GetUsuario(UsuarioDTO);
                 
                 if (oUsuario == null)
                 {
@@ -85,13 +84,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPut("api/usuario/actualizar-usuario")]
-        public async Task<ActionResult> UpdateUsuario(Usuario Usuario)
+        public async Task<ActionResult> UpdateUsuario(UsuarioDTO UsuarioDTO)
         {
             try
             {        
                 log.Info("Inicio api/usuario/actualizar-usuario");
 
-                var respuesta = await _usuarioService.UpdateUsuario(Usuario);
+                var respuesta = await _usuarioService.UpdateUsuario(UsuarioDTO);
 
                 log.Info("Fin api/usuario/actualizar-usuario");
 
@@ -110,13 +109,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpDelete("api/usuario/eliminar-usuario")]
-        public async Task<ActionResult> DeleteUsuario(Int32 UsuarioId)
+        public async Task<ActionResult> DeleteUsuario(UsuarioDTO UsuarioDTO)
         {
             try
             {        
                 log.Info("Inicio api/usuario/eliminar-usuario");
 
-                var respuesta = await _usuarioService.DeleteUsuario(UsuarioId);
+                var respuesta = await _usuarioService.DeleteUsuario(UsuarioDTO);
 
                 log.Info("Fin api/usuario/eliminar-usuario");
 

@@ -32,7 +32,7 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
             oUsuarioDTO.AuditoriaUsuarioIngreso = oUsuario.AuditoriaUsuarioIngreso; 
             oUsuarioDTO.AuditoriaFechaIngreso = oUsuario.AuditoriaFechaIngreso;
             oUsuarioDTO.AuditoriaUsuarioModificacion = oUsuario.AuditoriaUsuarioModificacion;
-            oUsuarioDTO.AuditoriaFechaModificacion = oUsuarioDTO.AuditoriaFechaModificacion;
+            oUsuarioDTO.AuditoriaFechaModificacion = oUsuario.AuditoriaFechaModificacion;
 
             return oUsuarioDTO;
 

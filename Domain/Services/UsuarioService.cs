@@ -32,12 +32,12 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             // _environment = environment;
         }
 
-        public async Task<UsuarioDTO> GetUsuario(Int32 UsuarioId)
+        public async Task<UsuarioDTO> GetUsuario(UsuarioDTO UsuarioDTO)
         {
             Usuario oUsuario = new();
             UsuarioDTO oUsuarioDTO = new();
 
-            oUsuario = await _usuarioRepository.Get(UsuarioId);
+            oUsuario = await _usuarioRepository.Get(UsuarioDTO.UsuarioId);
 
             oUsuarioDTO.UsuarioId = oUsuario.UsuarioId;
             oUsuarioDTO.Nombres = oUsuario.Nombres;
@@ -51,7 +51,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oUsuarioDTO.AuditoriaUsuarioIngreso = oUsuario.AuditoriaUsuarioIngreso; 
             oUsuarioDTO.AuditoriaFechaIngreso = oUsuario.AuditoriaFechaIngreso;
             oUsuarioDTO.AuditoriaUsuarioModificacion = oUsuario.AuditoriaUsuarioModificacion;
-            oUsuarioDTO.AuditoriaFechaModificacion = oUsuarioDTO.AuditoriaFechaModificacion;
+            oUsuarioDTO.AuditoriaFechaModificacion = oUsuario.AuditoriaFechaModificacion;
             
             //return await _usuarioRepository.Get(UsuarioId);
             return oUsuarioDTO;
@@ -94,43 +94,44 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             await _usuarioRepository.Post(oUsuario);
 
-            UsuarioDTO = await GetUsuario(oUsuario.UsuarioId);
+            UsuarioDTO = await GetUsuario(UsuarioDTO);
 
             return UsuarioDTO;
 
         }
 
-        public async Task<Usuario> UpdateUsuario(Usuario Usuario)
+        public async Task<UsuarioDTO> UpdateUsuario(UsuarioDTO UsuarioDTO)
         {
 
-            Usuario oUsuario = await _usuarioRepository.Get(Usuario.UsuarioId);
+            Usuario oUsuario = await _usuarioRepository.Get(UsuarioDTO.UsuarioId);
 
-            // oUsuario.UsuarioId = UsuarioDTO.UsuarioId;
-            // oUsuario.Nombres = UsuarioDTO.Nombres;
-            // oUsuario.ApellidoPaterno = UsuarioDTO.ApellidoPaterno;
-            // oUsuario.ApellidoMaterno = UsuarioDTO.ApellidoMaterno;
-            // oUsuario.Email = UsuarioDTO.Email;
-            // oUsuario.TipoDocumento = UsuarioDTO.TipoDocumento;
-            // oUsuario.NumeroDocumento = UsuarioDTO.NumeroDocumento;
-            // oUsuario.Telefono = UsuarioDTO.Telefono;
-            // oUsuario.AuditoriaUsuarioIngreso = UsuarioDTO.AuditoriaUsuarioIngreso;
-            // oUsuario.AuditoriaUsuarioModificacion = UsuarioDTO.AuditoriaUsuarioModificacion; 
-            // oUsuario.AuditoriaFechaModificacion = DateTime.Now;
+            oUsuario.UsuarioId = UsuarioDTO.UsuarioId;
+            oUsuario.Nombres = UsuarioDTO.Nombres;
+            oUsuario.ApellidoPaterno = UsuarioDTO.ApellidoPaterno;
+            oUsuario.ApellidoMaterno = UsuarioDTO.ApellidoMaterno;
+            oUsuario.Email = UsuarioDTO.Email;
+            oUsuario.TipoDocumento = UsuarioDTO.TipoDocumento;
+            oUsuario.NumeroDocumento = UsuarioDTO.NumeroDocumento;
+            oUsuario.Telefono = UsuarioDTO.Telefono;
+            oUsuario.AuditoriaUsuarioModificacion = UsuarioDTO.AuditoriaUsuarioModificacion; 
+            oUsuario.AuditoriaFechaModificacion = DateTime.Now;
 
             await _usuarioRepository.Put(oUsuario);
+            
+            UsuarioDTO = await GetUsuario(UsuarioDTO);
 
-            return oUsuario;
+            return UsuarioDTO;
 
         }
 
-        public async Task<Usuario> DeleteUsuario(Int32 UsuarioId)
+        public async Task<UsuarioDTO> DeleteUsuario(UsuarioDTO UsuarioDTO)
         {
 
-            Usuario oUsuario = await _usuarioRepository.Get(UsuarioId);
+            Usuario oUsuario = await _usuarioRepository.Get(UsuarioDTO.UsuarioId);
 
             await _usuarioRepository.Delete(oUsuario);
 
-            return oUsuario;
+            return UsuarioDTO;
 
         }
 
