@@ -15,6 +15,10 @@ public partial class Opcion
 
     public string TokenOpcion { get; set; } = null!;
 
+    public string TokenKey1 { get; set; } = null!;
+
+    public string TokenKey2 { get; set; } = null!;
+
     public int EstadoOpcion { get; set; }
 
     public string AuditoriaUsuarioIngreso { get; set; } = null!;

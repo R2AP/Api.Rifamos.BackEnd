@@ -56,27 +56,26 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<summary>
         ///Obtener una opción comprada por un cliente
         ///</summary>
-        ///<param name="RifaId">Específica el id de la rifa.</param>
-        ///<param name="UsuarioId">Específica el id del usuario.</param>
+        ///<param name="TokenOpcion">Específica el token de una opción.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
-        [Route("api/opcion/obtener-opcion/{OpcionId}")]
-        public async Task<ActionResult> GetOpcion(Int32 OpcionId)
+        [Route("api/opcion/obtener-opcion/{TokenOpcion}")]
+        public async Task<ActionResult> GetOpcion(string TokenOpcion)
         {
             try
             {
                 log.Info("Inicio api/opcion/obtener-opcion");
 
-                var oListaOpcion = await _opcionService.GetOpcion(OpcionId);
+                var oOpcion = await _opcionService.GetOpcionToken(TokenOpcion);
 
-                if (oListaOpcion == null)
+                if (oOpcion == null)
                 {
                     return NoContent();
                 }
 
                 log.Info("Fin api/opcion/obtener-opcion");
 
-                return Ok(oListaOpcion);
+                return Ok(oOpcion);
             }
             catch(Exception ex)
             {

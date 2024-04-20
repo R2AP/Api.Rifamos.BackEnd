@@ -65,8 +65,6 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             //Encrypt the password
             byte[] oEncryptedPassword = _cryptoService.Encrypt(UsuarioDTO.Password, oKey, oIV);
             
-            //Usuario.Password = oEncryptedPassword;
-
             Usuario oUsuario = new(){
 
                 UsuarioId = UsuarioDTO.UsuarioId,

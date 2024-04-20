@@ -134,6 +134,8 @@ public partial class RifamosContext : DbContext
             entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
             entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.RifaId).HasColumnName("RifaID");
+            entity.Property(e => e.TokenKey1).HasMaxLength(128);
+            entity.Property(e => e.TokenKey2).HasMaxLength(128);
             entity.Property(e => e.TokenOpcion).HasMaxLength(128);
             entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
 
