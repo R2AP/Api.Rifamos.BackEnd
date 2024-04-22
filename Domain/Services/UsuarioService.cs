@@ -65,8 +65,6 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             //Encrypt the password
             byte[] oEncryptedPassword = _cryptoService.Encrypt(UsuarioDTO.Password, oKey, oIV);
             
-            //Usuario.Password = oEncryptedPassword;
-
             Usuario oUsuario = new(){
 
                 UsuarioId = UsuarioDTO.UsuarioId,
@@ -86,6 +84,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             };
 
             await _usuarioRepository.Post(oUsuario);
+
+            UsuarioDTO.UsuarioId = oUsuario.UsuarioId;
 
             UsuarioDTO = await GetUsuario(UsuarioDTO);
 

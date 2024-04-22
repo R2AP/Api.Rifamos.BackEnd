@@ -76,7 +76,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         public string GenerarToken(UsuarioDTO UsuarioDTO)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])); 
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var userClaims = new[]
             {

@@ -12,7 +12,11 @@ public class OpcionDTO{
 
     public int CantidadOpciones { get; set; }
 
-    public string TokenOpcion { get; set; } = null!;
+    public string? TokenOpcion { get; set; }
+
+    public string? TokenKey1 { get; set; }
+
+    public string? TokenKey2 { get; set; }
 
     public int EstadoOpcion { get; set; }
 

@@ -52,7 +52,7 @@ public partial class RifamosContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Server=localhost;Database=rifamos;User Id= postgres;Password=tokedekeda;");
+        => optionsBuilder.UseNpgsql("Server=localhost;Database=rifamos;User Id= postgres;Password=P132639%Rrap.2024;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -134,6 +134,8 @@ public partial class RifamosContext : DbContext
             entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
             entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.RifaId).HasColumnName("RifaID");
+            entity.Property(e => e.TokenKey1).HasMaxLength(128);
+            entity.Property(e => e.TokenKey2).HasMaxLength(128);
             entity.Property(e => e.TokenOpcion).HasMaxLength(128);
             entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
 
