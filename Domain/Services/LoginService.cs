@@ -82,8 +82,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             {
                 // new Claim(ClaimTypes.NameIdentifier, UsuarioDTO.UsuarioId),
                 new Claim(ClaimTypes.Name, UsuarioDTO.Nombres),
-                new Claim(ClaimTypes.Email, UsuarioDTO.Email),
-                new Claim(ClaimTypes.Role, UsuarioDTO.Email)
+                new Claim(ClaimTypes.Email, UsuarioDTO.Email)
             };
             var token = new JwtSecurityToken(
                 issuer: "Rifamos.com",

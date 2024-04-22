@@ -3,10 +3,12 @@ using Api.Rifamos.BackEnd.Domain.Models;
 using Api.Rifamos.BackEnd.Adapter;
 using Microsoft.AspNetCore.Mvc;
 using log4net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Rifamos.BackEnd.Controllers{
 
     [ApiController]
+    [Authorize]
     public class UsuarioController : ControllerBase{
 
         private readonly IUsuarioService _usuarioService;
