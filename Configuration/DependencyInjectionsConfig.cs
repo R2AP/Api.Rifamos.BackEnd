@@ -14,6 +14,7 @@ namespace Api.Rifamos.BackEnd.Configuration
         {
             //Servicios
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<ICryptoService, CryptoService>();
             services.AddScoped<IOpcionService, OpcionService>();
             services.AddScoped<IPagoService, PagoService>();            

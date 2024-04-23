@@ -6,25 +6,28 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
-
+using log4net;
 
 namespace Api.Rifamos.BackEnd.Domain.Services{
     public class OpcionService : IOpcionService
     {
         private readonly IOpcionRepository _opcionRepository;
         private readonly ICryptoService _cryptoService;
-
+        private readonly IEmailService _emailService;
+        private static readonly ILog log = LogManager.GetLogger(typeof(UsuarioService));
         // public IConfiguration _configuration { get; }
         // private IHostingEnvironment _environment;
         //private static readonly ILog log = LogManager.GetLogger(typeof(UltimusService));
 
         public OpcionService(IOpcionRepository opcionRepository,
-                            ICryptoService cryptoService,        
+                            ICryptoService cryptoService,
+                            IEmailService emailService,
                             IConfiguration configuration/*,
                             IHostingEnvironment environment*/
                             )
         {
             _opcionRepository = opcionRepository;
+            _cryptoService = cryptoService;
             _cryptoService = cryptoService;
             // _configuration = configuration;
             // _environment = environment;
@@ -40,9 +43,41 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return await _opcionRepository.Get(OpcionId);
         } 
 
-        public async Task<OpcionDTO> GetOpcionToken(string TokenOpcion)
+        public async Task<OpcionFrontDTO> GetOpcionToken(string TokenOpcion)
         {
-            return await _opcionRepository.GetOpcionToken(TokenOpcion);
+
+            string sError = "";
+            OpcionFrontDTO oOpcionFrontDTO = new();
+
+            // Buscamos la opción por token
+            OpcionDTO oOpcionDTO = await _opcionRepository.GetOpcionToken(TokenOpcion); 
+
+            // Validamos que el token sea el correcto 
+            byte[] oKey = Convert.FromBase64String(oOpcionDTO.TokenKey1);
+            byte[] oIV = Convert.FromBase64String(oOpcionDTO.TokenKey2);
+            byte[] oEncryptedPassword = Convert.FromBase64String(oOpcionDTO.TokenOpcion);
+
+            string sDecryptedPassword = _cryptoService.Decrypt(oEncryptedPassword, oKey, oIV);
+
+            if (oOpcionDTO.OpcionId.ToString() != sDecryptedPassword){
+                sError = "No se encontró la opción ingresada: " + oOpcionDTO.TokenOpcion;
+                log.Error(sError);
+                return null;
+            }
+
+            oOpcionFrontDTO.OpcionId = oOpcionDTO.OpcionId;
+            oOpcionFrontDTO.RifaId = oOpcionDTO.RifaId;
+            oOpcionFrontDTO.UsuarioId = oOpcionDTO.UsuarioId;
+            oOpcionFrontDTO.TokenOpcion = oOpcionDTO.TokenOpcion;
+            oOpcionFrontDTO.CantidadOpciones = oOpcionDTO.CantidadOpciones;
+            oOpcionFrontDTO.EstadoOpcion = oOpcionDTO.EstadoOpcion;
+            oOpcionFrontDTO.AuditoriaUsuarioIngreso = oOpcionDTO.AuditoriaUsuarioIngreso;
+            oOpcionFrontDTO.AuditoriaFechaIngreso = oOpcionDTO.AuditoriaFechaIngreso;
+            oOpcionFrontDTO.AuditoriaUsuarioModificacion = oOpcionDTO.AuditoriaUsuarioModificacion;
+            oOpcionFrontDTO.AuditoriaFechaModificacion = oOpcionDTO.AuditoriaFechaModificacion;
+
+            return oOpcionFrontDTO;
+
         } 
 
         public async Task<Opcion> InsertOpcion(OpcionDTO OpcionDTO)
@@ -79,6 +114,13 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oOpcion.TokenKey2 = Convert.ToBase64String(oIV);
 
             await _opcionRepository.Put(oOpcion);
+
+            Boolean oSendEmailGmail = _emailService.SendEmailGmail();
+
+            if(oSendEmailGmail=false)
+            {
+                
+            }
 
             return oOpcion;
 

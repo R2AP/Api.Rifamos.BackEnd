@@ -3,6 +3,7 @@ using Api.Rifamos.BackEnd.Domain.Models;
 using Api.Rifamos.BackEnd.Adapter;
 using Microsoft.AspNetCore.Mvc;
 using log4net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Rifamos.BackEnd.Controllers{
     [ApiController]
@@ -27,6 +28,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<param name="UsuarioId">Específica el id del usuario.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
+        [Authorize]
         [Route("api/opcion/obtener-lista-opcion/{RifaId}/{UsuarioId}")]
         public async Task<ActionResult> GetListOpcion(Int32 RifaId, Int32 UsuarioId)
         {
@@ -59,6 +61,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<param name="TokenOpcion">Específica el token de una opción.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
+        [Authorize]
         [Route("api/opcion/obtener-opcion/{TokenOpcion}")]
         public async Task<ActionResult> GetOpcion(string TokenOpcion)
         {
@@ -89,6 +92,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// Crear una opción en la Rifa .
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        //[Authorize]
         [HttpPost("api/opcion/registro-opcion")]
         public async Task<ActionResult> InsertOpcion(OpcionDTO OpcionDTO)
         {
@@ -114,6 +118,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// Actualizar una opción en la Rifa .
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [Authorize]
         [HttpPut("api/opcion/actualizar-opcion")]
         public async Task<ActionResult> UpdateOpcion(OpcionDTO OpcionDTO)
         {
@@ -139,6 +144,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// Elimina una opción de la Rifa .
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [Authorize]
         [HttpDelete("api/opcion/eliminar-opcion")]
         public async Task<ActionResult> DeleteOpcion(Int32 OpcionId)
         {

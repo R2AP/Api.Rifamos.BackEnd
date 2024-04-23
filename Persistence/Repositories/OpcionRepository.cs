@@ -7,11 +7,8 @@ using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
 {
-
-    public class OpcionRepository : RepositoryBase<Opcion>, IOpcionRepository
+    public class OpcionRepository(RifamosContext context) : RepositoryBase<Opcion>(context), IOpcionRepository
     {
-        public OpcionRepository(RifamosContext context) : base(context) { }
-
         public async Task<List<Opcion>> GetListOpcion(Int32 RifaId, Int32 UsuarioId )
         {
 
