@@ -66,7 +66,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             {
                 log.Info("Inicio api/precio/listar-precio");
 
-                var oListPrecio = await _precioService.GetListPrecio(RifaId);
+                var oListPrecio = await _precioService.GetPrecioUnitario(RifaId);
 
                 if (oListPrecio == null)
                 {

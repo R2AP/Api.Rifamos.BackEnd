@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Transactions;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Repositories;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
 using Api.Rifamos.BackEnd.Adapter;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-//using Newtonsoft.Json;
 
 namespace Api.Rifamos.BackEnd.Domain.Services{
 
@@ -37,10 +31,9 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return await _precioRepository.Get(PrecioId);
         }
 
-        public async Task<List<Precio>> GetListPrecio(Int32 RifaId)
+        public async Task<Precio> GetPrecioUnitario(Int32 RifaId)
         {
-            // var ejemplo = _configuration["prueba"];
-            return await _precioRepository.GetListPrecio(RifaId);
+            return await _precioRepository.GetPrecioUnitario(RifaId);
         }
 
         public async Task<Precio> InsertPrecio(PrecioDTO PrecioDTO)

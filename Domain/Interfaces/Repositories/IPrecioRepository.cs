@@ -5,7 +5,7 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Repositories
 {
     public interface IPrecioRepository : IRepositoryBase<Precio>
     {
-        Task<List<Precio>> GetListPrecio(Int32 RifaId);
+        Task<Precio> GetPrecioUnitario(Int32 RifaId);
         // Task<bool> ValidarEndosoPendientes(string glsPoliza);
         // Task<List<DetalleEndosoDTO>> ListarDetalleBaseEndoso(Int64 codPoliza);
         // Task<List<DetalleEndosoDTO>> ListarDetalleEndoso(Int64 codEndoso);

@@ -9,7 +9,7 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
     public interface IPrecioService : IServiceBase
     {
         Task<Precio> GetPrecio(Int32 PrecioId);
-        Task<List<Precio>> GetListPrecio(Int32 RifaId);
+        Task<Precio> GetPrecioUnitario(Int32 RifaId);
         Task<Precio> InsertPrecio(PrecioDTO PrecioDTO);
         Task<Precio> UpdatePrecio(PrecioDTO PrecioDTO);
         Task<Precio> DeletePrecio(Int32 PrecioId);                

@@ -93,77 +93,77 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         //[Authorize]
-        [HttpPost("api/opcion/registro-opcion")]
-        public async Task<ActionResult> InsertOpcion(OpcionDTO OpcionDTO)
-        {
-            try
-            {        
-                log.Info("Inicio api/opcion/registro-opcion");
+        // [HttpPost("api/opcion/registro-opcion")]
+        // public async Task<ActionResult> InsertOpcion(OpcionDTO OpcionDTO)
+        // {
+        //     try
+        //     {        
+        //         log.Info("Inicio api/opcion/registro-opcion");
 
-                var oOpcion = await _opcionService.InsertOpcion(OpcionDTO);
+        //         var oOpcion = await _opcionService.InsertOpcion(OpcionDTO);
 
-                log.Info("Fin api/opcion/registro-opcion");
+        //         log.Info("Fin api/opcion/registro-opcion");
 
-                return Ok(oOpcion); 
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
-            }
-        }
+        //         return Ok(oOpcion); 
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+        //         return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+        //     }
+        // }
 
         //PUT: api/opcion/actualizar-opcion
         /// <summary>
         /// Actualizar una opción en la Rifa .
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        [Authorize]
-        [HttpPut("api/opcion/actualizar-opcion")]
-        public async Task<ActionResult> UpdateOpcion(OpcionDTO OpcionDTO)
-        {
-            try
-            {        
-                log.Info("Inicio api/opcion/actualizar-opcion");
+        // [Authorize]
+        // [HttpPut("api/opcion/actualizar-opcion")]
+        // public async Task<ActionResult> UpdateOpcion(OpcionDTO OpcionDTO)
+        // {
+        //     try
+        //     {        
+        //         log.Info("Inicio api/opcion/actualizar-opcion");
 
-                var respuesta = await _opcionService.UpdateOpcion(OpcionDTO);
+        //         var respuesta = await _opcionService.UpdateOpcion(OpcionDTO);
 
-                log.Info("Fin api/opcion/actualizar-opcion");
+        //         log.Info("Fin api/opcion/actualizar-opcion");
 
-                return Ok(respuesta); 
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
-            }
-        }
+        //         return Ok(respuesta); 
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+        //         return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+        //     }
+        // }
 
         //DELETE: api/opcion/eliminar-opcion
         /// <summary>
         /// Elimina una opción de la Rifa .
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        [Authorize]
-        [HttpDelete("api/opcion/eliminar-opcion")]
-        public async Task<ActionResult> DeleteOpcion(Int32 OpcionId)
-        {
-            try
-            {        
-                log.Info("Inicio api/opcion/eliminar-opcion");
+        // [Authorize]
+        // [HttpDelete("api/opcion/eliminar-opcion")]
+        // public async Task<ActionResult> DeleteOpcion(Int32 OpcionId)
+        // {
+        //     try
+        //     {        
+        //         log.Info("Inicio api/opcion/eliminar-opcion");
 
-                var respuesta = await _opcionService.DeleteOpcion(OpcionId);
+        //         var respuesta = await _opcionService.DeleteOpcion(OpcionId);
 
-                log.Info("Fin api/opcion/eliminar-opcion");
+        //         log.Info("Fin api/opcion/eliminar-opcion");
 
-                return Ok(respuesta); 
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
-            }
-        }
+        //         return Ok(respuesta); 
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+        //         return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+        //     }
+        // }
 
     }
 }

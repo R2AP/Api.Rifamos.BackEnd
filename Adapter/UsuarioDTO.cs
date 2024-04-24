@@ -11,13 +11,18 @@ public class UsuarioDTO{
 
     public string Email { get; set; } = null!;
 
-    public string? Password { get; set; }
+    public string Password { get; set; } = null!;
+
+    public string Key1 { get; set; } = null!;
+
+    public string Key2 { get; set; } = null!;
 
     public int TipoDocumento { get; set; }
 
     public string NumeroDocumento { get; set; } = null!;
 
     public string Telefono { get; set; } = null!;
+
     public string? Token { get; set; }
 
     public string AuditoriaUsuarioIngreso { get; set; } = null!;

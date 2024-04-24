@@ -349,8 +349,11 @@ public partial class RifamosContext : DbContext
             entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
             entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.Email).HasMaxLength(325);
+            entity.Property(e => e.Key1).HasMaxLength(128);
+            entity.Property(e => e.Key2).HasMaxLength(128);
             entity.Property(e => e.Nombres).HasMaxLength(128);
             entity.Property(e => e.NumeroDocumento).HasMaxLength(16);
+            entity.Property(e => e.Password).HasMaxLength(128);
             entity.Property(e => e.Telefono).HasMaxLength(18);
 
             entity.HasOne(d => d.TipoDocumentoNavigation).WithMany(p => p.Usuarios)

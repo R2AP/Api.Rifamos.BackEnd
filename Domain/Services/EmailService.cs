@@ -1,47 +1,38 @@
 using System.Net.Mail;
-using System.Text;
-using System.Net.Mime;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
-using System.Net;
+using Api.Rifamos.BackEnd.Adapter;
 
 namespace Api.Rifamos.BackEnd.Domain.Services{
     public class EmailService : IEmailService
     {
-
         public EmailService(IConfiguration configuration){}
-
-        public bool SendEmailGmail()
+        public bool SendEmailGmail(EmailDTO oEmail)
         {
 
-            MailMessage oMailMessage = new();
-            SmtpClient oSmtpClient = new();
+            string sServeSmptp = "smtp.gmail.com";
 
-            oMailMessage.From = new MailAddress("romulo.alegre@gmail.com");
-            oMailMessage.To.Add("romulo.alegre@gmail.com");
-            oMailMessage.To.Add("epam73@gmail.com");
-            oMailMessage.Subject = "RifamosTodo.online: te enviamos tu opción de compra!";
+            string sEmailFrom = oEmail.EmailTo; // "RifamosTodo.online@gmail.com";
+            string sEmailTo = oEmail.EmailTo; // "RifamosTodo.online@gmail.com";
+            string sEmailPassword = oEmail.EmailPassword; // "jgkipuqyxsuxmzyn";
+            string sEmailSubject= oEmail.EmailSubject; // "RifamosTodo.online: te enviamos tu opción de compra!";
+            string sEmailBody = oEmail.EmailBody; // "<!DOCTYPE html><html><head></head><body><div style=\"width:100%;\"><h1>SALUDOS Terrícolas</h1></div></body></html>";
 
-            string oHtml = "<!DOCTYPE html><html><head></head><body><div style=\"width:100%;\"><h1>SALUDOS Terrícolas</h1></div></body></html>";
-
-            AlternateView oAlternateView = AlternateView.CreateAlternateViewFromString(oHtml, Encoding.UTF8, MediaTypeNames.Text.Html);
-
-            oMailMessage.AlternateViews.Add(oAlternateView);
-
-            oSmtpClient.Host = "smtp.gmail.com";
-            oSmtpClient.Port = 587;
-            oSmtpClient.Credentials = new NetworkCredential("romulo.alegre@gmail.com", "G132639%Rrap.2024");
-            oSmtpClient.EnableSsl = true;
-
-            try
+            MailMessage oMailMessage = new(sEmailFrom, sEmailTo, sEmailSubject, sEmailBody)
             {
-                oSmtpClient.Send(oMailMessage);
-                Console.WriteLine("Correo enviado");
+                IsBodyHtml = true
+            };
 
-            }catch(Exception oException)
+            SmtpClient oSmtpClient = new(sServeSmptp)
             {
-                Console.WriteLine("Error" + oException.Message);
-                return false;
-            }
+                EnableSsl = true,
+                UseDefaultCredentials = false,
+                Port = 587,
+                Credentials = new System.Net.NetworkCredential(sEmailFrom, sEmailPassword)
+            };
+
+            oSmtpClient.Send(oMailMessage);
+
+            oSmtpClient.Dispose();
 
             return true;
         }

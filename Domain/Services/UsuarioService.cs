@@ -54,17 +54,15 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public async Task<UsuarioDTO> InsertUsuario(UsuarioDTO UsuarioDTO)
         {
 
-            byte[] oKey = new byte[16];
-            byte[] oIV = new byte[16];
+            //Encrypt the OpcionId con el ID devuelto
+            //List<TokenDTO> oListToken = [];
+            List<string> oListToken = [];
+            oListToken = _cryptoService.IEncrypt(UsuarioDTO.Password);
 
-            using(RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
-            rng.GetBytes(oKey);
-            rng.GetBytes(oIV);
-            }
+            UsuarioDTO.Password = oListToken[0];
+            UsuarioDTO.Key1 = oListToken[1];
+            UsuarioDTO.Key2 = oListToken[2];
 
-            //Encrypt the password
-            byte[] oEncryptedPassword = _cryptoService.Encrypt(UsuarioDTO.Password, oKey, oIV);
-            
             Usuario oUsuario = new(){
 
                 UsuarioId = UsuarioDTO.UsuarioId,
@@ -72,9 +70,9 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 ApellidoPaterno = UsuarioDTO.ApellidoPaterno, 
                 ApellidoMaterno = UsuarioDTO.ApellidoMaterno,
                 Email = UsuarioDTO.Email,
-                Password = oEncryptedPassword,
-                Key1 = oKey,
-                Key2 = oIV,
+                Password = UsuarioDTO.Password,
+                Key1 = UsuarioDTO.Key1,
+                Key2 = UsuarioDTO.Key2,
                 TipoDocumento = UsuarioDTO.TipoDocumento,
                 NumeroDocumento = UsuarioDTO.NumeroDocumento,
                 Telefono = UsuarioDTO.Telefono,

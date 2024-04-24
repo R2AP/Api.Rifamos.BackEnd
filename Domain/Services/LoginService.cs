@@ -51,16 +51,15 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             Usuario oUsuario = await _usuarioRepository.Get(oUsuarioDTO.UsuarioId);
 
-            byte[] oKey = new byte[16];
-            byte[] oIV  = new byte[16];
-            byte[] oEncryptedPassword = oUsuario.Password;
+            List<string> oListToken = [];
+       
+            oListToken.Add(oUsuario.Password);
+            oListToken.Add(oUsuario.Key1);
+            oListToken.Add(oUsuario.Key2);
             
-            oKey = oUsuario.Key1;
-            oIV = oUsuario.Key2;
-
             //Decrypt the password
-            string sDecryptedPassword = _cryptoService.Decrypt(oEncryptedPassword, oKey, oIV);
-            
+            string sDecryptedPassword = _cryptoService.IDecrypt(oListToken);
+    
             if (LoginDTO.Password != sDecryptedPassword)
             {
                 sError = "Password incorrecto: " + LoginDTO.Email;

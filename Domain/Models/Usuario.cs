@@ -15,11 +15,11 @@ public partial class Usuario
 
     public string Email { get; set; } = null!;
 
-    public byte[]? Password { get; set; }
+    public string Password { get; set; } = null!;
 
-    public byte[]? Key1 { get; set; }
+    public string Key1 { get; set; } = null!;
 
-    public byte[]? Key2 { get; set; }
+    public string Key2 { get; set; } = null!;
 
     public int TipoDocumento { get; set; }
 

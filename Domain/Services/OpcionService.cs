@@ -28,7 +28,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         {
             _opcionRepository = opcionRepository;
             _cryptoService = cryptoService;
-            _cryptoService = cryptoService;
+            _emailService = emailService;
             // _configuration = configuration;
             // _environment = environment;
         }
@@ -52,12 +52,13 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             // Buscamos la opción por token
             OpcionDTO oOpcionDTO = await _opcionRepository.GetOpcionToken(TokenOpcion); 
 
-            // Validamos que el token sea el correcto 
-            byte[] oKey = Convert.FromBase64String(oOpcionDTO.TokenKey1);
-            byte[] oIV = Convert.FromBase64String(oOpcionDTO.TokenKey2);
-            byte[] oEncryptedPassword = Convert.FromBase64String(oOpcionDTO.TokenOpcion);
-
-            string sDecryptedPassword = _cryptoService.Decrypt(oEncryptedPassword, oKey, oIV);
+            List<string> oListToken = [];
+       
+            oListToken[0] = oOpcionDTO.TokenOpcion;
+            oListToken[1] = oOpcionDTO.TokenKey1;
+            oListToken[2] = oOpcionDTO.TokenKey2;
+            
+            string sDecryptedPassword = _cryptoService.IDecrypt(oListToken);
 
             if (oOpcionDTO.OpcionId.ToString() != sDecryptedPassword){
                 sError = "No se encontró la opción ingresada: " + oOpcionDTO.TokenOpcion;
@@ -82,14 +83,6 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         public async Task<Opcion> InsertOpcion(OpcionDTO OpcionDTO)
         {
-
-            byte[] oKey = new byte[16];
-            byte[] oIV = new byte[16];
-
-            using(RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
-            rng.GetBytes(oKey);
-            rng.GetBytes(oIV);
-            }
      
             Opcion oOpcion = new()
             {
@@ -104,23 +97,20 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 AuditoriaFechaIngreso = DateTime.Now
             };
 
+            //Insertamos la Opción
             await _opcionRepository.Post(oOpcion);
 
-            //Encrypt the OpcionId
-            byte[] oEncryptedOpcionId = _cryptoService.Encrypt(oOpcion.OpcionId.ToString(), oKey, oIV);
+            //Encrypt the OpcionId con el ID devuelto
+            //List<TokenDTO> oListToken = [];
+            List<string> oListToken = [];
+            oListToken = _cryptoService.IEncrypt(oOpcion.OpcionId.ToString());
        
-            oOpcion.TokenOpcion = Convert.ToBase64String(oEncryptedOpcionId);
-            oOpcion.TokenKey1 = Convert.ToBase64String(oKey);
-            oOpcion.TokenKey2 = Convert.ToBase64String(oIV);
+            oOpcion.TokenOpcion = oListToken[0];//.Key;
+            oOpcion.TokenKey1 = oListToken[1];
+            oOpcion.TokenKey2 = oListToken[2];
 
+            //Actualizamos el token y las keys
             await _opcionRepository.Put(oOpcion);
-
-            Boolean oSendEmailGmail = _emailService.SendEmailGmail();
-
-            if(oSendEmailGmail=false)
-            {
-                
-            }
 
             return oOpcion;
 

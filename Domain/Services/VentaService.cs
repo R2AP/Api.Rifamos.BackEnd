@@ -16,18 +16,27 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
     public class VentaService : IVentaService
     {
         private readonly IVentaRepository _ventaRepository;
+        private readonly IOpcionRepository _opcionRepository;
+        private readonly IOpcionService _opcionService;
+        private readonly IPrecioService _precioService;
+        private readonly IConfiguration _configuration;
 
-        // public IConfiguration _configuration { get; }
         // private IHostingEnvironment _environment;
         //private static readonly ILog log = LogManager.GetLogger(typeof(UltimusService));
 
         public VentaService(IVentaRepository ventaRepository,
+                            IOpcionRepository opcionRepository,
+                            IOpcionService opcionService,
+                            IPrecioService precioService,
                             IConfiguration configuration/*,
                             IHostingEnvironment environment*/
                             )
         {
             _ventaRepository = ventaRepository;
-            // _configuration = configuration;
+            _opcionRepository = opcionRepository;
+            _opcionService = opcionService;
+            _precioService = precioService;
+            _configuration = configuration;
             // _environment = environment;
         }
 
@@ -36,29 +45,37 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return await _ventaRepository.Get(VentaId);
         }
 
-        // public async Task<List<Rifa>> GetListRifaEstado(Int32 EstadoId)
-        // {
-        //     // var ejemplo = _configuration["prueba"];
-        //     return await _rifaRepository.GetListRifaEstado(EstadoId);
-        // }
-
         public async Task<Ventum> InsertVenta(VentaDTO VentaDTO)
         {
-            // var ejemplo = _configuration["prueba"];
+            Precio oPrecio = new();
+            //Obtenemos el precio de la Rifa para registrarlo en la venta
+            oPrecio = await _precioService.GetPrecioUnitario(VentaDTO.RifaId);
 
-            Ventum oVenta = new(){
+            OpcionDTO oOpcionDTO = new()
+            {
+                OpcionId = 0,
+                RifaId = VentaDTO.RifaId,
+                UsuarioId = VentaDTO.UsuarioId,
+                CantidadOpciones = VentaDTO.CantidadOpciones,
+                EstadoOpcion = Int32.Parse(_configuration["EstadoOpcion:Registrada"]),
+                AuditoriaUsuarioIngreso = VentaDTO.AuditoriaUsuarioIngreso,
+                AuditoriaFechaIngreso = DateTime.Now
+            };
 
+            await _opcionService.InsertOpcion(oOpcionDTO);
+
+            Ventum oVenta = new()
+            {
                 VentaId =  VentaDTO.VentaId,
-                OpcionId = VentaDTO.OpcionId,
-                TipoComprobante = VentaDTO.TipoComprobante,
+                OpcionId = oOpcionDTO.OpcionId, // Relación entre Opción y Venta
+                TipoComprobante = Int32.Parse(_configuration["TipoComprobante:Boleta"]),
                 SerieComprobante = VentaDTO.SerieComprobante,
                 NumeroComprobante = VentaDTO.NumeroComprobante,
                 Moneda = VentaDTO.Moneda,
-                Monto = VentaDTO.Monto,
-                EstadoVenta = VentaDTO.EstadoVenta,
+                Monto = oPrecio.PrecioUnitario *  VentaDTO.CantidadOpciones, // VentaDTO.Monto,
+                EstadoVenta = Int32.Parse(_configuration["EstadoVenta:Registrada"]),
                 AuditoriaUsuarioIngreso = VentaDTO.AuditoriaUsuarioIngreso,
                 AuditoriaFechaIngreso = DateTime.Now
-                
             };
 
             await _ventaRepository.Post(oVenta);
