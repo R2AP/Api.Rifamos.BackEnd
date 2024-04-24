@@ -6,10 +6,12 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
     public interface IUsuarioService : IServiceBase
     {
 
-        Task<UsuarioDTO>GetUsuario(UsuarioDTO UsuarioDTO);
-        Task<UsuarioDTO>InsertUsuario(UsuarioDTO UsuarioDTO);
-        Task<UsuarioDTO>UpdateUsuario(UsuarioDTO UsuarioDTO);
-        Task<UsuarioDTO>DeleteUsuario(UsuarioDTO UsuarioDTO);
+        Task<Usuario> GetUsuario(Int32 UsuarioId );
+        Task<Usuario> GetUsuarioPorEmail(string Email);    
+        Task<UsuarioFrontDTO> InsertUsuario(UsuarioDTO UsuarioDTO);
+        Task<UsuarioFrontDTO> UpdateUsuario(UsuarioDTO UsuarioDTO);
+        Task<UsuarioFrontDTO> DeleteUsuario(UsuarioDTO UsuarioDTO);
+        Task<UsuarioFrontDTO> UpdatePasswordUsuario(UsuarioPasswordDTO UsuarioPasswordDTO);
     }
 
 }

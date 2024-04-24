@@ -14,7 +14,6 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
     public class LoginService : ILoginService
     {
         private readonly ILoginRepository _loginRepository;
-
         private readonly IUsuarioRepository _usuarioRepository; 
         private readonly ICryptoService _cryptoService;
         private readonly IConfiguration _configuration;
@@ -34,23 +33,26 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             // _environment = environment;
         }
 
-       public async Task<UsuarioDTO> LoginUsuario(LoginDTO LoginDTO)
+       public async Task<UsuarioFrontDTO> LoginUsuario(LoginDTO LoginDTO)
         {
 
             string sError = "";
 
-            // Buscamos la cuenta de correo
-            UsuarioDTO oUsuarioDTO = await _loginRepository.GetUsuarioEmail(LoginDTO);
+            //Inicializamos clases y objetos
+            Usuario oUsuario = new();
+            UsuarioDTO oUsuarioDTO = new();
+            UsuarioFrontDTO oUsuarioFrontDTO = new();
 
-            if (oUsuarioDTO == null)
+            // Buscamos la cuenta de correo
+            oUsuario = await _usuarioRepository.GetUsuarioPorEmail(LoginDTO.Email);
+
+            if (oUsuario == null)
             {
-                sError = "No se encontró la cuenta indicada: " + LoginDTO.Email;
+                sError = "c" + LoginDTO.Email;
                 log.Error(sError);                
                 return null;
             }
-
-            Usuario oUsuario = await _usuarioRepository.Get(oUsuarioDTO.UsuarioId);
-
+            
             List<string> oListToken = [];
        
             oListToken.Add(oUsuario.Password);
@@ -62,18 +64,38 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
     
             if (LoginDTO.Password != sDecryptedPassword)
             {
-                sError = "Password incorrecto: " + LoginDTO.Email;
+                sError = "LoginService.LoginUsuario: Password incorrecto " + LoginDTO.Email;
                 log.Error(sError);
                 return null;
             }
 
+            //Valores para generar el token de sesión
+            oUsuarioDTO.UsuarioId = oUsuario.UsuarioId;
+            oUsuarioDTO.Nombres = oUsuario.Nombres;
+            oUsuarioDTO.ApellidoPaterno = oUsuario.ApellidoPaterno; 
+            oUsuarioDTO.ApellidoMaterno = oUsuario.ApellidoMaterno;
+            oUsuarioDTO.Email = oUsuario.Email;
+            oUsuarioDTO.TipoDocumento = oUsuario.TipoDocumento;
+            oUsuarioDTO.NumeroDocumento = oUsuario.NumeroDocumento;
+            oUsuarioDTO.Telefono = oUsuario.Telefono;
             oUsuarioDTO.Token = GenerarToken(oUsuarioDTO);
 
-            return oUsuarioDTO;
+            //Valores para devolver al controlador
+            oUsuarioFrontDTO.UsuarioId = oUsuario.UsuarioId;
+            oUsuarioFrontDTO.Nombres = oUsuario.Nombres;
+            oUsuarioFrontDTO.ApellidoPaterno = oUsuario.ApellidoPaterno; 
+            oUsuarioFrontDTO.ApellidoMaterno = oUsuario.ApellidoMaterno;
+            oUsuarioFrontDTO.Email = oUsuario.Email;
+            oUsuarioFrontDTO.TipoDocumento = oUsuario.TipoDocumento;
+            oUsuarioFrontDTO.NumeroDocumento = oUsuario.NumeroDocumento;
+            oUsuarioFrontDTO.Telefono = oUsuario.Telefono;
+            oUsuarioFrontDTO.Token = oUsuarioDTO.Token;
+
+            return oUsuarioFrontDTO;
 
         }
 
-        public string GenerarToken(UsuarioDTO UsuarioDTO)
+        private string GenerarToken(UsuarioDTO UsuarioDTO)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])); 
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

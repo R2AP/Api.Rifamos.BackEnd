@@ -27,31 +27,31 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///Obtener un usuario por su id
         ///</summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        [HttpPost]
-        [Route("api/usuario/obtener-usuario")]
-        public async Task<ActionResult> GetUsuario(UsuarioDTO UsuarioDTO)
-        {
-            try
-            {
-                log.Info("Inicio api/usuario/obtener-usuario");
+        // [HttpPost]
+        // [Route("api/usuario/obtener-usuario")]
+        // public async Task<ActionResult> GetUsuario(UsuarioDTO UsuarioDTO)
+        // {
+        //     try
+        //     {
+        //         log.Info("Inicio api/usuario/obtener-usuario");
 
-                var oUsuario = await _usuarioService.GetUsuario(UsuarioDTO);
+        //         var oUsuario = await _usuarioService.GetUsuario(UsuarioDTO);
                 
-                if (oUsuario == null)
-                {
-                    return NoContent();
-                }
+        //         if (oUsuario == null)
+        //         {
+        //             return NoContent();
+        //         }
 
-                log.Info("Fin api/usuario/obtener-usuario");
+        //         log.Info("Fin api/usuario/obtener-usuario");
 
-                return Ok(oUsuario);
-            }
-            catch(Exception ex)
-            {
-                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
-            }
-        }
+        //         return Ok(oUsuario);
+        //     }
+        //     catch(Exception ex)
+        //     {
+        //         log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+        //         return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+        //     }
+        // }
 
         //POST: api/usuario/registro-usuario
         /// <summary>
@@ -129,5 +129,31 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }
+
+        //PUT: actualizar-password-usuario
+        /// <summary>
+        /// Actualizar el password del usuario.
+        /// </summary>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpPut("api/usuario/actualizar-password-usuario")]
+        public async Task<ActionResult> UpdatePasswordUsuario(UsuarioPasswordDTO UsuarioPasswordDTO)
+        {
+            try
+            {        
+                log.Info("Inicio api/usuario/actualizar-password-usuario");
+
+                var respuesta = await _usuarioService.UpdatePasswordUsuario(UsuarioPasswordDTO);
+
+                log.Info("Fin api/usuario/actualizar-password-usuario");
+
+                return Ok(respuesta);
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }
+
     }
 }

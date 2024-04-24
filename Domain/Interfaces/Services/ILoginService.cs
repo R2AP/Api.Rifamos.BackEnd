@@ -8,6 +8,6 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
 {
     public interface ILoginService : IServiceBase
     {
-        Task<UsuarioDTO> LoginUsuario(LoginDTO LoginDTO);
+        Task<UsuarioFrontDTO> LoginUsuario(LoginDTO LoginDTO);
     }
 }

@@ -29,10 +29,6 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
             oUsuarioDTO.TipoDocumento = oUsuario.TipoDocumento;
             oUsuarioDTO.NumeroDocumento = oUsuario.NumeroDocumento;
             oUsuarioDTO.Telefono = oUsuario.Telefono;
-            oUsuarioDTO.AuditoriaUsuarioIngreso = oUsuario.AuditoriaUsuarioIngreso; 
-            oUsuarioDTO.AuditoriaFechaIngreso = oUsuario.AuditoriaFechaIngreso;
-            oUsuarioDTO.AuditoriaUsuarioModificacion = oUsuario.AuditoriaUsuarioModificacion;
-            oUsuarioDTO.AuditoriaFechaModificacion = oUsuario.AuditoriaFechaModificacion;
 
             return oUsuarioDTO;
 
