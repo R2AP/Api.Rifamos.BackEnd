@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace Api.Rifamos.BackEnd.Controllers{
 
     [ApiController]
-    [Authorize]
     public class UsuarioController : ControllerBase{
 
         private readonly IUsuarioService _usuarioService;
