@@ -109,11 +109,13 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             Usuario oUsuario = await _usuarioRepository.Get(UsuarioDTO.UsuarioId);
 
-            oUsuario.UsuarioId = UsuarioDTO.UsuarioId;
+            //El ID no se modifica
+            oUsuario.UsuarioId = oUsuario.UsuarioId;
             oUsuario.Nombres = UsuarioDTO.Nombres;
             oUsuario.ApellidoPaterno = UsuarioDTO.ApellidoPaterno;
             oUsuario.ApellidoMaterno = UsuarioDTO.ApellidoMaterno;
-            oUsuario.Email = UsuarioDTO.Email;
+            //El correo no se cambia actualiza o modifica
+            oUsuario.Email = oUsuario.Email;
             //El password no se cambia por este medio
             oUsuario.Password = oUsuario.Password;
             oUsuario.TipoDocumento = UsuarioDTO.TipoDocumento;

@@ -29,7 +29,6 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<param name="RifaId">Específica el id de la Rifa seleccionada.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
-        [Authorize]
         [Route("api/rifa/obtener-rifa/{RifaId}")]
         public async Task<ActionResult> GetRifa(Int32 RifaId)
         {
