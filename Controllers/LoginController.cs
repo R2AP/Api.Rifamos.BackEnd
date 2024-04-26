@@ -34,16 +34,16 @@ namespace Api.Rifamos.BackEnd.Controllers{
             {
                 //log.Info("Inicio api/login/loguearse");
 
-                var oLogin = await _loginService.LoginUsuario(LoginDTO);
+                UsuarioFrontDTO oUsuarioFrontDTO = await _loginService.LoginUsuario(LoginDTO);
 
-                if (oLogin == null)
+                if (oUsuarioFrontDTO == null)
                 {
                     return NoContent();
                 }
 
                 //log.Info("Fin api/login/loguearse");
 
-                return Ok(oLogin);
+                return Ok(oUsuarioFrontDTO);
             }
             catch(Exception ex)
             {

@@ -1,6 +1,6 @@
 namespace Api.Rifamos.BackEnd.Adapter{
 
-public class UsuarioFrontDTO{
+public class UsuarioFrontDTO : ErrorDTO {
     public int UsuarioId { get; set; }
 
     public string Nombres { get; set; } = null!;

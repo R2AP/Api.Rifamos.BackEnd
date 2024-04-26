@@ -48,9 +48,11 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             if (oUsuario == null)
             {
-                sError = "LoginService.LoginUsuario: Cuenta no existe [" + LoginDTO.Email + "]";
+                oUsuarioFrontDTO.Error = true;
+                oUsuarioFrontDTO.Mensaje = "Cuenta de correo o usuario no existe [" + LoginDTO.Email + "]";
+                sError = "LoginService.LoginUsuario: Cuenta de correo o usuario no existe [" + LoginDTO.Email + "]";
                 log.Error(sError);
-                return null;
+                return oUsuarioFrontDTO;
             }
             
             List<string> oListToken = [];
@@ -64,9 +66,11 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
     
             if (LoginDTO.Password != sDecryptedPassword)
             {
-                sError = "LoginService.LoginUsuario: Usuario y/o Password incorrecto [" + LoginDTO.Email + "]";
+                oUsuarioFrontDTO.Error = true;
+                oUsuarioFrontDTO.Mensaje = "Cuenta de correo o usuario y/o password incorrecto [" + LoginDTO.Email + "]";
+                sError = "LoginService.LoginUsuario: Cuenta de correo o usuario y/o password incorrecto [" + LoginDTO.Email + "]";
                 log.Error(sError);
-                return null;
+                return oUsuarioFrontDTO;
             }
 
             //Valores para generar el token de sesión
