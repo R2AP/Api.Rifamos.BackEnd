@@ -34,7 +34,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             {
                 log.Info("Inicio api/venta/obtener-venta");
 
-                var oVenta = await _ventaService.GetVenta(VentaId);
+                var oVenta = await _ventaService.MCGetVenta(VentaId);
 
                 if (oVenta == null)
                 {
@@ -95,7 +95,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             {        
                 log.Info("Inicio api/venta/registro-venta");
 
-                var respuesta = await _ventaService.InsertVenta(VentaDTO);
+                var respuesta = await _ventaService.MCInsertVenta(VentaDTO);
 
                 log.Info("Fin api/venta/registro-venta");
 
@@ -113,50 +113,50 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// Actualizar un registro de venta.
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        [HttpPut("api/venta/actualizar-venta")]
-        public async Task<ActionResult> UpdateVenta(VentaDTO VentaDTO)
-        {
-            try
-            {        
-                log.Info("Inicio api/venta/actualizar-venta");
+        // [HttpPut("api/venta/actualizar-venta")]
+        // public async Task<ActionResult> UpdateVenta(VentaDTO VentaDTO)
+        // {
+        //     try
+        //     {        
+        //         log.Info("Inicio api/venta/actualizar-venta");
 
-                var respuesta = await _ventaService.UpdateVenta(VentaDTO);
+        //         var respuesta = await _ventaService.UpdateVenta(VentaDTO);
 
-                log.Info("Fin api/venta/actualizar-venta");
+        //         log.Info("Fin api/venta/actualizar-venta");
 
-                return Ok(respuesta); 
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
-            }
-        }
+        //         return Ok(respuesta); 
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+        //         return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+        //     }
+        // }
 
         //DELETE: api/venta/eliminar-venta
         /// <summary>
         /// Eliminar un registro de venta.
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        [HttpDelete("api/venta/eliminar-venta")]
-        public async Task<ActionResult> DeleteVenta(Int32 VentaId)
-        {
-            try
-            {        
-                log.Info("Inicio api/venta/eliminar-venta");
+        // [HttpDelete("api/venta/eliminar-venta")]
+        // public async Task<ActionResult> DeleteVenta(Int32 VentaId)
+        // {
+        //     try
+        //     {        
+        //         log.Info("Inicio api/venta/eliminar-venta");
 
-                var respuesta = await _ventaService.DeleteVenta(VentaId);
+        //         var respuesta = await _ventaService.DeleteVenta(VentaId);
 
-                log.Info("Fin api/venta/eliminar-venta");
+        //         log.Info("Fin api/venta/eliminar-venta");
 
-                return Ok(respuesta); 
-            }
-            catch (Exception ex)
-            {
-                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
-            }
-        }
+        //         return Ok(respuesta); 
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+        //         return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+        //     }
+        // }
     }
 
 }

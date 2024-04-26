@@ -33,55 +33,108 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             // _environment = environment;
         }
 
-        public async Task<List<Opcion>> GetListOpcion(Int32 RifaId, Int32 UsuarioId)
+        //Métodos Básicos
+        public async Task<Opcion> GetOpcion(Int32 oOpcionId)
         {
-            return await _opcionRepository.GetListOpcion(RifaId, UsuarioId);
+
+            return await _opcionRepository.Get(oOpcionId);
         } 
 
-        public async Task<Opcion> GetOpcion(Int32 OpcionId)
+        private async Task<Opcion> InsertOpcion(Opcion oOpcion)
         {
-            return await _opcionRepository.Get(OpcionId);
-        } 
+     
+            await _opcionRepository.Post(oOpcion);
 
-        public async Task<OpcionFrontDTO> GetOpcionToken(string TokenOpcion)
+            return await GetOpcion(oOpcion.OpcionId);
+
+        }
+
+        private async Task<Opcion> UpdateOpcion(Opcion oOpcion)
+        {
+
+            await _opcionRepository.Put(oOpcion);
+
+            return await GetOpcion(oOpcion.OpcionId);
+
+        }
+
+        private async Task<Opcion> DeleteOpcion(Int32 oOpcionId)
+        {
+
+            Opcion oOpcion = await GetOpcion(oOpcionId);
+
+            await _opcionRepository.Delete(oOpcion);
+
+            return oOpcion;
+
+        }
+
+		//Métodos Complementarios
+       public async Task<OpcionFrontDTO> IGetOpcionToken(string TokenOpcion)
         {
 
             string sError = "";
-            OpcionFrontDTO oOpcionFrontDTO = new();
-
+        
             // Buscamos la opción por token
-            OpcionDTO oOpcionDTO = await _opcionRepository.GetOpcionToken(TokenOpcion); 
+            Opcion oOpcion = await _opcionRepository.GetOpcionToken(TokenOpcion); 
 
             List<string> oListToken = [];
        
-            oListToken[0] = oOpcionDTO.TokenOpcion;
-            oListToken[1] = oOpcionDTO.TokenKey1;
-            oListToken[2] = oOpcionDTO.TokenKey2;
+            oListToken.Add(oOpcion.TokenOpcion);
+            oListToken.Add(oOpcion.TokenKey1);
+            oListToken.Add(oOpcion.TokenKey2);
             
             string sDecryptedPassword = _cryptoService.IDecrypt(oListToken);
 
-            if (oOpcionDTO.OpcionId.ToString() != sDecryptedPassword){
-                sError = "No se encontró la opción ingresada: " + oOpcionDTO.TokenOpcion;
+            if (oOpcion.OpcionId.ToString() != sDecryptedPassword){
+                sError = "OpcionService.GetOpcionToken: No se encontró la opción ingresada " + oOpcion.TokenOpcion;
+                sError = "No se encontró la opción ingresada: " + oOpcion.TokenOpcion;
                 log.Error(sError);
                 return null;
             }
 
-            oOpcionFrontDTO.OpcionId = oOpcionDTO.OpcionId;
-            oOpcionFrontDTO.RifaId = oOpcionDTO.RifaId;
-            oOpcionFrontDTO.UsuarioId = oOpcionDTO.UsuarioId;
-            oOpcionFrontDTO.TokenOpcion = oOpcionDTO.TokenOpcion;
-            oOpcionFrontDTO.CantidadOpciones = oOpcionDTO.CantidadOpciones;
-            oOpcionFrontDTO.EstadoOpcion = oOpcionDTO.EstadoOpcion;
-            oOpcionFrontDTO.AuditoriaUsuarioIngreso = oOpcionDTO.AuditoriaUsuarioIngreso;
-            oOpcionFrontDTO.AuditoriaFechaIngreso = oOpcionDTO.AuditoriaFechaIngreso;
-            oOpcionFrontDTO.AuditoriaUsuarioModificacion = oOpcionDTO.AuditoriaUsuarioModificacion;
-            oOpcionFrontDTO.AuditoriaFechaModificacion = oOpcionDTO.AuditoriaFechaModificacion;
+            OpcionFrontDTO oOpcionFrontDTO = new()
+            {
+                OpcionId = oOpcion.OpcionId,
+                RifaId = oOpcion.RifaId,
+                UsuarioId = oOpcion.UsuarioId,
+                TokenOpcion = oOpcion.TokenOpcion,
+                CantidadOpciones = oOpcion.CantidadOpciones,
+                EstadoOpcion = oOpcion.EstadoOpcion
+            };
 
             return oOpcionFrontDTO;
 
         } 
 
-        public async Task<Opcion> InsertOpcion(OpcionDTO OpcionDTO)
+        public async Task<List<OpcionFrontDTO>> IGetListOpcion(Int32 RifaId, Int32 UsuarioId)
+        {
+
+            List<Opcion> oListOpcion = [];       
+            List<OpcionFrontDTO> oListOpcionFrontDTO =  [];
+
+            oListOpcion = await _opcionRepository.GetListOpcion(RifaId, UsuarioId);
+
+            foreach( var item in oListOpcion) {
+
+                OpcionFrontDTO oOpcionFrontDTO = new()
+                {
+                    OpcionId = item.OpcionId,
+                    RifaId = item.RifaId,
+                    UsuarioId = item.UsuarioId,
+                    CantidadOpciones = item.CantidadOpciones,
+                    TokenOpcion = item.TokenOpcion,
+                    EstadoOpcion = item.EstadoOpcion
+                };
+
+                oListOpcionFrontDTO.Add(oOpcionFrontDTO);
+
+            }
+
+            return oListOpcionFrontDTO;
+        } 
+
+        public async Task<Opcion> IInsertOpcion(OpcionDTO OpcionDTO)
         {
      
             Opcion oOpcion = new()
@@ -98,56 +151,45 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             };
 
             //Insertamos la Opción
-            await _opcionRepository.Post(oOpcion);
+            await InsertOpcion(oOpcion);
 
             //Encrypt the OpcionId con el ID devuelto
             //List<TokenDTO> oListToken = [];
             List<string> oListToken = [];
-            oListToken = _cryptoService.IEncrypt(oOpcion.OpcionId.ToString());
+            oListToken = _cryptoService.IEncrypt(oOpcion.RifaId.ToString() + "-" + oOpcion.OpcionId.ToString());
        
             oOpcion.TokenOpcion = oListToken[0];//.Key;
             oOpcion.TokenKey1 = oListToken[1];
             oOpcion.TokenKey2 = oListToken[2];
 
             //Actualizamos el token y las keys
-            await _opcionRepository.Put(oOpcion);
+            await UpdateOpcion(oOpcion);
+
+            oOpcion = await GetOpcion(oOpcion.OpcionId);
 
             return oOpcion;
 
         }
 
-        public async Task<Opcion> UpdateOpcion(OpcionDTO OpcionDTO)
-        {
+        // public async Task<Opcion> UpdateOpcion(OpcionDTO OpcionDTO)
+        // {
 
-            Opcion oOpcion = await _opcionRepository.Get(OpcionDTO.OpcionId);
+        //     Opcion oOpcion = await _opcionRepository.Get(OpcionDTO.OpcionId);
 
-            oOpcion.RifaId = OpcionDTO.RifaId;
-            oOpcion.UsuarioId = OpcionDTO.UsuarioId;
-            oOpcion.CantidadOpciones = OpcionDTO.CantidadOpciones;
-            oOpcion.TokenOpcion = OpcionDTO.TokenOpcion;
-            oOpcion.EstadoOpcion = OpcionDTO.EstadoOpcion;
-            oOpcion.AuditoriaUsuarioModificacion = OpcionDTO.AuditoriaUsuarioModificacion;
-            oOpcion.AuditoriaFechaModificacion = DateTime.Now;
+        //     oOpcion.RifaId = OpcionDTO.RifaId;
+        //     oOpcion.UsuarioId = OpcionDTO.UsuarioId;
+        //     oOpcion.CantidadOpciones = OpcionDTO.CantidadOpciones;
+        //     oOpcion.TokenOpcion = OpcionDTO.TokenOpcion;
+        //     oOpcion.EstadoOpcion = OpcionDTO.EstadoOpcion;
+        //     oOpcion.AuditoriaUsuarioModificacion = OpcionDTO.AuditoriaUsuarioModificacion;
+        //     oOpcion.AuditoriaFechaModificacion = DateTime.Now;
 
-            await _opcionRepository.Put(oOpcion);
+        //     await _opcionRepository.Put(oOpcion);
 
-            return oOpcion;
+        //     return oOpcion;
 
-        }
+        // }
 
-        public async Task<Opcion> DeleteOpcion(Int32 OpcionId)
-        {
-
-            Opcion oOpcion = new()
-            {
-                OpcionId =  OpcionId       
-            };
-
-            await _opcionRepository.Delete(oOpcion);
-
-            return oOpcion;
-
-        }
     }
 
 }

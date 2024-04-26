@@ -48,8 +48,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             if (oUsuario == null)
             {
-                sError = "c" + LoginDTO.Email;
-                log.Error(sError);                
+                sError = "LoginService.LoginUsuario: Cuenta no existe [" + LoginDTO.Email + "]";
+                log.Error(sError);
                 return null;
             }
             
@@ -64,7 +64,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
     
             if (LoginDTO.Password != sDecryptedPassword)
             {
-                sError = "LoginService.LoginUsuario: Password incorrecto " + LoginDTO.Email;
+                sError = "LoginService.LoginUsuario: Usuario y/o Password incorrecto [" + LoginDTO.Email + "]";
                 log.Error(sError);
                 return null;
             }

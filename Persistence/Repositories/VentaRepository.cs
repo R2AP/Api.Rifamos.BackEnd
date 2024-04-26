@@ -9,10 +9,7 @@ using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
 {
 
-    public class VentaRepository : RepositoryBase<Ventum>, IVentaRepository
+    public class VentaRepository(RifamosContext context) : RepositoryBase<Ventum>(context), IVentaRepository
     {
-        public VentaRepository(RifamosContext context) : base(context) { }
-
-      
     }
 }

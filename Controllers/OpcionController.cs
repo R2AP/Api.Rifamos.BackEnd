@@ -36,7 +36,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             {
                 log.Info("Inicio api/opcion/obtener-lista-opcion");
 
-                var oListaOpcion = await _opcionService.GetListOpcion(RifaId, UsuarioId);
+                var oListaOpcion = await _opcionService.IGetListOpcion(RifaId, UsuarioId);
 
                 if (oListaOpcion == null)
                 {
@@ -69,7 +69,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             {
                 log.Info("Inicio api/opcion/obtener-opcion");
 
-                var oOpcion = await _opcionService.GetOpcionToken(TokenOpcion);
+                var oOpcion = await _opcionService.IGetOpcionToken(TokenOpcion);
 
                 if (oOpcion == null)
                 {
@@ -86,84 +86,6 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
             }
         }  
-
-        //POST: api/opcion/registro-opcion
-        /// <summary>
-        /// Crear una opción en la Rifa .
-        /// </summary>
-        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        //[Authorize]
-        // [HttpPost("api/opcion/registro-opcion")]
-        // public async Task<ActionResult> InsertOpcion(OpcionDTO OpcionDTO)
-        // {
-        //     try
-        //     {        
-        //         log.Info("Inicio api/opcion/registro-opcion");
-
-        //         var oOpcion = await _opcionService.InsertOpcion(OpcionDTO);
-
-        //         log.Info("Fin api/opcion/registro-opcion");
-
-        //         return Ok(oOpcion); 
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
-        //         return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
-        //     }
-        // }
-
-        //PUT: api/opcion/actualizar-opcion
-        /// <summary>
-        /// Actualizar una opción en la Rifa .
-        /// </summary>
-        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        // [Authorize]
-        // [HttpPut("api/opcion/actualizar-opcion")]
-        // public async Task<ActionResult> UpdateOpcion(OpcionDTO OpcionDTO)
-        // {
-        //     try
-        //     {        
-        //         log.Info("Inicio api/opcion/actualizar-opcion");
-
-        //         var respuesta = await _opcionService.UpdateOpcion(OpcionDTO);
-
-        //         log.Info("Fin api/opcion/actualizar-opcion");
-
-        //         return Ok(respuesta); 
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
-        //         return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
-        //     }
-        // }
-
-        //DELETE: api/opcion/eliminar-opcion
-        /// <summary>
-        /// Elimina una opción de la Rifa .
-        /// </summary>
-        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        // [Authorize]
-        // [HttpDelete("api/opcion/eliminar-opcion")]
-        // public async Task<ActionResult> DeleteOpcion(Int32 OpcionId)
-        // {
-        //     try
-        //     {        
-        //         log.Info("Inicio api/opcion/eliminar-opcion");
-
-        //         var respuesta = await _opcionService.DeleteOpcion(OpcionId);
-
-        //         log.Info("Fin api/opcion/eliminar-opcion");
-
-        //         return Ok(respuesta); 
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
-        //         return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
-        //     }
-        // }
 
     }
 }

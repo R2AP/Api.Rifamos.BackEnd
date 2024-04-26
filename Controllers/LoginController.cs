@@ -32,7 +32,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                log.Info("Inicio api/login/loguearse");
+                //log.Info("Inicio api/login/loguearse");
 
                 var oLogin = await _loginService.LoginUsuario(LoginDTO);
 
@@ -41,7 +41,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return NoContent();
                 }
 
-                log.Info("Fin api/login/loguearse");
+                //log.Info("Fin api/login/loguearse");
 
                 return Ok(oLogin);
             }

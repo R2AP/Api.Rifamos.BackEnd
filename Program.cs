@@ -65,7 +65,7 @@ builder.Services.AddSwaggerGen(options =>
         In = ParameterLocation.Header,
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey,
-        Description = "Please insert token 23/04/2023", // rrap
+        Description = "Please insert token", // rrap
         BearerFormat = "JWT", //rrap
         Scheme = "Bearer" //rrap
     });

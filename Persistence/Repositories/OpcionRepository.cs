@@ -19,40 +19,27 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
                                 OpcionId = opc.OpcionId,
                                 RifaId = opc.RifaId,
                                 UsuarioId = opc.UsuarioId,
+                                TokenOpcion = opc.TokenOpcion,
+                                TokenKey1 = opc.TokenKey1,
+                                TokenKey2 = opc.TokenKey2,
                                 CantidadOpciones = opc.CantidadOpciones,
                                 EstadoOpcion = opc.EstadoOpcion,
                                 AuditoriaUsuarioIngreso = opc.AuditoriaUsuarioIngreso,
                                 AuditoriaFechaIngreso = opc.AuditoriaFechaIngreso,
                                 AuditoriaUsuarioModificacion = opc.AuditoriaUsuarioModificacion,
-                                AuditoriaFechaModificacion = opc.AuditoriaFechaModificacion, 
+                                AuditoriaFechaModificacion = opc.AuditoriaFechaModificacion
 
                             }).ToListAsync();
 
             return await opcion;
         }
 
-        public async Task<OpcionDTO> GetOpcionToken(string TokenOpcion)
+        public async Task<Opcion> GetOpcionToken(string TokenOpcion)
         {
 
-            OpcionDTO oOpcionDTO = new();
-            Opcion oOpcion = new();
+            Opcion oOpcion = await _context.Opcions.Where(x => x.TokenOpcion == TokenOpcion).FirstOrDefaultAsync();
 
-            oOpcion = await _context.Opcions.Where(x => x.TokenOpcion == TokenOpcion).FirstOrDefaultAsync();
-
-            oOpcionDTO.OpcionId = oOpcion.OpcionId;
-            oOpcionDTO.RifaId = oOpcion.RifaId;
-            oOpcionDTO.UsuarioId = oOpcion.UsuarioId;
-            oOpcionDTO.TokenOpcion = oOpcion.TokenOpcion;
-            oOpcionDTO.TokenKey1 = oOpcion.TokenKey1;
-            oOpcionDTO.TokenKey2 = oOpcion.TokenKey2;
-            oOpcionDTO.CantidadOpciones = oOpcion.CantidadOpciones;
-            oOpcionDTO.EstadoOpcion = oOpcion.EstadoOpcion;
-            oOpcionDTO.AuditoriaUsuarioIngreso = oOpcion.AuditoriaUsuarioIngreso;
-            oOpcionDTO.AuditoriaFechaIngreso = oOpcion.AuditoriaFechaIngreso;
-            oOpcionDTO.AuditoriaUsuarioModificacion = oOpcion.AuditoriaUsuarioModificacion;
-            oOpcionDTO.AuditoriaFechaModificacion = oOpcion.AuditoriaFechaModificacion;
-
-            return oOpcionDTO;
+            return oOpcion;
         }        
     }
 }

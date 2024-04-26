@@ -16,13 +16,5 @@ public class OpcionFrontDTO{
 
     public int EstadoOpcion { get; set; }
 
-    public string AuditoriaUsuarioIngreso { get; set; } = null!;
-
-    public DateTime AuditoriaFechaIngreso { get; set; }
-
-    public string? AuditoriaUsuarioModificacion { get; set; }
-
-    public DateTime? AuditoriaFechaModificacion { get; set; }
-
     }
 }
