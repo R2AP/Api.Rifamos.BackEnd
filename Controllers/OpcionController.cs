@@ -36,7 +36,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             {
                 log.Info("Inicio api/opcion/obtener-lista-opcion");
 
-                var oListaOpcion = await _opcionService.IGetListOpcion(RifaId, UsuarioId);
+                var oListaOpcion = await _opcionService.GetListOpcion(RifaId, UsuarioId);
 
                 if (oListaOpcion == null)
                 {
@@ -69,7 +69,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
             {
                 log.Info("Inicio api/opcion/obtener-opcion");
 
-                var oOpcion = await _opcionService.IGetOpcionToken(TokenOpcion);
+                var oOpcion = await _opcionService.GetOpcionToken(TokenOpcion);
 
                 if (oOpcion == null)
                 {

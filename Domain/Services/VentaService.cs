@@ -35,10 +35,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             // _environment = environment;
         }
 
-        public async Task<Ventum> GetVenta(Int32 oVentaId)
-        {
-            return await _ventaRepository.Get(oVentaId);
-        } 
+        public async Task<Ventum> GetVenta(Int32 oVentaId) => await _ventaRepository.Get(oVentaId);
 
         private async Task<Ventum> InsertVenta(Ventum oVenta)
         {
@@ -74,7 +71,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             
             Ventum oVenta = await GetVenta(oVentaId);
 
-            Opcion oOpcion = await _opcionService.GetOpcion(oVenta.OpcionId);
+            Opcion oOpcion = await _opcionService.Get(oVenta.OpcionId);
 
             VentaFrontDTO oVentaFrontDTO = new()
             {
@@ -112,7 +109,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             };
 
             //Insertamos la opción que devuelve el registro recién insertado
-            Opcion oOpcion = await _opcionService.IInsertOpcion(oOpcionDTO);
+            Opcion oOpcion = await _opcionService.InsertOpcion(oOpcionDTO);
 
             //Obtenemos el precio de la Rifa para registrarlo en la venta
             Precio oPrecio = await _precioService.GetPrecioUnitario(VentaDTO.RifaId);

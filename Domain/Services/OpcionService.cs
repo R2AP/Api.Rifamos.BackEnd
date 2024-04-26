@@ -34,34 +34,30 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         }
 
         //Métodos Básicos
-        public async Task<Opcion> GetOpcion(Int32 oOpcionId)
-        {
+        public async Task<Opcion> Get(Int32 oOpcionId) => await _opcionRepository.Get(oOpcionId);
 
-            return await _opcionRepository.Get(oOpcionId);
-        } 
-
-        private async Task<Opcion> InsertOpcion(Opcion oOpcion)
+        public async Task<Opcion> Insert(Opcion oOpcion)
         {
      
             await _opcionRepository.Post(oOpcion);
 
-            return await GetOpcion(oOpcion.OpcionId);
+            return await Get(oOpcion.OpcionId);
 
         }
 
-        private async Task<Opcion> UpdateOpcion(Opcion oOpcion)
+        public async Task<Opcion> Update(Opcion oOpcion)
         {
 
             await _opcionRepository.Put(oOpcion);
 
-            return await GetOpcion(oOpcion.OpcionId);
+            return await Get(oOpcion.OpcionId);
 
         }
 
-        private async Task<Opcion> DeleteOpcion(Int32 oOpcionId)
+        public async Task<Opcion> Delete(Int32 oOpcionId)
         {
 
-            Opcion oOpcion = await GetOpcion(oOpcionId);
+            Opcion oOpcion = await Get(oOpcionId);
 
             await _opcionRepository.Delete(oOpcion);
 
@@ -70,7 +66,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         }
 
 		//Métodos Complementarios
-       public async Task<OpcionFrontDTO> IGetOpcionToken(string TokenOpcion)
+       public async Task<OpcionFrontDTO> GetOpcionToken(string TokenOpcion)
         {
 
             string sError = "";
@@ -107,7 +103,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         } 
 
-        public async Task<List<OpcionFrontDTO>> IGetListOpcion(Int32 RifaId, Int32 UsuarioId)
+        public async Task<List<OpcionFrontDTO>> GetListOpcion(Int32 RifaId, Int32 UsuarioId)
         {
 
             List<Opcion> oListOpcion = [];       
@@ -134,7 +130,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return oListOpcionFrontDTO;
         } 
 
-        public async Task<Opcion> IInsertOpcion(OpcionDTO OpcionDTO)
+        public async Task<Opcion> InsertOpcion(OpcionDTO OpcionDTO)
         {
      
             Opcion oOpcion = new()
@@ -151,7 +147,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             };
 
             //Insertamos la Opción
-            await InsertOpcion(oOpcion);
+            await Insert(oOpcion);
 
             //Encrypt the OpcionId con el ID devuelto
             //List<TokenDTO> oListToken = [];
@@ -163,9 +159,9 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oOpcion.TokenKey2 = oListToken[2];
 
             //Actualizamos el token y las keys
-            await UpdateOpcion(oOpcion);
+            await Update(oOpcion);
 
-            oOpcion = await GetOpcion(oOpcion.OpcionId);
+            oOpcion = await Get(oOpcion.OpcionId);
 
             return oOpcion;
 

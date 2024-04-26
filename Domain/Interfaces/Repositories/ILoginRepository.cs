@@ -6,7 +6,7 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Repositories
 {
     public interface ILoginRepository : IRepositoryBase<LoginDTO>
     {
-        Task<UsuarioDTO> GetUsuarioEmail(LoginDTO LoginDTO);
+        Task<Usuario> GetUsuarioEmail(LoginDTO LoginDTO);
     }
 
 }

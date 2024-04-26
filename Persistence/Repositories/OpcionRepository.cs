@@ -34,12 +34,6 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
             return await opcion;
         }
 
-        public async Task<Opcion> GetOpcionToken(string TokenOpcion)
-        {
-
-            Opcion oOpcion = await _context.Opcions.Where(x => x.TokenOpcion == TokenOpcion).FirstOrDefaultAsync();
-
-            return oOpcion;
-        }        
+        public async Task<Opcion> GetOpcionToken(string TokenOpcion) => await _context.Opcions.Where(x => x.TokenOpcion == TokenOpcion).FirstOrDefaultAsync();
     }
 }
