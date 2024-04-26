@@ -31,18 +31,36 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             // _environment = environment;
         }
 
-        public async Task<Pago> GetPago(Int32 PagoId)
+        public async Task<Pago> Get(Int32 oPagoId) => await _pagoRepository.Get(oPagoId);
+
+        public async Task<Pago> Insert(Pago oPago)
         {
-            return await _pagoRepository.Get(PagoId);
+            
+            await  _pagoRepository.Post(oPago);
+
+            return await Get(oPago.PagoId);
         }
 
-        // public async Task<List<Rifa>> GetListRifaEstado(Int32 EstadoId)
-        // {
-        //     // var ejemplo = _configuration["prueba"];
-        //     return await _rifaRepository.GetListRifaEstado(EstadoId);
-        // }
+        public async Task<Pago> Update(Pago Pago)
+        {
+            
+            await  _pagoRepository.Put(Pago);
 
-        public async Task<Pago> InsertPago(PagoDTO PagoDTO)
+            return await Get(Pago.PagoId);
+        }
+
+        public async Task<Pago> Delete(Int32 oPagoId)
+        {
+
+            Pago oPago = await Get(oPagoId);
+
+            await _pagoRepository.Delete(oPago);
+
+            return oPago;
+
+        }        
+
+        public async Task<PagoFrontDTO> InsertPago(PagoDTO PagoDTO)
         {
 
             Pago oPago = new(){
@@ -56,18 +74,31 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 Moneda  = PagoDTO.Moneda,
                 Monto = PagoDTO.Monto,
                 EstadoPago = PagoDTO.EstadoPago,
-                AuditoriaUsuarioIngreso = PagoDTO.AuditoriaUsuarioIngreso, 
+                AuditoriaUsuarioIngreso = PagoDTO.AuditoriaUsuario, 
                 AuditoriaFechaIngreso = DateTime.Now
                 
             };
 
-            await _pagoRepository.Post(oPago);
+            oPago = await Insert(oPago);
 
-            return oPago;
+            PagoFrontDTO oPagoFrontDTO = new()
+            {
+                PagoId = oPago.PagoId,
+                VentaId = oPago.VentaId,
+                TipoPago = oPago.TipoPago,
+                CodigoTransaccion = oPago.CodigoTransaccion,
+                FechaPago = oPago.FechaPago,
+                HoraPago = oPago.HoraPago,
+                Moneda  = oPago.Moneda,
+                Monto = oPago.Monto,
+                EstadoPago = oPago.EstadoPago
+            };
+
+            return oPagoFrontDTO;
 
         }
 
-        public async Task<Pago> UpdatePago(PagoDTO PagoDTO)
+        public async Task<PagoFrontDTO> UpdatePago(PagoDTO PagoDTO)
         {
 
             Pago oPago = await _pagoRepository.Get(PagoDTO.PagoId);
@@ -81,25 +112,47 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oPago.Moneda  = PagoDTO.Moneda;
             oPago.Monto = PagoDTO.Monto;
             oPago.EstadoPago = PagoDTO.EstadoPago;
-            oPago.AuditoriaUsuarioModificacion = PagoDTO.AuditoriaUsuarioModificacion;
+            oPago.AuditoriaUsuarioModificacion = PagoDTO.AuditoriaUsuario;
             oPago.AuditoriaFechaModificacion  = DateTime.Now;
 
-            await _pagoRepository.Put(oPago);
+            oPago = await Update(oPago);
 
-            return oPago;
+            PagoFrontDTO oPagoFrontDTO = new()
+            {
+                PagoId = oPago.PagoId,
+                VentaId = oPago.VentaId,
+                TipoPago = oPago.TipoPago,
+                CodigoTransaccion = oPago.CodigoTransaccion,
+                FechaPago = oPago.FechaPago,
+                HoraPago = oPago.HoraPago,
+                Moneda  = oPago.Moneda,
+                Monto = oPago.Monto,
+                EstadoPago = oPago.EstadoPago
+            };
+
+            return oPagoFrontDTO;
 
         }
 
-        public async Task<Pago> DeletePago(Int32 PagoId)
-        {
+        public async Task<PagoFrontDTO> DeletePago(Int32 PagoId){
 
-            Pago oPago = await _pagoRepository.Get(PagoId);
+            Pago oPago = await Delete(PagoId);
 
-            await _pagoRepository.Delete(oPago);
+            PagoFrontDTO oPagoFrontDTO = new()
+            {
+                PagoId = oPago.PagoId,
+                VentaId = oPago.VentaId,
+                TipoPago = oPago.TipoPago,
+                CodigoTransaccion = oPago.CodigoTransaccion,
+                FechaPago = oPago.FechaPago,
+                HoraPago = oPago.HoraPago,
+                Moneda  = oPago.Moneda,
+                Monto = oPago.Monto,
+                EstadoPago = oPago.EstadoPago
+            };
 
-            return oPago;
-
-        }        
+            return oPagoFrontDTO;            
+        } 
     }
 
 }

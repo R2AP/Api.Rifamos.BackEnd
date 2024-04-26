@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Api.Rifamos.BackEnd.Adapter{
 
-public class PagoDTO{
+public class PagoFrontDTO{
     public int PagoId { get; set; }
 
     public int VentaId { get; set; }
@@ -24,8 +24,6 @@ public class PagoDTO{
     public decimal Monto { get; set; }
 
     public int EstadoPago { get; set; }
-
-    public string AuditoriaUsuario{ get; set; } = null!;
     
     }
 
