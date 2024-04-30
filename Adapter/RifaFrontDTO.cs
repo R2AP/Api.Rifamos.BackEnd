@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Api.Rifamos.BackEnd.Adapter{
 
-public class RifaDTO{
+public class RifaFrontDTO{
     public int RifaId { get; set; }
 
     public string RifaDescripcion { get; set; } = null!;
@@ -19,8 +19,6 @@ public class RifaDTO{
     public string Sponsor { get; set; } = null!;
 
     public int EstadoRifa { get; set; }
-
-    public string AuditoriaUsuario { get; set; } = null!;
 
     }
 }

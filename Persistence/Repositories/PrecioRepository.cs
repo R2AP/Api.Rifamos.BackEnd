@@ -10,24 +10,23 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
     {
         public PrecioRepository(RifamosContext context) : base(context) { }
 
-        public async Task<Precio> GetPrecioUnitario(Int32 RifaId)
+        public async Task<Precio> GetPrecioUnitario(Int32 oRifaId)
         {
-            var precio = (from prc in _context.Precios 
-                            join rif in _context.Rifas on new {RifaId = prc.RifaId} equals new {RifaId = rif.RifaId}
-                            where prc.RifaId == RifaId
-                            select new Precio
-                            {
-                                PrecioId = prc.PrecioId,
-                                RifaId =prc.RifaId,
-                                PrecioUnitario = prc.PrecioUnitario,
-                                AuditoriaUsuarioIngreso = prc.AuditoriaUsuarioIngreso,
-                                AuditoriaFechaIngreso = prc.AuditoriaFechaIngreso,
-                                AuditoriaUsuarioModificacion = prc.AuditoriaUsuarioModificacion,
-                                AuditoriaFechaModificacion = prc.AuditoriaFechaModificacion, 
+            return await (from prc in _context.Precios
+                          join rif in _context.Rifas on new { RifaId = prc.RifaId } equals new { RifaId = rif.RifaId }
+                          where prc.RifaId == oRifaId
+                          select new Precio
+                          {
+                              PrecioId = prc.PrecioId,
+                              RifaId = prc.RifaId,
+                              PrecioUnitario = prc.PrecioUnitario,
+                              AuditoriaUsuarioIngreso = prc.AuditoriaUsuarioIngreso,
+                              AuditoriaFechaIngreso = prc.AuditoriaFechaIngreso,
+                              AuditoriaUsuarioModificacion = prc.AuditoriaUsuarioModificacion,
+                              AuditoriaFechaModificacion = prc.AuditoriaFechaModificacion,
 
-                            }).FirstOrDefaultAsync();
+                          }).FirstOrDefaultAsync();
 
-            return await precio;
         }
 
     }

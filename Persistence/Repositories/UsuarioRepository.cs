@@ -9,14 +9,9 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
 
     public class UsuarioRepository(RifamosContext context) : RepositoryBase<Usuario>(context), IUsuarioRepository
     {
-        public async Task<Usuario> GetUsuarioPorEmail(string Email)
+        public async Task<Usuario> GetUsuarioPorEmail(string oEmail)
         {
-
-            Usuario oUsuario = new();
-
-            oUsuario = await _context.Usuarios.Where(x => x.Email == Email).FirstOrDefaultAsync();
-
-            return oUsuario;
-        }        
+            return await _context.Usuarios.Where(x => x.Email == oEmail).FirstOrDefaultAsync();
+        }
     }
 }

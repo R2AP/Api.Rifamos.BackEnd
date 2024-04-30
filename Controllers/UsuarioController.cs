@@ -21,37 +21,6 @@ namespace Api.Rifamos.BackEnd.Controllers{
             Logger.InicializarLog();
         }
 
-        //POST: api/usuario/obtener-usuario
-        ///<summary>
-        ///Obtener un usuario por su id
-        ///</summary>
-        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        // [HttpPost]
-        // [Route("api/usuario/obtener-usuario")]
-        // public async Task<ActionResult> GetUsuario(UsuarioDTO UsuarioDTO)
-        // {
-        //     try
-        //     {
-        //         log.Info("Inicio api/usuario/obtener-usuario");
-
-        //         var oUsuario = await _usuarioService.GetUsuario(UsuarioDTO);
-                
-        //         if (oUsuario == null)
-        //         {
-        //             return NoContent();
-        //         }
-
-        //         log.Info("Fin api/usuario/obtener-usuario");
-
-        //         return Ok(oUsuario);
-        //     }
-        //     catch(Exception ex)
-        //     {
-        //         log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
-        //         return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
-        //     }
-        // }
-
         //POST: api/usuario/registro-usuario
         /// <summary>
         /// Crear un nuevo Usuario.
@@ -59,18 +28,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPost("api/usuario/registro-usuario")]
         //public async Task<ActionResult> InsertUsuario(Usuario Usuario, string Password)
-        public async Task<ActionResult> InsertUsuario(UsuarioDTO UsuarioDTO)
+        public async Task<ActionResult> InsertUsuario(UsuarioDTO oUsuarioDTO)
         {
             try
             {        
                 log.Info("Inicio api/usuario/registro-usuario");
 
-                //var respuesta = await _usuarioService.InsertUsuario(Usuario, Password);
-                var respuesta = await _usuarioService.InsertUsuario(UsuarioDTO);
+                UsuarioFrontDTO oUsuarioFrontDTO = await _usuarioService.InsertUsuario(oUsuarioDTO);
 
                 log.Info("Fin api/usuario/registro-usuario");
 
-                return Ok(respuesta); 
+                return Ok(oUsuarioFrontDTO); 
             }
             catch (Exception ex)
             {
@@ -85,13 +53,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPut("api/usuario/actualizar-usuario")]
-        public async Task<ActionResult> UpdateUsuario(UsuarioDTO UsuarioDTO)
+        public async Task<ActionResult> UpdateUsuario(UsuarioDTO oUsuarioDTO)
         {
             try
             {        
                 log.Info("Inicio api/usuario/actualizar-usuario");
 
-                var respuesta = await _usuarioService.UpdateUsuario(UsuarioDTO);
+                var respuesta = await _usuarioService.UpdateUsuario(oUsuarioDTO);
 
                 log.Info("Fin api/usuario/actualizar-usuario");
 
@@ -110,13 +78,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpDelete("api/usuario/eliminar-usuario")]
-        public async Task<ActionResult> DeleteUsuario(UsuarioDTO UsuarioDTO)
+        public async Task<ActionResult> DeleteUsuario(Int32 oUsuarioId)
         {
             try
             {        
                 log.Info("Inicio api/usuario/eliminar-usuario");
 
-                var respuesta = await _usuarioService.DeleteUsuario(UsuarioDTO);
+                var respuesta = await _usuarioService.DeleteUsuario(oUsuarioId);
 
                 log.Info("Fin api/usuario/eliminar-usuario");
 
@@ -135,13 +103,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPut("api/usuario/actualizar-password-usuario")]
-        public async Task<ActionResult> UpdatePasswordUsuario(UsuarioPasswordDTO UsuarioPasswordDTO)
+        public async Task<ActionResult> UpdatePasswordUsuario(UsuarioPasswordDTO oUsuarioPasswordDTO)
         {
             try
             {        
                 log.Info("Inicio api/usuario/actualizar-password-usuario");
 
-                var respuesta = await _usuarioService.UpdatePasswordUsuario(UsuarioPasswordDTO);
+                var respuesta = await _usuarioService.UpdatePasswordUsuario(oUsuarioPasswordDTO);
 
                 log.Info("Fin api/usuario/actualizar-password-usuario");
 

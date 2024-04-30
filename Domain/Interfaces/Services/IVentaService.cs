@@ -9,13 +9,13 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
     public interface IVentaService : IServiceBase
     {
         //Métodos Básicos
-        Task<Ventum> GetVenta(Int32 VentaId);
-        // Task<Venta> InsertVenta(Venta Venta);
-        // Task<Venta> UpdateVenta(Venta Venta);
-        // Task<Venta> DeleteVenta(Int32 VentaId);
+        Task<Ventum> Get(Int32 oVentaId);
+        Task<Ventum> Insert(Ventum oVentum);
+        Task<Ventum> Update(Ventum oVentum);
+        Task<Ventum> Delete(Int32 oVentaId);
 
         //Métodos Complementarios
-        Task<VentaFrontDTO> MCGetVenta(Int32 oVentaId);
-        Task<VentaFrontDTO> MCInsertVenta(VentaDTO VentaDTO);
+        Task<VentaFrontDTO> GetVentaOpcion(Int32 oVentaId);
+        Task<VentaFrontDTO> InsertVentaOpcion(VentaDTO oVentaDTO);
     }
 }

@@ -35,30 +35,74 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             // _environment = environment;
         }
 
-        public async Task<Ventum> GetVenta(Int32 oVentaId) => await _ventaRepository.Get(oVentaId);
+        public async Task<Ventum> Get(Int32 oVentumId) => await _ventaRepository.Get(oVentumId);
 
-        private async Task<Ventum> InsertVenta(Ventum oVenta)
+        public async Task<Ventum> Insert(Ventum oVentum)
         {
      
-            await _ventaRepository.Post(oVenta);
+            await _ventaRepository.Post(oVentum);
 
-            return await GetVenta(oVenta.VentaId);
+            return await Get(oVentum.VentaId);
 
         }
 
-        private async Task<Ventum> UpdateVenta(Ventum oVenta)
+        public async Task<Ventum> Update(Ventum oVentum)
         {
 
-            await _ventaRepository.Put(oVenta);
+            await _ventaRepository.Put(oVentum);
 
-            return await GetVenta(oVenta.VentaId);
+            return await Get(oVentum.VentaId);
+
+        }
+
+        public async Task<Ventum> Delete(Int32 oVentumId) 
+        {
+
+            Ventum oVentum = await Get(oVentumId);
+
+            await _ventaRepository.Delete(oVentum);
+
+            return oVentum;
+
+        }
+
+        //Métodos Complementarios
+        public async Task<Ventum> GetVenta(Int32 oVentaId) => await _ventaRepository.Get(oVentaId);
+
+        private async Task<Ventum> InsertVenta(VentaDTO oVentaDTO)
+        {
+     
+            Ventum oVenta = new()
+            {
+                VentaId = oVentaDTO.VentaId,
+                OpcionId = oVentaDTO.OpcionId,
+                AuditoriaUsuarioIngreso = oVentaDTO.AuditoriaUsuario,  
+                AuditoriaFechaIngreso = DateTime.Now
+            };
+
+            return await Insert(oVenta);
+
+        }
+
+        private async Task<Ventum> UpdateVenta(VentaDTO oVentaDTO)
+        {
+
+            Ventum oVenta = new()
+            {
+                VentaId = oVentaDTO.VentaId,
+                OpcionId = oVentaDTO.OpcionId,
+                AuditoriaUsuarioModificacion = oVentaDTO.AuditoriaUsuario,  
+                AuditoriaFechaModificacion = DateTime.Now
+            };
+
+            return await Update(oVenta);
 
         }
 
         private async Task<Ventum> DeleteVenta(Int32 oVentaId)
         {
 
-            Ventum oVenta = await GetVenta(oVentaId);
+            Ventum oVenta = await Get(oVentaId);
 
             await _ventaRepository.Delete(oVenta);
 
@@ -66,10 +110,10 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         }
 
-        public async Task<VentaFrontDTO> MCGetVenta(Int32 oVentaId)
+        public async Task<VentaFrontDTO> GetVentaOpcion(Int32 oVentaId)
         {
             
-            Ventum oVenta = await GetVenta(oVentaId);
+            Ventum oVenta = await Get(oVentaId);
 
             Opcion oOpcion = await _opcionService.Get(oVenta.OpcionId);
 
@@ -77,7 +121,6 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             {
                 OpcionId = oOpcion.OpcionId,
                 RifaId = oOpcion.RifaId,
-                UsuarioId = oOpcion.UsuarioId,
                 CantidadOpciones = oOpcion.CantidadOpciones,
                 TokenOpcion = oOpcion.TokenOpcion,
                 EstadoOpcion = oOpcion.EstadoOpcion,
@@ -94,17 +137,18 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         } 
 
-        public async Task<VentaFrontDTO> MCInsertVenta(VentaDTO VentaDTO)
+        public async Task<VentaFrontDTO> InsertVentaOpcion(VentaDTO oVentaDTO)
         {
 
-            OpcionDTO oOpcionDTO = new()
-            {
-                OpcionId = 0,
-                RifaId = VentaDTO.RifaId,
-                UsuarioId = VentaDTO.UsuarioId,
-                CantidadOpciones = VentaDTO.CantidadOpciones,
-                EstadoOpcion = Int32.Parse(_configuration["EstadoOpcion:Registrada"]),
-                AuditoriaUsuarioIngreso = VentaDTO.AuditoriaUsuario,
+            OpcionDTO oOpcionDTO = new(){
+                OpcionId = oVentaDTO.OpcionId, 
+                RifaId = oVentaDTO.RifaId,
+                UsuarioId = oVentaDTO.UsuarioId,
+                CantidadOpciones = oVentaDTO.CantidadOpciones,
+                TokenOpcion = "0",
+                TokenKey1 = "0",
+                TokenKey2 = "0",
+                AuditoriaUsuarioIngreso = oVentaDTO.AuditoriaUsuario,
                 AuditoriaFechaIngreso = DateTime.Now
             };
 
@@ -112,30 +156,29 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             Opcion oOpcion = await _opcionService.InsertOpcion(oOpcionDTO);
 
             //Obtenemos el precio de la Rifa para registrarlo en la venta
-            Precio oPrecio = await _precioService.GetPrecioUnitario(VentaDTO.RifaId);
+            Precio oPrecio = await _precioService.GetPrecioUnitario(oVentaDTO.RifaId);
 
             Ventum oVenta = new()
             {
-                VentaId =  VentaDTO.VentaId,
+                VentaId =  oVentaDTO.VentaId,
                 OpcionId = oOpcionDTO.OpcionId, // Relación entre Opción y Venta
                 TipoComprobante = Int32.Parse(_configuration["TipoComprobante:Boleta"]),
                 SerieComprobante = _configuration["SeriComprobante:SeriComprobanteBoleta"],
                 NumeroComprobante = "0", //VentaDTO.NumeroComprobante,
                 Moneda = Int32.Parse(_configuration["Moneda:Soles"]),
-                Monto = oPrecio.PrecioUnitario *  VentaDTO.CantidadOpciones, // VentaDTO.Monto,
+                Monto = oPrecio.PrecioUnitario *  oVentaDTO.CantidadOpciones, // VentaDTO.Monto,
                 EstadoVenta = Int32.Parse(_configuration["EstadoVenta:Registrada"]),
-                AuditoriaUsuarioIngreso = VentaDTO.AuditoriaUsuario,
+                AuditoriaUsuarioIngreso = oVentaDTO.AuditoriaUsuario,
                 AuditoriaFechaIngreso = DateTime.Now
             };
 
             //Insertamos la venta que devuelve el registro recién insertado
-            oVenta = await InsertVenta(oVenta);
+            oVenta = await Insert(oVenta);
 
             VentaFrontDTO oVentaFrontDTO = new()
             {
                 OpcionId = oOpcion.OpcionId,
                 RifaId = oOpcion.RifaId,
-                UsuarioId = oOpcion.UsuarioId,
                 CantidadOpciones = oOpcion.CantidadOpciones,
                 TokenOpcion = oOpcion.TokenOpcion,
                 EstadoOpcion = oOpcion.EstadoOpcion,
@@ -151,39 +194,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return oVentaFrontDTO;
 
         }
-
-        // public async Task<Ventum> UpdateVenta(VentaDTO VentaDTO)
-        // {
-
-        //     Ventum oVenta = await _ventaRepository.Get(VentaDTO.VentaId);
-
-        //     oVenta.VentaId =  VentaDTO.VentaId;
-        //     oVenta.OpcionId = VentaDTO.OpcionId;
-        //     oVenta.TipoComprobante = VentaDTO.TipoComprobante;
-        //     oVenta.SerieComprobante = VentaDTO.SerieComprobante;
-        //     oVenta.NumeroComprobante = VentaDTO.NumeroComprobante;
-        //     oVenta.Moneda = VentaDTO.Moneda;
-        //     oVenta.Monto = VentaDTO.Monto;
-        //     oVenta.EstadoVenta = VentaDTO.EstadoVenta;
-        //     oVenta.AuditoriaUsuarioModificacion = VentaDTO.AuditoriaUsuario;
-        //     oVenta.AuditoriaFechaModificacion = DateTime.Now;
-
-        //     await _ventaRepository.Put(oVenta);
-
-        //     return oVenta;
-
-        // }
-
-        // public async Task<Ventum> DeleteVenta(Int32 VentaId)
-        // {
-
-        //     Ventum oVenta = await _ventaRepository.Get(VentaId);
-
-        //     await _ventaRepository.Delete(oVenta);
-
-        //     return oVenta;
-
-        // }        
+     
     }
 
 }

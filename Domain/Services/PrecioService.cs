@@ -25,44 +25,82 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             // _environment = environment;
         }
 
-        public async Task<Precio> GetPrecio(Int32 PrecioId)
+        //Métodos Básicos
+        public async Task<Precio> Get(Int32 oPrecioId) => await _precioRepository.Get(oPrecioId);
+
+        public async Task<Precio> Insert(Precio oPrecio)
         {
-            // var ejemplo = _configuration["prueba"];
-            return await _precioRepository.Get(PrecioId);
-        }
-
-        public async Task<Precio> GetPrecioUnitario(Int32 RifaId)
-        {
-            return await _precioRepository.GetPrecioUnitario(RifaId);
-        }
-
-        public async Task<Precio> InsertPrecio(PrecioDTO PrecioDTO)
-        {
-
-            Precio oPrecio = new()
-            {
-                RifaId = PrecioDTO.RifaId,
-                PrecioUnitario = PrecioDTO.PrecioUnitario,
-                AuditoriaUsuarioIngreso = PrecioDTO.AuditoriaUsuarioIngreso,
-                AuditoriaFechaIngreso = DateTime.Now
-            };
-
-            // var ejemplo = _configuration["prueba"];
+     
             await _precioRepository.Post(oPrecio);
+
+            return await Get(oPrecio.PrecioId);
+
+        }
+
+        public async Task<Precio> Update(Precio oPrecio)
+        {
+
+            await _precioRepository.Put(oPrecio);
+
+            return await Get(oPrecio.PrecioId);
+
+        }
+
+        public async Task<Precio> Delete(Int32 oPrecioId)
+        {
+
+            Precio oPrecio = await Get(oPrecioId);
+
+            await _precioRepository.Delete(oPrecio);
 
             return oPrecio;
 
         }
 
-        public async Task<Precio> UpdatePrecio(PrecioDTO PrecioDTO)
+        //Métodos Complementarios
+        public async Task<Precio> GetPrecio(Int32 oPrecioId)
+        {
+            return await Get(oPrecioId);
+        }
+
+        public async Task<Precio> GetPrecioUnitario(Int32 oRifaId)
+        {
+            return await _precioRepository.GetPrecioUnitario(oRifaId);
+        }
+
+        public async Task<PrecioFrontDTO> InsertPrecio(PrecioDTO oPrecioDTO)
         {
 
-            Precio oPrecio = await _precioRepository.Get(PrecioDTO.PrecioId);
+            Precio oPrecio = new()
+            {
+                RifaId = oPrecioDTO.RifaId,
+                PrecioUnitario = oPrecioDTO.PrecioUnitario,
+                AuditoriaUsuarioIngreso = oPrecioDTO.AuditoriaUsuario,
+                AuditoriaFechaIngreso = DateTime.Now
+            };
 
-            oPrecio.PrecioId = PrecioDTO.PrecioId;
-            oPrecio.RifaId = PrecioDTO.RifaId;
-            oPrecio.PrecioUnitario = PrecioDTO.PrecioUnitario;
-            oPrecio.AuditoriaUsuarioModificacion = PrecioDTO.AuditoriaUsuarioModificacion;
+            oPrecio = await Insert(oPrecio);
+
+            PrecioFrontDTO oPrecioFrontDTO = new()
+            {
+            PrecioId = oPrecio.PrecioId,
+            RifaId = oPrecio.RifaId,
+            PrecioUnitario = oPrecio.PrecioUnitario
+            };
+
+            return oPrecioFrontDTO;
+
+        }
+
+        public async Task<Precio> UpdatePrecio(PrecioDTO oPrecioDTO)
+        {
+
+            Precio oPrecio = await _precioRepository.Get(oPrecioDTO.PrecioId);
+
+            oPrecio.PrecioId = oPrecioDTO.PrecioId;
+            oPrecio.RifaId = oPrecioDTO.RifaId;
+            oPrecio.PrecioUnitario = oPrecioDTO.PrecioUnitario;
+            oPrecio.AuditoriaUsuarioModificacion = oPrecioDTO.AuditoriaUsuario;
             oPrecio.AuditoriaFechaModificacion = DateTime.Now;
 
             await _precioRepository.Put(oPrecio);
@@ -71,12 +109,12 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         }
 
-        public async Task<Precio> DeletePrecio(Int32 PrecioId)
+        public async Task<Precio> DeletePrecio(Int32 oPrecioId)
         {
 
             Precio oPrecio = new()
             {
-                PrecioId = PrecioId
+                PrecioId = oPrecioId
             };
 
             await _precioRepository.Delete(oPrecio);

@@ -41,12 +41,12 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return await Get(oPago.PagoId);
         }
 
-        public async Task<Pago> Update(Pago Pago)
+        public async Task<Pago> Update(Pago oPago)
         {
             
-            await  _pagoRepository.Put(Pago);
+            await  _pagoRepository.Put(oPago);
 
-            return await Get(Pago.PagoId);
+            return await Get(oPago.PagoId);
         }
 
         public async Task<Pago> Delete(Int32 oPagoId)
@@ -60,21 +60,21 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         }        
 
-        public async Task<PagoFrontDTO> InsertPago(PagoDTO PagoDTO)
+        public async Task<PagoFrontDTO> InsertPago(PagoDTO oPagoDTO)
         {
 
             Pago oPago = new(){
 
-                PagoId = PagoDTO.PagoId, 
-                VentaId = PagoDTO.VentaId, 
-                TipoPago = PagoDTO.TipoPago,
-                CodigoTransaccion = PagoDTO.CodigoTransaccion, 
-                FechaPago = PagoDTO.FechaPago,
-                HoraPago = PagoDTO.HoraPago,
-                Moneda  = PagoDTO.Moneda,
-                Monto = PagoDTO.Monto,
-                EstadoPago = PagoDTO.EstadoPago,
-                AuditoriaUsuarioIngreso = PagoDTO.AuditoriaUsuario, 
+                PagoId = oPagoDTO.PagoId, 
+                VentaId = oPagoDTO.VentaId, 
+                TipoPago = oPagoDTO.TipoPago,
+                CodigoTransaccion = oPagoDTO.CodigoTransaccion, 
+                FechaPago = oPagoDTO.FechaPago,
+                HoraPago = oPagoDTO.HoraPago,
+                Moneda  = oPagoDTO.Moneda,
+                Monto = oPagoDTO.Monto,
+                EstadoPago = oPagoDTO.EstadoPago,
+                AuditoriaUsuarioIngreso = oPagoDTO.AuditoriaUsuario, 
                 AuditoriaFechaIngreso = DateTime.Now
                 
             };
@@ -98,21 +98,21 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         }
 
-        public async Task<PagoFrontDTO> UpdatePago(PagoDTO PagoDTO)
+        public async Task<PagoFrontDTO> UpdatePago(PagoDTO oPagoDTO)
         {
 
-            Pago oPago = await _pagoRepository.Get(PagoDTO.PagoId);
+            Pago oPago = await _pagoRepository.Get(oPagoDTO.PagoId);
 
-            oPago.PagoId = PagoDTO.PagoId;
-            oPago.VentaId = PagoDTO.VentaId; 
-            oPago.TipoPago = PagoDTO.TipoPago;
-            oPago.CodigoTransaccion = PagoDTO.CodigoTransaccion; 
-            oPago.FechaPago = PagoDTO.FechaPago;
-            oPago.HoraPago = PagoDTO.HoraPago;
-            oPago.Moneda  = PagoDTO.Moneda;
-            oPago.Monto = PagoDTO.Monto;
-            oPago.EstadoPago = PagoDTO.EstadoPago;
-            oPago.AuditoriaUsuarioModificacion = PagoDTO.AuditoriaUsuario;
+            oPago.PagoId = oPagoDTO.PagoId;
+            oPago.VentaId = oPagoDTO.VentaId; 
+            oPago.TipoPago = oPagoDTO.TipoPago;
+            oPago.CodigoTransaccion = oPagoDTO.CodigoTransaccion; 
+            oPago.FechaPago = oPagoDTO.FechaPago;
+            oPago.HoraPago = oPagoDTO.HoraPago;
+            oPago.Moneda  = oPagoDTO.Moneda;
+            oPago.Monto = oPagoDTO.Monto;
+            oPago.EstadoPago = oPagoDTO.EstadoPago;
+            oPago.AuditoriaUsuarioModificacion = oPagoDTO.AuditoriaUsuario;
             oPago.AuditoriaFechaModificacion  = DateTime.Now;
 
             oPago = await Update(oPago);

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Api.Rifamos.BackEnd.Adapter{
 
-public class PremioDTO{
+public class PremioFrontDTO : ErrorDTO{
     public int PremioId { get; set; }
 
     public int RifaId { get; set; }
@@ -16,8 +16,6 @@ public class PremioDTO{
     public string Url { get; set; } = null!;
 
     public BitArray? Imagen { get; set; }
-
-    public string AuditoriaUsuario { get; set; } = null!;
 
     }
 }

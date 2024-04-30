@@ -66,13 +66,13 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         }
 
 		//Métodos Complementarios
-       public async Task<OpcionFrontDTO> GetOpcionToken(string TokenOpcion)
+       public async Task<OpcionFrontDTO> GetOpcionToken(string oTokenOpcion)
         {
 
             string sError = "";
         
             // Buscamos la opción por token
-            Opcion oOpcion = await _opcionRepository.GetOpcionToken(TokenOpcion); 
+            Opcion oOpcion = await _opcionRepository.GetOpcionToken(oTokenOpcion); 
 
             List<string> oListToken = [];
        
@@ -103,13 +103,13 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         } 
 
-        public async Task<List<OpcionFrontDTO>> GetListOpcion(Int32 RifaId, Int32 UsuarioId)
+        public async Task<List<OpcionFrontDTO>> GetListOpcion(Int32 oRifaId, Int32 oUsuarioId)
         {
 
             List<Opcion> oListOpcion = [];       
             List<OpcionFrontDTO> oListOpcionFrontDTO =  [];
 
-            oListOpcion = await _opcionRepository.GetListOpcion(RifaId, UsuarioId);
+            oListOpcion = await _opcionRepository.GetListOpcion(oRifaId, oUsuarioId);
 
             foreach( var item in oListOpcion) {
 
@@ -130,24 +130,24 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return oListOpcionFrontDTO;
         } 
 
-        public async Task<Opcion> InsertOpcion(OpcionDTO OpcionDTO)
+        public async Task<Opcion> InsertOpcion(OpcionDTO oOpcionDTO)
         {
      
             Opcion oOpcion = new()
             {
-                RifaId = OpcionDTO.RifaId,
-                UsuarioId = OpcionDTO.UsuarioId,
-                CantidadOpciones = OpcionDTO.CantidadOpciones,
+                RifaId = oOpcionDTO.RifaId,
+                UsuarioId = oOpcionDTO.UsuarioId,
+                CantidadOpciones = oOpcionDTO.CantidadOpciones,
                 TokenOpcion = "0",
                 TokenKey1 =  "0",
                 TokenKey2 = "0",
-                EstadoOpcion = OpcionDTO.EstadoOpcion, 
-                AuditoriaUsuarioIngreso = OpcionDTO.AuditoriaUsuarioIngreso,
+                EstadoOpcion = oOpcionDTO.EstadoOpcion, 
+                AuditoriaUsuarioIngreso = oOpcionDTO.AuditoriaUsuarioIngreso,
                 AuditoriaFechaIngreso = DateTime.Now
             };
 
             //Insertamos la Opción
-            await Insert(oOpcion);
+            oOpcion = await Insert(oOpcion);
 
             //Encrypt the OpcionId con el ID devuelto
             //List<TokenDTO> oListToken = [];
@@ -159,32 +159,11 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oOpcion.TokenKey2 = oListToken[2];
 
             //Actualizamos el token y las keys
-            await Update(oOpcion);
-
-            oOpcion = await Get(oOpcion.OpcionId);
+            oOpcion = await Update(oOpcion);
 
             return oOpcion;
 
         }
-
-        // public async Task<Opcion> UpdateOpcion(OpcionDTO OpcionDTO)
-        // {
-
-        //     Opcion oOpcion = await _opcionRepository.Get(OpcionDTO.OpcionId);
-
-        //     oOpcion.RifaId = OpcionDTO.RifaId;
-        //     oOpcion.UsuarioId = OpcionDTO.UsuarioId;
-        //     oOpcion.CantidadOpciones = OpcionDTO.CantidadOpciones;
-        //     oOpcion.TokenOpcion = OpcionDTO.TokenOpcion;
-        //     oOpcion.EstadoOpcion = OpcionDTO.EstadoOpcion;
-        //     oOpcion.AuditoriaUsuarioModificacion = OpcionDTO.AuditoriaUsuarioModificacion;
-        //     oOpcion.AuditoriaFechaModificacion = DateTime.Now;
-
-        //     await _opcionRepository.Put(oOpcion);
-
-        //     return oOpcion;
-
-        // }
 
     }
 

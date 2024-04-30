@@ -23,17 +23,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<summary>
         ///Obtener una lista de premios de una rifa especifica
         ///</summary>
-        ///<param name="RifaId">Específica el id de la rifa.</param>
+        ///<param name="oRifaId">Específica el id de la rifa.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
         [Route("api/premio/obtener-lista-premio/{RifaId}")]
-        public async Task<ActionResult> GetListPremio(Int32 RifaId)
+        public async Task<ActionResult> GetListPremio(Int32 oRifaId)
         {
             try
             {
                 log.Info("Inicio api/premio/obtener-lista-premio");
 
-                var oListaPremio = await _premioService.GetListPremio(RifaId);
+                var oListaPremio = await _premioService.GetListPremio(oRifaId);
 
                 if (oListaPremio == null)
                 {
@@ -56,13 +56,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPost("api/premio/registro-premio")]
-        public async Task<ActionResult> InsertPremio(PremioDTO PremioDTO)
+        public async Task<ActionResult> InsertPremio(PremioDTO oPremioDTO)
         {
             try
             {        
                 log.Info("Inicio api/premio/registro-premio");
 
-                var oPremio = await _premioService.InsertPremio(PremioDTO);
+                var oPremio = await _premioService.InsertPremio(oPremioDTO);
 
                 log.Info("Fin api/premio/registro-premio");
 
@@ -81,13 +81,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPut("api/premio/actualizar-premio")]
-        public async Task<ActionResult> UpdatePremio(PremioDTO PremioDTO)
+        public async Task<ActionResult> UpdatePremio(PremioDTO oPremioDTO)
         {
             try
             {        
                 log.Info("Inicio api/premio/actualizar-premio");
 
-                var oPremio = await _premioService.UpdatePremio(PremioDTO);
+                var oPremio = await _premioService.UpdatePremio(oPremioDTO);
 
                 log.Info("Fin api/premio/actualizar-premio");
 
@@ -106,13 +106,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpDelete("api/premio/eliminar-premio")]
-        public async Task<ActionResult> DeletePremio(Int32 PremioId)
+        public async Task<ActionResult> DeletePremio(Int32 oPremioId)
         {
             try
             {        
                 log.Info("Inicio api/premio/eliminar-premio");
 
-                var oPremio = await _premioService.DeletePremio(PremioId);
+                var oPremio = await _premioService.DeletePremio(oPremioId);
 
                 log.Info("Fin api/premio/eliminar-premio");
 

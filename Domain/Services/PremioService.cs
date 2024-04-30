@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
-//using Api.Rifamos.BackEnd.Adapter;
-//using Api.Rifamos.BackEnd.Common;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Repositories;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
@@ -33,69 +31,128 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             // _environment = environment;
         }
 
-        public async Task<List<Premio>> GetListPremio(Int32 RifaId)
+        //Métodos Básicos
+        public async Task<Premio> Get(Int32 oPremioId) => await _premioRepository.Get(oPremioId);
+
+        public async Task<Premio> Insert(Premio oPremio)
         {
-            // var ejemplo = _configuration["prueba"];
-            return await _premioRepository.GetListPremio(RifaId);
-        }
-
-        public async Task<Premio> GetPremio(Int32 PremioId)
-        {
-            return await _premioRepository.Get(PremioId);
-        }
-
-        public async Task<Premio> InsertPremio(PremioDTO PremioDTO)
-        {
-
-            Premio oPremio = new()
-            {
-
-                RifaId = PremioDTO.RifaId,
-                PremioDescripcion = PremioDTO.PremioDescripcion,
-                PremioDetalle = PremioDTO.PremioDetalle,
-                Url = PremioDTO.Url,
-                //Imagen = PremioDTO.Imagen,
-                AuditoriaUsuarioIngreso = PremioDTO.AuditoriaUsuarioIngreso,
-                AuditoriaFechaIngreso = DateTime.Now,
-
-            };
-
+     
             await _premioRepository.Post(oPremio);
 
-            return oPremio;
+            return await Get(oPremio.PremioId);
 
         }
 
-        public async Task<Premio> UpdatePremio(PremioDTO PremioDTO)
+        public async Task<Premio> Update(Premio oPremio)
         {
-            Premio oPremio = await _premioRepository.Get(PremioDTO.PremioId);
-
-            oPremio.RifaId = PremioDTO.RifaId;
-            oPremio.PremioDescripcion = PremioDTO.PremioDescripcion;
-            oPremio.PremioDetalle = PremioDTO.PremioDetalle;
-            oPremio.Url = PremioDTO.Url;
-            //oPremio.Imagen = PremioDTO.Imagen;
-            oPremio.AuditoriaUsuarioModificacion = PremioDTO.AuditoriaUsuarioIngreso;
-            oPremio.AuditoriaFechaModificacion = DateTime.Now;
 
             await _premioRepository.Put(oPremio);
 
-            return oPremio;
+            return await Get(oPremio.PremioId);
 
         }
 
-        public async Task<Premio> DeletePremio(Int32 PremioId)
+        public async Task<Premio> Delete(Int32 oPremioId)
         {
-            Premio oPremio = new()
-            {
-                PremioId = PremioId
-            };
+
+            Premio oPremio = await Get(oPremioId);
 
             await _premioRepository.Delete(oPremio);
 
             return oPremio;
 
         }
+
+		//Métodos Complementarios
+        public async Task<Premio> GetPremio(Int32 oPremioId)
+        {
+            return await Get(oPremioId);
+        }
+
+        public async Task<PremioFrontDTO> InsertPremio(PremioDTO oPremioDTO)
+        {
+
+            Premio oPremio = new()
+            {
+
+                RifaId = oPremioDTO.RifaId,
+                PremioDescripcion = oPremioDTO.PremioDescripcion,
+                PremioDetalle = oPremioDTO.PremioDetalle,
+                Url = oPremioDTO.Url,
+                Imagen = oPremioDTO.Imagen,
+                AuditoriaUsuarioIngreso = oPremioDTO.AuditoriaUsuario,
+                AuditoriaFechaIngreso = DateTime.Now,
+
+            };
+
+            oPremio = await Insert(oPremio);
+
+            PremioFrontDTO oPremioFrontDTO = new()
+            {
+                PremioId = oPremio.PremioId,
+                RifaId = oPremio.RifaId,
+                PremioDescripcion = oPremio.PremioDescripcion,
+                PremioDetalle = oPremio.PremioDetalle,
+                Url = oPremio.Url,
+                Imagen = oPremio.Imagen
+            };
+
+            return oPremioFrontDTO;            
+
+        }
+
+        public async Task<PremioFrontDTO> UpdatePremio(PremioDTO oPremioDTO)
+        {
+            Premio oPremio = await _premioRepository.Get(oPremioDTO.PremioId);
+
+            oPremio.RifaId = oPremioDTO.RifaId;
+            oPremio.PremioDescripcion = oPremioDTO.PremioDescripcion;
+            oPremio.PremioDetalle = oPremioDTO.PremioDetalle;
+            oPremio.Url = oPremioDTO.Url;
+            oPremio.Imagen = oPremioDTO.Imagen;
+            oPremio.AuditoriaUsuarioModificacion = oPremioDTO.AuditoriaUsuario;
+            oPremio.AuditoriaFechaModificacion = DateTime.Now;
+
+            oPremio = await Update(oPremio);
+
+            PremioFrontDTO oPremioFrontDTO = new()
+            {
+                PremioId = oPremio.PremioId,
+                RifaId = oPremio.RifaId,
+                PremioDescripcion = oPremio.PremioDescripcion,
+                PremioDetalle = oPremio.PremioDetalle,
+                Url = oPremio.Url,
+                Imagen = oPremio.Imagen
+            };
+
+            return oPremioFrontDTO;
+
+        }
+
+        public async Task<PremioFrontDTO> DeletePremio(Int32 oPremioId)
+        {
+
+            Premio oPremio = await Delete(oPremioId);
+
+            PremioFrontDTO oPremioFrontDTO = new()
+            {
+                PremioId = oPremio.PremioId,
+                RifaId = oPremio.RifaId,
+                PremioDescripcion = oPremio.PremioDescripcion,
+                PremioDetalle = oPremio.PremioDetalle,
+                Url = oPremio.Url,
+                Imagen = oPremio.Imagen
+            };
+
+            return oPremioFrontDTO;
+
+        }
+
+        public async Task<List<Premio>> GetListPremio(Int32 oRifaId)
+        {
+            return await _premioRepository.GetListPremio(oRifaId);
+        }
+
 
     }
 

@@ -27,158 +27,169 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         string sError = "";
 
-        public async Task<Usuario> GetUsuario(Int32 UsuarioId)
-        {
-            Usuario oUsuario = new();
+        //Métodos Básicos
+        public async Task<Usuario> Get(Int32 oUsuarioId) => await _usuarioRepository.Get(oUsuarioId);
 
-            oUsuario = await _usuarioRepository.Get(UsuarioId);
-            
+        public async Task<Usuario> Insert(Usuario oUsuario)
+        {
+     
+            await _usuarioRepository.Post(oUsuario);
+
+            return await Get(oUsuario.UsuarioId);
+
+        }
+
+        public async Task<Usuario> Update(Usuario oUsuario)
+        {
+
+            await _usuarioRepository.Put(oUsuario);
+
+            return await Get(oUsuario.UsuarioId);
+
+        }
+
+        public async Task<Usuario> Delete(Int32 oUsuarioId) 
+        {
+
+            Usuario oUsuario = await Get(oUsuarioId);
+
+            await _usuarioRepository.Delete(oUsuario);
+
             return oUsuario;
+
+        }
+
+        //Métodos Complementarios
+        public async Task<Usuario> GetUsuario(Int32 oUsuarioId)
+        {
+            return await Get(oUsuarioId);
         }
 
         public async Task<Usuario> GetUsuarioPorEmail(string Email)
         {
-            Usuario oUsuario = new();
-
-            oUsuario = await _usuarioRepository.GetUsuarioPorEmail(Email);
-            
-            return oUsuario;
+            return await _usuarioRepository.GetUsuarioPorEmail(Email);
         }
 
-
-        public async Task<UsuarioFrontDTO> InsertUsuario(UsuarioDTO UsuarioDTO)
+        public async Task<UsuarioFrontDTO> InsertUsuario(UsuarioDTO oUsuarioDTO)
         {
 
             Usuario oUsuarioActual = new();
+            UsuarioFrontDTO oUsuarioFrontDTO = new();
 
-            oUsuarioActual = await GetUsuarioPorEmail(UsuarioDTO.Email);
+            oUsuarioActual = await GetUsuarioPorEmail(oUsuarioDTO.Email);
 
             //Verificamos si la cuenta, en caso exista se da por termionado el proceso
             if (oUsuarioActual != null){
-                sError = "UsuarioService.InsertUsuario: La cuenta " + UsuarioDTO.Email + " ya existe" ;
-                log.Info(string.Format("UsuarioService.GetUsuarioPorEmail: La cuenta {0} ya existe", UsuarioDTO.Email));
-                return null;
+                oUsuarioFrontDTO.Error = true;
+                oUsuarioFrontDTO.Mensaje = "La cuenta [" + oUsuarioDTO.Email + "] ya existe";
+                sError = "UsuarioService.InsertUsuario: La cuenta " + oUsuarioDTO.Email + " ya existe" ;
+                log.Info(string.Format("UsuarioService.GetUsuarioPorEmail: La cuenta {0} ya existe", oUsuarioDTO.Email));
+                return oUsuarioFrontDTO;
             }
 
             //Encrypt the OpcionId con el ID devuelto
             //List<TokenDTO> oListToken = [];
             List<string> oListToken = [];
-            oListToken = _cryptoService.IEncrypt(UsuarioDTO.Password);
+            oListToken = _cryptoService.IEncrypt(oUsuarioDTO.Password);
 
             Usuario oUsuario = new(){
 
-                UsuarioId = UsuarioDTO.UsuarioId,
-                Nombres = UsuarioDTO.Nombres, 
-                ApellidoPaterno = UsuarioDTO.ApellidoPaterno, 
-                ApellidoMaterno = UsuarioDTO.ApellidoMaterno,
-                Email = UsuarioDTO.Email,
+                UsuarioId = oUsuarioDTO.UsuarioId,
+                Nombres = oUsuarioDTO.Nombres, 
+                ApellidoPaterno = oUsuarioDTO.ApellidoPaterno, 
+                ApellidoMaterno = oUsuarioDTO.ApellidoMaterno,
+                Email = oUsuarioDTO.Email,
                 Password = oListToken[0],
                 Key1 = oListToken[1],
                 Key2 = oListToken[2],
-                TipoDocumento = UsuarioDTO.TipoDocumento,
-                NumeroDocumento = UsuarioDTO.NumeroDocumento,
-                Telefono = UsuarioDTO.Telefono,
-                AuditoriaUsuarioIngreso = UsuarioDTO.AuditoriaUsuario, 
+                TipoDocumento = oUsuarioDTO.TipoDocumento,
+                NumeroDocumento = oUsuarioDTO.NumeroDocumento,
+                Telefono = oUsuarioDTO.Telefono,
+                AuditoriaUsuarioIngreso = oUsuarioDTO.AuditoriaUsuario, 
                 AuditoriaFechaIngreso = DateTime.Now 
                 
             };
 
-            await _usuarioRepository.Post(oUsuario);
+            oUsuario = await Insert(oUsuario);
 
-            UsuarioDTO.UsuarioId = oUsuario.UsuarioId;
-
-            UsuarioFrontDTO oUsuarioFrontDTO = new();
-
-            oUsuario = await GetUsuario(oUsuario.UsuarioId);
-
-            oUsuarioFrontDTO.UsuarioId = UsuarioDTO.UsuarioId;
-            oUsuarioFrontDTO.Nombres = UsuarioDTO.Nombres;
-            oUsuarioFrontDTO.ApellidoPaterno = UsuarioDTO.ApellidoPaterno; 
-            oUsuarioFrontDTO.ApellidoMaterno = UsuarioDTO.ApellidoMaterno;
-            oUsuarioFrontDTO.Email = UsuarioDTO.Email;
-            oUsuarioFrontDTO.TipoDocumento = UsuarioDTO.TipoDocumento;
-            oUsuarioFrontDTO.NumeroDocumento = UsuarioDTO.NumeroDocumento;
-            oUsuarioFrontDTO.Telefono = UsuarioDTO.Telefono;
+            oUsuarioFrontDTO.UsuarioId = oUsuario.UsuarioId;
+            oUsuarioFrontDTO.Nombres = oUsuario.Nombres;
+            oUsuarioFrontDTO.ApellidoPaterno = oUsuario.ApellidoPaterno; 
+            oUsuarioFrontDTO.ApellidoMaterno = oUsuario.ApellidoMaterno;
+            oUsuarioFrontDTO.Email = oUsuario.Email;
+            oUsuarioFrontDTO.TipoDocumento = oUsuario.TipoDocumento;
+            oUsuarioFrontDTO.NumeroDocumento = oUsuario.NumeroDocumento;
+            oUsuarioFrontDTO.Telefono = oUsuario.Telefono;
 
             return oUsuarioFrontDTO;
 
         }
 
-        public async Task<UsuarioFrontDTO> UpdateUsuario(UsuarioDTO UsuarioDTO)
+        public async Task<UsuarioFrontDTO> UpdateUsuario(UsuarioDTO oUsuarioDTO)
         {
 
-            Usuario oUsuario = await _usuarioRepository.Get(UsuarioDTO.UsuarioId);
+            Usuario oUsuario = await Get(oUsuarioDTO.UsuarioId);
 
             //El ID no se modifica
             oUsuario.UsuarioId = oUsuario.UsuarioId;
-            oUsuario.Nombres = UsuarioDTO.Nombres;
-            oUsuario.ApellidoPaterno = UsuarioDTO.ApellidoPaterno;
-            oUsuario.ApellidoMaterno = UsuarioDTO.ApellidoMaterno;
+            oUsuario.Nombres = oUsuarioDTO.Nombres;
+            oUsuario.ApellidoPaterno = oUsuarioDTO.ApellidoPaterno;
+            oUsuario.ApellidoMaterno = oUsuarioDTO.ApellidoMaterno;
             //El correo no se cambia actualiza o modifica
             oUsuario.Email = oUsuario.Email;
             //El password no se cambia por este medio
             oUsuario.Password = oUsuario.Password;
-            oUsuario.TipoDocumento = UsuarioDTO.TipoDocumento;
-            oUsuario.NumeroDocumento = UsuarioDTO.NumeroDocumento;
-            oUsuario.Telefono = UsuarioDTO.Telefono;
-            oUsuario.AuditoriaUsuarioModificacion = UsuarioDTO.AuditoriaUsuario; 
+            oUsuario.TipoDocumento = oUsuarioDTO.TipoDocumento;
+            oUsuario.NumeroDocumento = oUsuarioDTO.NumeroDocumento;
+            oUsuario.Telefono = oUsuarioDTO.Telefono;
+            oUsuario.AuditoriaUsuarioModificacion = oUsuarioDTO.AuditoriaUsuario; 
             oUsuario.AuditoriaFechaModificacion = DateTime.Now;
 
-            await _usuarioRepository.Put(oUsuario);
+            oUsuario = await Update(oUsuario);
 
-            UsuarioFrontDTO oUsuarioFromtDTO = new();
+            UsuarioFrontDTO oUsuarioFrontDTO = new()
+            {
+                UsuarioId = oUsuario.UsuarioId,
+                Nombres = oUsuario.Nombres,
+                ApellidoPaterno = oUsuario.ApellidoPaterno,
+                ApellidoMaterno = oUsuario.ApellidoMaterno,
+                Email = oUsuario.Email,
+                TipoDocumento = oUsuario.TipoDocumento,
+                NumeroDocumento = oUsuario.NumeroDocumento,
+                Telefono = oUsuario.Telefono
+            };
 
-            oUsuario = await GetUsuario(oUsuario.UsuarioId);
-
-            oUsuarioFromtDTO.UsuarioId = UsuarioDTO.UsuarioId;
-            oUsuarioFromtDTO.Nombres = UsuarioDTO.Nombres;
-            oUsuarioFromtDTO.ApellidoPaterno = UsuarioDTO.ApellidoPaterno; 
-            oUsuarioFromtDTO.ApellidoMaterno = UsuarioDTO.ApellidoMaterno;
-            oUsuarioFromtDTO.Email = UsuarioDTO.Email;
-            oUsuarioFromtDTO.TipoDocumento = UsuarioDTO.TipoDocumento;
-            oUsuarioFromtDTO.NumeroDocumento = UsuarioDTO.NumeroDocumento;
-            oUsuarioFromtDTO.Telefono = UsuarioDTO.Telefono;
-
-            return oUsuarioFromtDTO;
+            return oUsuarioFrontDTO;
 
         }
 
-        public async Task<UsuarioFrontDTO> DeleteUsuario(UsuarioDTO UsuarioDTO)
+        public async Task<UsuarioFrontDTO> DeleteUsuario(Int32 UsuarioId)
         {
-            Usuario oUsuario = new(){
-                UsuarioId = UsuarioDTO.UsuarioId
+
+            Usuario oUsuario = await Get(UsuarioId); 
+
+            await Delete(UsuarioId);
+
+            UsuarioFrontDTO oUsuarioFrontDTO = new()
+            {
+                UsuarioId = oUsuario.UsuarioId,
+                Nombres = oUsuario.Nombres,
+                ApellidoPaterno = oUsuario.ApellidoPaterno,
+                ApellidoMaterno = oUsuario.ApellidoMaterno,
+                Email = oUsuario.Email,
+                TipoDocumento = oUsuario.TipoDocumento,
+                NumeroDocumento = oUsuario.NumeroDocumento,
+                Telefono = oUsuario.Telefono
             };
-            
-            UsuarioFrontDTO oUsuarioFromtDTO = new();
 
-            oUsuario = await GetUsuario(oUsuario.UsuarioId);
-
-            oUsuarioFromtDTO.UsuarioId = UsuarioDTO.UsuarioId;
-            oUsuarioFromtDTO.Nombres = UsuarioDTO.Nombres;
-            oUsuarioFromtDTO.ApellidoPaterno = UsuarioDTO.ApellidoPaterno; 
-            oUsuarioFromtDTO.ApellidoMaterno = UsuarioDTO.ApellidoMaterno;
-            oUsuarioFromtDTO.Email = UsuarioDTO.Email;
-            oUsuarioFromtDTO.TipoDocumento = UsuarioDTO.TipoDocumento;
-            oUsuarioFromtDTO.NumeroDocumento = UsuarioDTO.NumeroDocumento;
-            oUsuarioFromtDTO.Telefono = UsuarioDTO.Telefono;
-
-            await _usuarioRepository.Delete(oUsuario);
-
-            return oUsuarioFromtDTO;
+            return oUsuarioFrontDTO;
 
         }
 
         public async Task<UsuarioFrontDTO> UpdatePasswordUsuario(UsuarioPasswordDTO UsuarioPasswordDTO)
         {
-            string sError = "";
 
-            Usuario oUsuarioActual = new(){
-                Email = UsuarioPasswordDTO.Email,
-            };
-
-            UsuarioFrontDTO oUsuarioFrontDTO = new(); 
-
-            oUsuarioActual = await GetUsuarioPorEmail(UsuarioPasswordDTO.Email);
+            Usuario oUsuarioActual = await GetUsuarioPorEmail(UsuarioPasswordDTO.Email);
 
             List<string> oListToken = [];
        
@@ -189,20 +200,25 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             //Decrypt the password
             string sDecryptedPassword = _cryptoService.IDecrypt(oListToken);
 
+            UsuarioFrontDTO oUsuarioFrontDTO = new(); 
+
             if (UsuarioPasswordDTO.Password != sDecryptedPassword){
+                oUsuarioFrontDTO.Error = true;
+                oUsuarioFrontDTO.Mensaje = "La contraseña actual no coincide";
                 sError = "UsuarioService.UpdatePasswordUsuario: La contraseña actual no coincide" ;
                 log.Error(sError);
-                return null;
+                return oUsuarioFrontDTO;
             }
 
             if (UsuarioPasswordDTO.PasswordNuevo != UsuarioPasswordDTO.PasswordNuevoConfirmado){
-                sError = "UsuarioService.UpdatePasswordUsuario: La contraseña a actualizar no coincide con su confirmación." ;
+                oUsuarioFrontDTO.Error = true;
+                oUsuarioFrontDTO.Mensaje = "La nueva contraseña no coincide con la contraseña de confirmación.";
+                sError = "UsuarioService.UpdatePasswordUsuario: La nueva contraseña no coincide con la contraseña de confirmación." ;
                 log.Error(sError);
-                return null;
+                return oUsuarioFrontDTO;
             };
 
             //Encrypt the OpcionId con el ID devuelto
-            //List<TokenDTO> oListToken = [];
             oListToken = _cryptoService.IEncrypt(UsuarioPasswordDTO.PasswordNuevo);
 
             oUsuarioActual.Password = oListToken[0];
@@ -211,9 +227,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oUsuarioActual.AuditoriaUsuarioModificacion = UsuarioPasswordDTO.AuditoriaUsuario; 
             oUsuarioActual.AuditoriaFechaModificacion = DateTime.Now;
 
-            await _usuarioRepository.Put(oUsuarioActual);
-            
-            oUsuarioActual = await GetUsuario(oUsuarioActual.UsuarioId);
+            oUsuarioActual = await Update(oUsuarioActual);
 
             oUsuarioFrontDTO.UsuarioId = oUsuarioActual.UsuarioId;
             oUsuarioFrontDTO.Nombres = oUsuarioActual.Nombres;
@@ -222,7 +236,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oUsuarioFrontDTO.Email = oUsuarioActual.Email;
             oUsuarioFrontDTO.TipoDocumento = oUsuarioActual.TipoDocumento;
             oUsuarioFrontDTO.NumeroDocumento = oUsuarioActual.NumeroDocumento;
-            oUsuarioFrontDTO.Telefono = oUsuarioActual.Telefono;            
+            oUsuarioFrontDTO.Telefono = oUsuarioActual.Telefono;
 
             return oUsuarioFrontDTO;
 

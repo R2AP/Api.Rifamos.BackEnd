@@ -28,13 +28,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
         [Route("api/precio/obtener-precio/{PrecioId}")]
-        public async Task<ActionResult> GetPrecio(Int32 PrecioId)
+        public async Task<ActionResult> GetPrecio(Int32 oPrecioId)
         {
             try
             {
                 log.Info("Inicio api/precio/obtener-precio");
 
-                var oListaPrecio = await _precioService.GetPrecio(PrecioId);
+                var oListaPrecio = await _precioService.GetPrecio(oPrecioId);
 
                 if (oListaPrecio == null)
                 {
@@ -60,13 +60,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
         [Route("api/precio/listar-precio/{RifaId}")]
-        public async Task<ActionResult> GetListPrecio(Int32 RifaId)
+        public async Task<ActionResult> GetListPrecio(Int32 oRifaId)
         {
             try
             {
                 log.Info("Inicio api/precio/listar-precio");
 
-                var oListPrecio = await _precioService.GetPrecioUnitario(RifaId);
+                var oListPrecio = await _precioService.GetPrecioUnitario(oRifaId);
 
                 if (oListPrecio == null)
                 {
@@ -90,13 +90,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPost("api/precio/registro-precio")]
-        public async Task<ActionResult> InsertPrecio(PrecioDTO PrecioDTO)
+        public async Task<ActionResult> InsertPrecio(PrecioDTO oPrecioDTO)
         {
             try
             {        
                 log.Info("Inicio api/precio/registro-precio");
 
-                var oPrecio = await _precioService.InsertPrecio(PrecioDTO);
+                var oPrecio = await _precioService.InsertPrecio(oPrecioDTO);
 
                 log.Info("Fin api/precio/registro-precio");
 
@@ -115,13 +115,13 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPut("api/precio/actualizar-precio")]
-        public async Task<ActionResult> UpdatePrecio(PrecioDTO PrecioDTO)
+        public async Task<ActionResult> UpdatePrecio(PrecioDTO oPrecioDTO)
         {
             try
             {        
                 log.Info("Inicio api/precio/actualizar-precio");
 
-                var oPrecio = await _precioService.UpdatePrecio(PrecioDTO);
+                var oPrecio = await _precioService.UpdatePrecio(oPrecioDTO);
 
                 log.Info("Fin api/precio/actualizar-precio");
 
@@ -140,14 +140,14 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpDelete("api/precio/eliminar-precio")]
-        public async Task<ActionResult> DeletePrecio(Int32 PrecioId)
+        public async Task<ActionResult> DeletePrecio(Int32 oPrecioId)
         {
             try
             {        
 
                 log.Info("Inicio api/precio/eliminar-precio");
 
-                var oPrecio = await _precioService.DeletePrecio(PrecioId);
+                var oPrecio = await _precioService.DeletePrecio(oPrecioId);
 
                 log.Info("Fin api/precio/eliminar-precio");
 

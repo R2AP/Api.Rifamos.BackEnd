@@ -12,7 +12,7 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
         public async Task<List<Opcion>> GetListOpcion(Int32 RifaId, Int32 UsuarioId )
         {
 
-            var opcion = (from opc in _context.Opcions 
+            return await (from opc in _context.Opcions 
                             where opc.RifaId == RifaId && opc.UsuarioId == UsuarioId
                             select new Opcion
                             {
@@ -30,8 +30,6 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
                                 AuditoriaFechaModificacion = opc.AuditoriaFechaModificacion
 
                             }).ToListAsync();
-
-            return await opcion;
         }
 
         public async Task<Opcion> GetOpcionToken(string TokenOpcion) => await _context.Opcions.Where(x => x.TokenOpcion == TokenOpcion).FirstOrDefaultAsync();

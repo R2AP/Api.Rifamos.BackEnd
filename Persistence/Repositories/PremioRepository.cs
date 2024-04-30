@@ -14,7 +14,7 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
         public async Task<List<Premio>> GetListPremio(Int32 RifaId)
         {
 
-            var premio = (from prm in _context.Premios 
+            return await (from prm in _context.Premios 
                             where prm.RifaId == RifaId 
                             select new Premio
                             {
@@ -31,7 +31,6 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
 
                             }).ToListAsync();
 
-            return await premio;
         }
     }
 }

@@ -31,25 +31,60 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             // _environment = environment;
         }
 
-        public async Task<Rifa> GetRifa(Int32 RifaId)
+        //Métodos Básicos
+        public async Task<Rifa> Get(Int32 oRifaId) => await _rifaRepository.Get(oRifaId);
+
+        public async Task<Rifa> Insert(Rifa oRifa)
         {
-            // var ejemplo = _configuration["prueba"];
-            return await _rifaRepository.Get(RifaId);
+     
+            await _rifaRepository.Post(oRifa);
+
+            return await Get(oRifa.RifaId);
+
         }
 
-        public async Task<List<Rifa>> GetListRifaUsuario(Int32 UsuarioId)
+        public async Task<Rifa> Update(Rifa oRifa)
         {
-            // var ejemplo = _configuration["prueba"];
-            return await _rifaRepository.GetListRifaUsuario(UsuarioId);
-        } 
 
-        public async Task<List<Rifa>> GetListRifaEstado(Int32 EstadoId)
-        {
-            // var ejemplo = _configuration["prueba"];
-            return await _rifaRepository.GetListRifaEstado(EstadoId);
+            await _rifaRepository.Put(oRifa);
+
+            return await Get(oRifa.RifaId);
+
         }
 
-        public async Task<Rifa> InsertRifa(RifaDTO RifaDTO)
+        public async Task<Rifa> Delete(Int32 oRifaId)
+        {
+
+            Rifa oRifa = await Get(oRifaId);
+
+            await _rifaRepository.Delete(oRifa);
+
+            return oRifa;
+
+        }
+
+		//Métodos Complementarios
+        public async Task<RifaFrontDTO> GetRifa(Int32 oRifaId)
+        {
+            
+            Rifa oRifa = await Get(oRifaId);
+
+            RifaFrontDTO oRifaFrontDTO = new(){
+
+                RifaId = oRifa.RifaId,
+                RifaDescripcion = oRifa.RifaDescripcion,
+                FechaSorteo = oRifa.FechaSorteo,
+                HoraSorteo =  oRifa.HoraSorteo,
+                Imagen = oRifa.Imagen,
+                Sponsor = oRifa.Sponsor,
+                EstadoRifa = oRifa.EstadoRifa
+
+            };
+
+            return oRifaFrontDTO;
+        }
+
+        public async Task<RifaFrontDTO> InsertRifa(RifaDTO oRifaDTO)
         {
 
             string sPath = @"C:\\Users\\romul\\Downloads\\_MG_6476 CARNET.jpg";
@@ -60,35 +95,46 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 MemoryStream oMemoryStream = new();
                 oStream.CopyTo(oMemoryStream);
                 oFile = oMemoryStream.ToArray();
-                RifaDTO.Imagen = oFile;
+                oRifaDTO.Imagen = oFile;
                 oMemoryStream.Close();
                 oStream.Close();
             }
 
             Rifa oRifa = new(){
 
-                RifaId = RifaDTO.RifaId,
-                RifaDescripcion = RifaDTO.RifaDescripcion,
-                FechaSorteo = RifaDTO.FechaSorteo,
-                HoraSorteo =  RifaDTO.HoraSorteo,
-                Imagen = RifaDTO.Imagen,
-                Sponsor = RifaDTO.Sponsor,
-                EstadoRifa = RifaDTO.EstadoRifa,
-                AuditoriaUsuarioIngreso = RifaDTO.AuditoriaUsuarioIngreso,
+                RifaId = oRifaDTO.RifaId,
+                RifaDescripcion = oRifaDTO.RifaDescripcion,
+                FechaSorteo = oRifaDTO.FechaSorteo,
+                HoraSorteo =  oRifaDTO.HoraSorteo,
+                Imagen = oRifaDTO.Imagen,
+                Sponsor = oRifaDTO.Sponsor,
+                EstadoRifa = oRifaDTO.EstadoRifa,
+                AuditoriaUsuarioIngreso = oRifaDTO.AuditoriaUsuario,
                 AuditoriaFechaIngreso = DateTime.Now
                 
             };
 
-            await _rifaRepository.Post(oRifa);
+            await Insert(oRifa);
 
-            return oRifa;
+            RifaFrontDTO oRifaFrontDTO = new(){
+
+                RifaId = oRifa.RifaId,
+                RifaDescripcion = oRifa.RifaDescripcion,
+                FechaSorteo = oRifa.FechaSorteo,
+                HoraSorteo =  oRifa.HoraSorteo,
+                Imagen = oRifa.Imagen,
+                Sponsor = oRifa.Sponsor,
+                EstadoRifa = oRifa.EstadoRifa
+
+            };
+
+            return oRifaFrontDTO;
 
         }
-
-        public async Task<Rifa> UpdateRifa(RifaDTO RifaDTO)
+        public async Task<RifaFrontDTO> UpdateRifa(RifaDTO RifaDTO)
         {
 
-            Rifa oRifa = await _rifaRepository.Get(RifaDTO.RifaId);
+            Rifa oRifa = await Get(RifaDTO.RifaId);
 
             oRifa.RifaDescripcion = RifaDTO.RifaDescripcion;
             oRifa.FechaSorteo = RifaDTO.FechaSorteo;
@@ -96,25 +142,103 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oRifa.Imagen = RifaDTO.Imagen;
             oRifa.Sponsor = RifaDTO.Sponsor;
             oRifa.EstadoRifa = RifaDTO.EstadoRifa;
-            oRifa.AuditoriaUsuarioModificacion = RifaDTO.AuditoriaUsuarioModificacion;
+            oRifa.AuditoriaUsuarioModificacion = RifaDTO.AuditoriaUsuario;
             oRifa.AuditoriaFechaModificacion = DateTime.Now;
 
-            await _rifaRepository.Put(oRifa);
+            await Update(oRifa);
 
-            return oRifa;
+            RifaFrontDTO oRifaFrontDTO = new(){
+
+                RifaId = oRifa.RifaId,
+                RifaDescripcion = oRifa.RifaDescripcion,
+                FechaSorteo = oRifa.FechaSorteo,
+                HoraSorteo =  oRifa.HoraSorteo,
+                Imagen = oRifa.Imagen,
+                Sponsor = oRifa.Sponsor,
+                EstadoRifa = oRifa.EstadoRifa
+
+            };
+
+            return oRifaFrontDTO;
 
         }
 
-        public async Task<Rifa> DeleteRifa(Int32 RifaId)
+        public async Task<RifaFrontDTO> DeleteRifa(Int32 oRifaId)
         {
 
-            Rifa oRifa = await _rifaRepository.Get(RifaId);
+            Rifa oRifa = await Delete(oRifaId);
 
-            await _rifaRepository.Delete(oRifa);
+            RifaFrontDTO oRifaFrontDTO = new(){
 
-            return oRifa;
+                RifaId = oRifa.RifaId,
+                RifaDescripcion = oRifa.RifaDescripcion,
+                FechaSorteo = oRifa.FechaSorteo,
+                HoraSorteo =  oRifa.HoraSorteo,
+                Imagen = oRifa.Imagen,
+                Sponsor = oRifa.Sponsor,
+                EstadoRifa = oRifa.EstadoRifa
+
+            };
+
+            return oRifaFrontDTO;
 
         }        
+
+        public async Task<List<RifaFrontDTO>> GetListRifaUsuario(Int32 oUsuarioId)
+        {
+
+            List<RifaFrontDTO> oListRifaFrontDTO = [];
+
+            List<Rifa> oListRifa = await _rifaRepository.GetListRifaUsuario(oUsuarioId);
+
+            foreach(var oItem in oListRifa) {
+                
+                Rifa oRifa = oItem;
+
+                RifaFrontDTO oRifaFrontDTO = new(){
+                    RifaId = oRifa.RifaId,
+                    RifaDescripcion = oRifa.RifaDescripcion,
+                    FechaSorteo = oRifa.FechaSorteo,
+                    HoraSorteo =  oRifa.HoraSorteo,
+                    Imagen = oRifa.Imagen,
+                    Sponsor = oRifa.Sponsor,
+                    EstadoRifa = oRifa.EstadoRifa
+                };
+
+                oListRifaFrontDTO.Add(oRifaFrontDTO);
+            }
+
+            return oListRifaFrontDTO;
+        } 
+
+        public async Task<List<RifaFrontDTO>> GetListRifaEstado(Int32 oEstadoId)
+        {
+
+            List<RifaFrontDTO> oListRifaFrontDTO = [];
+
+            List<Rifa> oListRifa = await _rifaRepository.GetListRifaEstado(oEstadoId);
+
+            foreach(var oItem in oListRifa) {
+                
+                Rifa oRifa = oItem;
+
+                RifaFrontDTO oRifaFrontDTO = new(){
+                    RifaId = oRifa.RifaId,
+                    RifaDescripcion = oRifa.RifaDescripcion,
+                    FechaSorteo = oRifa.FechaSorteo,
+                    HoraSorteo =  oRifa.HoraSorteo,
+                    Imagen = oRifa.Imagen,
+                    Sponsor = oRifa.Sponsor,
+                    EstadoRifa = oRifa.EstadoRifa
+                };
+
+                oListRifaFrontDTO.Add(oRifaFrontDTO);
+            }
+
+            return oListRifaFrontDTO;
+
+        }
+      
     }
 
 }

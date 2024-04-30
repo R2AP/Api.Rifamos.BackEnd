@@ -26,26 +26,26 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<summary>
         ///Obtener un registro con la rifa seleccionada.
         ///</summary>
-        ///<param name="RifaId">Específica el id de la Rifa seleccionada.</param>
+        ///<param name="oRifaId">Específica el id de la Rifa seleccionada.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
-        [Route("api/rifa/obtener-rifa/{RifaId}")]
-        public async Task<ActionResult> GetRifa(Int32 RifaId)
+        [Route("api/rifa/obtener-rifa/{oRifaId}")]
+        public async Task<ActionResult> GetRifa(Int32 oRifaId)
         {
             try
             {
                 log.Info("Inicio api/rifa/obtener-rifa");
 
-                Rifa oRifa = await _rifaService.GetRifa(RifaId);
+                RifaFrontDTO oRifaFrontDTO = await _rifaService.GetRifa(oRifaId);
 
-                if (oRifa == null)
+                if (oRifaFrontDTO == null)
                 {
                     return NoContent();
                 }
 
                 log.Info("Fin api/rifa/obtener-rifa");
                 
-                return Ok(oRifa);
+                return Ok(oRifaFrontDTO);
             }
             catch(Exception ex)
             {
@@ -58,17 +58,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<summary>
         ///Obtener una lista de rifas de un usuario especifico
         ///</summary>
-        ///<param name="UsuarioId">Específica el id del usuario.</param>
+        ///<param name="oUsuarioId">Específica el id del usuario.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
-        [Route("api/rifa/obtener-lista-rifa-usuario/{UsuarioId}")]
-        public async Task<ActionResult> GetListRifaUsuario(Int32 UsuarioId)
+        [Route("api/rifa/obtener-lista-rifa-usuario/{oUsuarioId}")]
+        public async Task<ActionResult> GetListRifaUsuario(Int32 oUsuarioId)
         {
             try
             {
                 log.Info("Inicio api/rifa/obtener-lista-rifa-usuario");
 
-                var oListaRifa = await _rifaService.GetListRifaUsuario(UsuarioId);
+                List<RifaFrontDTO> oListaRifa = await _rifaService.GetListRifaUsuario(oUsuarioId);
 
                 if (oListaRifa == null)
                 {
@@ -90,17 +90,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<summary>
         ///Obtener una lista de rifas por estado
         ///</summary>
-        ///<param name="EstadoId">Específica el id del estado selecconado.</param>
+        ///<param name="oEstadoId">Específica el id del estado selecconado.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
-        [Route("api/rifa/obtener-lista-rifa-estado/{EstadoId}")]
-        public async Task<ActionResult> GetListRifa(Int32 EstadoId)
+        [Route("api/rifa/obtener-lista-rifa-estado/{oEstadoId}")]
+        public async Task<ActionResult> GetListRifa(Int32 oEstadoId)
         {
             try
             {
                 log.Info("Inicio api/rifa/obtener-lista-rifa-estado");
 
-                var oListaRifa = await _rifaService.GetListRifaEstado(EstadoId);
+                List<RifaFrontDTO> oListaRifa = await _rifaService.GetListRifaEstado(oEstadoId);
 
                 if (oListaRifa == null)
                 {
@@ -124,17 +124,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPost("api/rifa/registro-rifa")]
-        public async Task<ActionResult> InsertRifa(RifaDTO RifaDTO)
+        public async Task<ActionResult> InsertRifa(RifaDTO oRifaDTO)
         {
             try
             {        
                 log.Info("Inicio api/rifa/registro-rifa");
 
-                Rifa oRifa = await _rifaService.InsertRifa(RifaDTO);
+                RifaFrontDTO oRifaFrontDTO = await _rifaService.InsertRifa(oRifaDTO);
 
                 log.Info("Fin api/rifa/registro-rifa");
 
-                return Ok(oRifa); 
+                return Ok(oRifaFrontDTO); 
             }
             catch (Exception ex)
             {
@@ -149,17 +149,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpPut("api/rifa/actualizar-rifa")]
-        public async Task<ActionResult> UpdateRifa(RifaDTO RifaDTO)
+        public async Task<ActionResult> UpdateRifa(RifaDTO oRifaDTO)
         {
             try
             {        
                 log.Info("Inicio api/rifa/actualizar-rifa");
 
-                Rifa oRifa = await _rifaService.UpdateRifa(RifaDTO);
+                RifaFrontDTO oRifaFrontDTO = await _rifaService.UpdateRifa(oRifaDTO);
 
                 log.Info("Fin api/rifa/actualizar-rifa");
 
-                return Ok(oRifa); 
+                return Ok(oRifaFrontDTO); 
             }
             catch (Exception ex)
             {
@@ -174,17 +174,17 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpDelete("api/rifa/eliminar-rifa")]
-        public async Task<ActionResult> DeleteRifa(Int32 RifaId)
+        public async Task<ActionResult> DeleteRifa(Int32 oRifaId)
         {
             try
             {        
                 log.Info("Inicio api/rifa/eliminar-rifa");
 
-                var oRifa = await _rifaService.DeleteRifa(RifaId);
+                RifaFrontDTO oRifaFrontDTO = await _rifaService.DeleteRifa(oRifaId);
 
                 log.Info("Fin api/rifa/eliminar-rifa");
 
-                return Ok(oRifa); 
+                return Ok(oRifaFrontDTO); 
             }
             catch (Exception ex)
             {

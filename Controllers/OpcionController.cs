@@ -24,19 +24,19 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<summary>
         ///Obtener una lista de opciones compradas por un clientes en una rifa especifica
         ///</summary>
-        ///<param name="RifaId">Específica el id de la rifa.</param>
-        ///<param name="UsuarioId">Específica el id del usuario.</param>
+        ///<param name="oRifaId">Específica el id de la rifa.</param>
+        ///<param name="oUsuarioId">Específica el id del usuario.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
         [Authorize]
-        [Route("api/opcion/obtener-lista-opcion/{RifaId}/{UsuarioId}")]
-        public async Task<ActionResult> GetListOpcion(Int32 RifaId, Int32 UsuarioId)
+        [Route("api/opcion/obtener-lista-opcion/{oRifaId}/{oUsuarioId}")]
+        public async Task<ActionResult> GetListOpcion(Int32 oRifaId, Int32 oUsuarioId)
         {
             try
             {
                 log.Info("Inicio api/opcion/obtener-lista-opcion");
 
-                var oListaOpcion = await _opcionService.GetListOpcion(RifaId, UsuarioId);
+                var oListaOpcion = await _opcionService.GetListOpcion(oRifaId, oUsuarioId);
 
                 if (oListaOpcion == null)
                 {
@@ -58,18 +58,18 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<summary>
         ///Obtener una opción comprada por un cliente
         ///</summary>
-        ///<param name="TokenOpcion">Específica el token de una opción.</param>
+        ///<param name="oTokenOpcion">Específica el token de una opción.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
         [Authorize]
-        [Route("api/opcion/obtener-opcion/{TokenOpcion}")]
-        public async Task<ActionResult> GetOpcion(string TokenOpcion)
+        [Route("api/opcion/obtener-opcion/{oTokenOpcion}")]
+        public async Task<ActionResult> GetOpcion(string oTokenOpcion)
         {
             try
             {
                 log.Info("Inicio api/opcion/obtener-opcion");
 
-                var oOpcion = await _opcionService.GetOpcionToken(TokenOpcion);
+                var oOpcion = await _opcionService.GetOpcionToken(oTokenOpcion);
 
                 if (oOpcion == null)
                 {
