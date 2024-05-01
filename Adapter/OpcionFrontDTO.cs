@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Api.Rifamos.BackEnd.Adapter{
 
-public class OpcionFrontDTO{
+public class OpcionFrontDTO : ErrorDTO{
     public int OpcionId { get; set; }
 
     public int RifaId { get; set; }

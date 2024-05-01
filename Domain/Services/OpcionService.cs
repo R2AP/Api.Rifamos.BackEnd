@@ -15,9 +15,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         private readonly ICryptoService _cryptoService;
         private readonly IEmailService _emailService;
         private static readonly ILog log = LogManager.GetLogger(typeof(UsuarioService));
-        // public IConfiguration _configuration { get; }
-        // private IHostingEnvironment _environment;
-        //private static readonly ILog log = LogManager.GetLogger(typeof(UltimusService));
+        readonly string sServicio = "OpcionService: ";
 
         public OpcionService(IOpcionRepository opcionRepository,
                             ICryptoService cryptoService,
@@ -68,11 +66,11 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 		//Métodos Complementarios
        public async Task<OpcionFrontDTO> GetOpcionToken(string oTokenOpcion)
         {
-
-            string sError = "";
         
             // Buscamos la opción por token
             Opcion oOpcion = await _opcionRepository.GetOpcionToken(oTokenOpcion); 
+
+            OpcionFrontDTO oOpcionFrontDTO = new();
 
             List<string> oListToken = [];
        
@@ -83,21 +81,18 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             string sDecryptedPassword = _cryptoService.IDecrypt(oListToken);
 
             if (oOpcion.OpcionId.ToString() != sDecryptedPassword){
-                sError = "OpcionService.GetOpcionToken: No se encontró la opción ingresada " + oOpcion.TokenOpcion;
-                sError = "No se encontró la opción ingresada: " + oOpcion.TokenOpcion;
-                log.Error(sError);
-                return null;
+                oOpcionFrontDTO.Error = true;
+                oOpcionFrontDTO.Mensaje =  "No se encontró la opción ingresada [" + oOpcion.TokenOpcion + "]";
+                log.Error(sServicio + oOpcionFrontDTO.Mensaje);
+                return oOpcionFrontDTO;
             }
 
-            OpcionFrontDTO oOpcionFrontDTO = new()
-            {
-                OpcionId = oOpcion.OpcionId,
-                RifaId = oOpcion.RifaId,
-                UsuarioId = oOpcion.UsuarioId,
-                TokenOpcion = oOpcion.TokenOpcion,
-                CantidadOpciones = oOpcion.CantidadOpciones,
-                EstadoOpcion = oOpcion.EstadoOpcion
-            };
+            oOpcionFrontDTO.OpcionId = oOpcion.OpcionId;
+            oOpcionFrontDTO.RifaId = oOpcion.RifaId;
+            oOpcionFrontDTO.UsuarioId = oOpcion.UsuarioId;
+            oOpcionFrontDTO.TokenOpcion = oOpcion.TokenOpcion;
+            oOpcionFrontDTO.CantidadOpciones = oOpcion.CantidadOpciones;
+            oOpcionFrontDTO.EstadoOpcion = oOpcion.EstadoOpcion;
 
             return oOpcionFrontDTO;
 
@@ -110,6 +105,17 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             List<OpcionFrontDTO> oListOpcionFrontDTO =  [];
 
             oListOpcion = await _opcionRepository.GetListOpcion(oRifaId, oUsuarioId);
+
+            if (oListOpcion.Count == 0){
+                OpcionFrontDTO oOpcionFrontDTO = new()
+                {
+                    Error = true,
+                    Mensaje = "No se encontraron opciones para la rifa seleccionada."
+                };
+                oListOpcionFrontDTO.Add(oOpcionFrontDTO);
+                log.Error(sServicio + oOpcionFrontDTO.Mensaje);
+                return oListOpcionFrontDTO;
+            }
 
             foreach( var item in oListOpcion) {
 
