@@ -18,6 +18,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         private readonly ICryptoService _cryptoService;
         private readonly IConfiguration _configuration;
         private static readonly ILog log = LogManager.GetLogger(typeof(UsuarioService));
+        readonly string sServicio = "LoginService: ";
 
         public LoginService(ILoginRepository loginRepository,
                             IUsuarioRepository usuarioRepository, 
@@ -36,8 +37,6 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
        public async Task<UsuarioFrontDTO> LoginUsuario(LoginDTO LoginDTO)
         {
 
-            string sError = "";
-
             //Inicializamos clases y objetos
             Usuario oUsuario = new();
             UsuarioDTO oUsuarioDTO = new();
@@ -50,8 +49,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             {
                 oUsuarioFrontDTO.Error = true;
                 oUsuarioFrontDTO.Mensaje = "Cuenta de correo o usuario no existe [" + LoginDTO.Email + "]";
-                sError = "LoginService.LoginUsuario: Cuenta de correo o usuario no existe [" + LoginDTO.Email + "]";
-                log.Error(sError);
+                log.Error(sServicio + oUsuarioFrontDTO.Mensaje);
                 return oUsuarioFrontDTO;
             }
             
@@ -68,8 +66,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             {
                 oUsuarioFrontDTO.Error = true;
                 oUsuarioFrontDTO.Mensaje = "Cuenta de correo o usuario y/o password incorrecto [" + LoginDTO.Email + "]";
-                sError = "LoginService.LoginUsuario: Cuenta de correo o usuario y/o password incorrecto [" + LoginDTO.Email + "]";
-                log.Error(sError);
+                log.Error(sServicio + oUsuarioFrontDTO.Mensaje);
                 return oUsuarioFrontDTO;
             }
 

@@ -25,7 +25,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             // _environment = environment;
         }
 
-        string sError = "";
+        readonly string sServicio = "UsuarioService.GetUsuarioPorEmail: ";
 
         //Métodos Básicos
         public async Task<Usuario> Get(Int32 oUsuarioId) => await _usuarioRepository.Get(oUsuarioId);
@@ -60,6 +60,39 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         }
 
         //Métodos Complementarios
+        private static bool CheckPassword (string oPassword)
+        {
+            
+            bool oUpper = false, oLower = false, oDigit = false, oSpecial = false, oCheck = false;
+
+            for(int i = 0; i < oPassword.Length; i++ ){
+                if(Char.IsUpper(oPassword, i))
+                {
+                    oUpper = true;
+                }
+                else if(Char.IsLower(oPassword,i))
+                {
+                    oLower = true;
+                }
+                else if(Char.IsDigit(oPassword,i))
+                {
+                    oDigit = true;
+                }
+                else{
+                    oSpecial = true;
+                }
+
+            }
+
+            if (oUpper && oLower && oDigit && oSpecial && oPassword.Length >= 8)
+            {
+                oCheck = true;    
+            } 
+
+            return oCheck;
+
+        }
+
         public async Task<Usuario> GetUsuario(Int32 oUsuarioId)
         {
             return await Get(oUsuarioId);
@@ -72,18 +105,28 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         public async Task<UsuarioFrontDTO> InsertUsuario(UsuarioDTO oUsuarioDTO)
         {
-
             Usuario oUsuarioActual = new();
             UsuarioFrontDTO oUsuarioFrontDTO = new();
 
+            //Verificamos si el password cumple con las siguientes caraterísticas:
+            //Tenga Mayúsculas, Minusculas, Digitos, Caracteres Especiales y Más de 8 caracteres.
+            bool oCheckPassword = CheckPassword(oUsuarioDTO.Password);
+
+            if (!oCheckPassword)
+            {
+                oUsuarioFrontDTO.Error = true;
+                oUsuarioFrontDTO.Mensaje = "El password ingresado no cumple con los criterios: [Al menos un mayúscula][Al menos una minúscula][Al menos un dígito][Al menos un caracter especial][Más de 8 caracteres de longitud]";
+                log.Info(sServicio + oUsuarioFrontDTO.Mensaje);
+                return oUsuarioFrontDTO;
+            }
+
             oUsuarioActual = await GetUsuarioPorEmail(oUsuarioDTO.Email);
 
-            //Verificamos si la cuenta, en caso exista se da por termionado el proceso
+            //Verificamos si la cuenta existe, en caso exista se da por terminado el proceso
             if (oUsuarioActual != null){
                 oUsuarioFrontDTO.Error = true;
-                oUsuarioFrontDTO.Mensaje = "La cuenta [" + oUsuarioDTO.Email + "] ya existe";
-                sError = "UsuarioService.InsertUsuario: La cuenta " + oUsuarioDTO.Email + " ya existe" ;
-                log.Info(string.Format("UsuarioService.GetUsuarioPorEmail: La cuenta {0} ya existe", oUsuarioDTO.Email));
+                oUsuarioFrontDTO.Mensaje = "La cuenta " + oUsuarioDTO.Email + " ya existe" ;
+                log.Info(sServicio + oUsuarioFrontDTO.Mensaje);
                 return oUsuarioFrontDTO;
             }
 
@@ -205,16 +248,14 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             if (UsuarioPasswordDTO.Password != sDecryptedPassword){
                 oUsuarioFrontDTO.Error = true;
                 oUsuarioFrontDTO.Mensaje = "La contraseña actual no coincide";
-                sError = "UsuarioService.UpdatePasswordUsuario: La contraseña actual no coincide" ;
-                log.Error(sError);
+                log.Error(sServicio + oUsuarioFrontDTO.Mensaje);
                 return oUsuarioFrontDTO;
             }
 
             if (UsuarioPasswordDTO.PasswordNuevo != UsuarioPasswordDTO.PasswordNuevoConfirmado){
                 oUsuarioFrontDTO.Error = true;
                 oUsuarioFrontDTO.Mensaje = "La nueva contraseña no coincide con la contraseña de confirmación.";
-                sError = "UsuarioService.UpdatePasswordUsuario: La nueva contraseña no coincide con la contraseña de confirmación." ;
-                log.Error(sError);
+                log.Error(sServicio + oUsuarioFrontDTO.Mensaje);
                 return oUsuarioFrontDTO;
             };
 

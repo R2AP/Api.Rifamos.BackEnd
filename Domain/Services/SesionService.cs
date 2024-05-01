@@ -36,15 +36,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return await _sesionRepository.Get(SesionId);
         }
 
-        // public async Task<List<Rifa>> GetListRifaEstado(Int32 EstadoId)
-        // {
-        //     // var ejemplo = _configuration["prueba"];
-        //     return await _rifaRepository.GetListRifaEstado(EstadoId);
-        // }
-
         public async Task<Sesion> InsertSesion(SesionDTO SesionDTO)
         {
-            // var ejemplo = _configuration["prueba"];
 
             Sesion oSesion = new(){
 
@@ -63,7 +56,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return oSesion;
 
         }
-
+        
         public async Task<Sesion> UpdateSesion(SesionDTO SesionDTO)
         {
 
