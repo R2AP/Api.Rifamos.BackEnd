@@ -42,12 +42,10 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             Sesion oSesion = new(){
 
                 SesionId = SesionDTO.SesionId,
-                UsuarioId = SesionDTO.UsuarioId,
-                TipoEvento = SesionDTO.TipoEvento,
+                Email = SesionDTO.Email,                
                 Ip = SesionDTO.Ip,
-                Email = SesionDTO.Email,
-                AuditoriaUsuarioIngreso = SesionDTO.AuditoriaUsuarioIngreso,
-                AuditoriaFechaIngreso = DateTime.Now
+                TipoEvento = SesionDTO.TipoEvento,
+                FechaEvento = DateTime.Now
                 
             };
 
@@ -63,13 +61,10 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             Sesion oSesion = await _sesionRepository.Get(SesionDTO.SesionId);
 
             oSesion.SesionId = SesionDTO.SesionId;
-            oSesion.UsuarioId = SesionDTO.UsuarioId;
-            oSesion.TipoEvento = SesionDTO.TipoEvento;
+            oSesion.Email = SesionDTO.Email;          
             oSesion.Ip = SesionDTO.Ip;
-            oSesion.Email = SesionDTO.Email;
-            oSesion.AuditoriaUsuarioIngreso = SesionDTO.AuditoriaUsuarioIngreso;
-            oSesion.AuditoriaUsuarioModificacion = oSesion.AuditoriaUsuarioModificacion;
-            oSesion.AuditoriaFechaModificacion = DateTime.Now;
+            oSesion.TipoEvento = SesionDTO.TipoEvento;
+            oSesion.FechaEvento = DateTime.Now;
 
             await _sesionRepository.Put(oSesion);
 

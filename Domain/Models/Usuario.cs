@@ -37,7 +37,5 @@ public partial class Usuario
 
     public virtual ICollection<Opcion> Opcions { get; set; } = new List<Opcion>();
 
-    public virtual ICollection<Sesion> Sesions { get; set; } = new List<Sesion>();
-
     public virtual TipoDocumento TipoDocumentoNavigation { get; set; } = null!;
 }

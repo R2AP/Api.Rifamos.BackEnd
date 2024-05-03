@@ -17,13 +17,15 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         private readonly IUsuarioRepository _usuarioRepository; 
         private readonly ICryptoService _cryptoService;
         private readonly IConfiguration _configuration;
+        private readonly ISesionService _sesionService;
         private static readonly ILog log = LogManager.GetLogger(typeof(UsuarioService));
         readonly string sServicio = "LoginService: ";
 
         public LoginService(ILoginRepository loginRepository,
                             IUsuarioRepository usuarioRepository, 
                             ICryptoService cryptoService,
-                            IConfiguration configuration/*,
+                            IConfiguration configuration,
+                            ISesionService sesionService/*,
                             IHostingEnvironment environment*/
                             )
         {
@@ -31,6 +33,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             _usuarioRepository = usuarioRepository;
             _cryptoService = cryptoService;
             _configuration = configuration;
+            _sesionService = sesionService;
             // _environment = environment;
         }
 
@@ -91,6 +94,17 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oUsuarioFrontDTO.NumeroDocumento = oUsuario.NumeroDocumento;
             oUsuarioFrontDTO.Telefono = oUsuario.Telefono;
             oUsuarioFrontDTO.Token = oUsuarioDTO.Token;
+
+            //Registrar sesión
+            SesionDTO oSesionDTO = new()
+            {
+                SesionId = 0,
+                TipoEvento = 1,
+                Ip = LoginDTO.Ip,
+                Email = LoginDTO.Email
+            };
+
+            Sesion oSesion = await _sesionService.InsertSesion(oSesionDTO);
 
             return oUsuarioFrontDTO;
 

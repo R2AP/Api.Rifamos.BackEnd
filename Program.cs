@@ -95,7 +95,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 //Habilitar el uso de cors
 app.UseCors(RifamosPolicyAllowSpecificOrigins);

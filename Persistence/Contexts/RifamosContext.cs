@@ -258,25 +258,16 @@ public partial class RifamosContext : DbContext
             entity.ToTable("Sesion");
 
             entity.Property(e => e.SesionId).HasColumnName("SesionID");
-            entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
-            entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.Email).HasMaxLength(64);
+            entity.Property(e => e.FechaEvento).HasColumnType("timestamp without time zone");
             entity.Property(e => e.Ip)
                 .HasMaxLength(16)
                 .HasColumnName("IP");
-            entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
 
             entity.HasOne(d => d.TipoEventoNavigation).WithMany(p => p.Sesions)
                 .HasForeignKey(d => d.TipoEvento)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Sesion_TipoEvento_fkey");
-
-            entity.HasOne(d => d.Usuario).WithMany(p => p.Sesions)
-                .HasForeignKey(d => d.UsuarioId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Sesion_UsuarioID_fkey");
         });
 
         modelBuilder.Entity<TipoComprobante>(entity =>

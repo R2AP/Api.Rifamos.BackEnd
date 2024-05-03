@@ -110,7 +110,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 OpcionFrontDTO oOpcionFrontDTO = new()
                 {
                     Error = true,
-                    Mensaje = "No se encontraron opciones para la rifa seleccionada."
+                    Mensaje = "No se encontraron opciones para la selección."
                 };
                 oListOpcionFrontDTO.Add(oOpcionFrontDTO);
                 log.Error(sServicio + oOpcionFrontDTO.Mensaje);

@@ -8,5 +8,8 @@ public class LoginDTO {
 
     public string Password { get; set; } = null!;
 
+    //Sesion
+    public string Ip { get; set; } = null!;
+
     }
 }
