@@ -26,7 +26,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<param name="oRifaId">Específica el id de la rifa.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
-        [Route("api/premio/obtener-lista-premio/{RifaId}")]
+        [Route("api/premio/obtener-lista-premio/{oRifaId}")]
         public async Task<ActionResult> GetListPremio(Int32 oRifaId)
         {
             try
