@@ -27,7 +27,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<param name="PrecioId">Específica el id de la Precio seleccionada.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
-        [Route("api/precio/obtener-precio/{PrecioId}")]
+        [Route("api/precio/obtener-precio/{oPrecioId}")]
         public async Task<ActionResult> GetPrecio(Int32 oPrecioId)
         {
             try
@@ -59,7 +59,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<param name="RifaId">Específica el id de la Rifa seleccionada.</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
-        [Route("api/precio/listar-precio/{RifaId}")]
+        [Route("api/precio/listar-precio/{oRifaId}")]
         public async Task<ActionResult> GetListPrecio(Int32 oRifaId)
         {
             try
