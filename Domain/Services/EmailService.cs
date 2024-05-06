@@ -1,17 +1,18 @@
 using System.Net.Mail;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Adapter;
+using System.Runtime.InteropServices.Marshalling;
 
 namespace Api.Rifamos.BackEnd.Domain.Services{
     public class EmailService : IEmailService
     {
         public EmailService(IConfiguration configuration){}
         public bool SendEmailGmail(EmailDTO oEmail)
-        {
+        { 
 
             string sServeSmptp = "smtp.gmail.com";
 
-            string sEmailFrom = oEmail.EmailTo; // "RifamosTodo.online@gmail.com";
+            string sEmailFrom = oEmail.EmailFrom; // "RifamosTodo.online@gmail.com";
             string sEmailTo = oEmail.EmailTo; // "RifamosTodo.online@gmail.com";
             string sEmailPassword = oEmail.EmailPassword; // "jgkipuqyxsuxmzyn";
             string sEmailSubject= oEmail.EmailSubject; // "RifamosTodo.online: te enviamos tu opción de compra!";

@@ -11,26 +11,36 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
     public class VentaService : IVentaService
     {
         private readonly IVentaRepository _ventaRepository;
-        //private readonly IOpcionRepository _opcionRepository;
+        private readonly IRifaService _rifaService;
+        private readonly IPremioService _premioService;        
         private readonly IOpcionService _opcionService;
         private readonly IPrecioService _precioService;
+        private readonly IUsuarioService _usuarioService;        
+        private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
 
         // private IHostingEnvironment _environment;
         //private static readonly ILog log = LogManager.GetLogger(typeof(UltimusService));
 
         public VentaService(IVentaRepository ventaRepository,
+                            IRifaService rifaService,
+                            IPremioService premioService,
                             IOpcionRepository opcionRepository,
                             IOpcionService opcionService,
                             IPrecioService precioService,
+                            IUsuarioService usuarioService,
+                            IEmailService emailService,
                             IConfiguration configuration/*,
                             IHostingEnvironment environment*/
                             )
         {
             _ventaRepository = ventaRepository;
-            //_opcionRepository = opcionRepository;
+            _rifaService = rifaService;
+            _premioService = premioService;
             _opcionService = opcionService;
             _precioService = precioService;
+            _usuarioService = usuarioService;
+            _emailService = emailService;
             _configuration = configuration;
             // _environment = environment;
         }
@@ -140,6 +150,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public async Task<VentaFrontDTO> InsertVentaOpcion(VentaDTO oVentaDTO)
         {
 
+            //Registramos las Opciones y la Venta
             OpcionDTO oOpcionDTO = new(){
                 OpcionId = oVentaDTO.OpcionId, 
                 RifaId = oVentaDTO.RifaId,
@@ -148,6 +159,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 TokenOpcion = "0",
                 TokenKey1 = "0",
                 TokenKey2 = "0",
+                EstadoOpcion = Int32.Parse(_configuration["EstadoOpcion:Registrada"]),
                 AuditoriaUsuarioIngreso = oVentaDTO.AuditoriaUsuario,
                 AuditoriaFechaIngreso = DateTime.Now
             };
@@ -161,7 +173,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             Ventum oVenta = new()
             {
                 VentaId =  oVentaDTO.VentaId,
-                OpcionId = oOpcionDTO.OpcionId, // Relación entre Opción y Venta
+                OpcionId = oOpcion.OpcionId, // Relación entre Opción y Venta
                 TipoComprobante = Int32.Parse(_configuration["TipoComprobante:Boleta"]),
                 SerieComprobante = _configuration["SeriComprobante:SeriComprobanteBoleta"],
                 NumeroComprobante = "0", //VentaDTO.NumeroComprobante,
@@ -172,9 +184,43 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 AuditoriaFechaIngreso = DateTime.Now
             };
 
-            //Insertamos la venta que devuelve el registro recién insertado
+            //Insertamos la venta, el métoo devuelve el registro recién insertado
             oVenta = await Insert(oVenta);
 
+            //Envío de email con la confirmación de la compra
+            //Seleccionamos las entidades que permiten generar el email de comprobación de compra de opciones
+            Rifa oRifa = await _rifaService.Get(oOpcion.RifaId);
+            List<Premio> oListPremio = await _premioService.GetListPremio(oOpcion.RifaId);
+            Usuario oUsuario = await _usuarioService.GetUsuario(oOpcion.UsuarioId);
+
+            //Obtenemos la plantilla de envío de email 
+            StreamReader oEmailBody = new("C:\\Users\\romul\\source\\repos\\BackEnd\\Api.Rifamos.BackEnd\\template\\EmailConfirmacionCompra.html");
+            string oText = oEmailBody.ReadToEnd();
+            oEmailBody.Close();
+
+            //Reemplazamos los valores dinámicos
+            oText = oText.Replace("!#Nombre#!", oUsuario.Nombres);
+            oText = oText.Replace("!#CantidadOpciones#!", oVentaDTO.CantidadOpciones.ToString());
+            oText = oText.Replace("!#NombreRifa#!", oRifa.RifaDescripcion);            
+            oText = oText.Replace("!#Premio1#!", oListPremio[0].PremioDescripcion);
+            oText = oText.Replace("!#Premio2#!", oListPremio[1].PremioDescripcion);
+            oText = oText.Replace("!#Premio3#!", oListPremio[2].PremioDescripcion);
+            oText = oText.Replace("!#Fecha#!", oRifa.FechaSorteo.ToString());
+            oText = oText.Replace("!#Hora#!", oRifa.HoraSorteo.ToString());
+
+            EmailDTO oEmailDTO = new()
+            {
+                EmailFrom = _configuration["Email:EmailFrom"], //"RifamosTodo.online@gmail.com",
+                EmailTo = oUsuario.Email,
+                EmailPassword = _configuration["Email:EmailPassword"],
+                EmailSubject = "RifamosTodo.online | Compra de Opciones",
+                EmailBody = oText
+            };
+
+            //Invocamos el método de envío de correo.
+            bool oSendEmailGmail = _emailService.SendEmailGmail(oEmailDTO);
+
+            //Devolvemos la entidad Opción + Venta
             VentaFrontDTO oVentaFrontDTO = new()
             {
                 OpcionId = oOpcion.OpcionId,
@@ -194,7 +240,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return oVentaFrontDTO;
 
         }
-     
+
     }
 
 }
