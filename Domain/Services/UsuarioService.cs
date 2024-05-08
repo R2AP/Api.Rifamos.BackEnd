@@ -330,6 +330,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             //Reemplazamos los valores dinámicos
             oText = oText.Replace("!#Nombre#!", oUsuarioActual.Nombres);
+            oText = oText.Replace("!#Email#!", oUsuarioActual.Email);
             oText = oText.Replace("!#Password#!", sPasswordNuevo);
         
             EmailDTO oEmailDTO = new()
