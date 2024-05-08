@@ -8,6 +8,7 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
 {
     public interface IQRService
     {
-        byte[] GetQR(string QRId);        
+        //byte[] GetQR(string QRId);
+        string GetQR(string QRId);
     }
 }

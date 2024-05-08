@@ -18,6 +18,7 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
         Task<UsuarioFrontDTO> UpdateUsuario(UsuarioDTO oUsuarioDTO);
         Task<UsuarioFrontDTO> DeleteUsuario(Int32 oUsuarioId);
         Task<UsuarioFrontDTO> UpdatePasswordUsuario(UsuarioPasswordDTO oUsuarioPasswordDTO);
+        Task<UsuarioFrontDTO> RecuperarPassword(string oEmail);
     }
 
 }

@@ -15,7 +15,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         private readonly IPremioService _premioService;        
         private readonly IOpcionService _opcionService;
         private readonly IPrecioService _precioService;
-        private readonly IUsuarioService _usuarioService;        
+        private readonly IQRService _qrService;
+        private readonly IUsuarioService _usuarioService;
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
 
@@ -28,6 +29,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                             IOpcionRepository opcionRepository,
                             IOpcionService opcionService,
                             IPrecioService precioService,
+                            IQRService qrService,
                             IUsuarioService usuarioService,
                             IEmailService emailService,
                             IConfiguration configuration/*,
@@ -39,6 +41,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             _premioService = premioService;
             _opcionService = opcionService;
             _precioService = precioService;
+            _qrService = qrService;
             _usuarioService = usuarioService;
             _emailService = emailService;
             _configuration = configuration;
@@ -195,6 +198,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             //Obtenemos la plantilla de envío de email 
             StreamReader oEmailBody = new("C:\\Users\\romul\\source\\repos\\BackEnd\\Api.Rifamos.BackEnd\\template\\EmailConfirmacionCompra.html");
+            //StreamReader oEmailBody = new("C:\\Users\\romul\\source\\repos\\BackEnd\\Api.Rifamos.BackEnd\\template\\EmailConfirmacionCompraPruebaWindowOnload.html");
+
             string oText = oEmailBody.ReadToEnd();
             oEmailBody.Close();
 
@@ -207,10 +212,11 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oText = oText.Replace("!#Premio3#!", oListPremio[2].PremioDescripcion);
             oText = oText.Replace("!#Fecha#!", oRifa.FechaSorteo.ToString());
             oText = oText.Replace("!#Hora#!", oRifa.HoraSorteo.ToString());
+            oText = oText.Replace("!#QR#!", _qrService.GetQR("http://localhost:5175/api/QR/obtener-QR/" + oOpcion.TokenOpcion) );
 
             EmailDTO oEmailDTO = new()
             {
-                EmailFrom = _configuration["Email:EmailFrom"], //"RifamosTodo.online@gmail.com",
+                EmailFrom = _configuration["Email:EmailFrom"],
                 EmailTo = oUsuario.Email,
                 EmailPassword = _configuration["Email:EmailPassword"],
                 EmailSubject = "RifamosTodo.online | Compra de Opciones",

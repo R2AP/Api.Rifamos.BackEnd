@@ -80,7 +80,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             
             string sDecryptedPassword = _cryptoService.IDecrypt(oListToken);
 
-            if (oOpcion.OpcionId.ToString() != sDecryptedPassword){
+            if (oOpcion.RifaId.ToString() + "-" + oOpcion.OpcionId.ToString() != sDecryptedPassword){
                 oOpcionFrontDTO.Error = true;
                 oOpcionFrontDTO.Mensaje =  "No se encontró la opción ingresada [" + oOpcion.TokenOpcion + "]";
                 log.Error(sServicio + oOpcionFrontDTO.Mensaje);

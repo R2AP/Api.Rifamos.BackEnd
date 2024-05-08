@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>RifamosTodo.online|Correo Electónico de Confirmación&#127808;</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+  
+		h1 {
+			font-family: Roboto;
+			font-size: 40px;
+			text-align: center;
+		}
+
+		img {
+			font-family: Roboto;
+			font-size: 40px;
+			text-align: center;
+		}
+		
+		.parrafo {
+			font-family: Roboto;
+			font-size: 20px;
+			text-align: center;
+		}
+
+		.resaltado {
+			font-family: Roboto;
+			font-size: 50px;
+			text-align: center;
+		}
+		
+		.premio {
+			font-family: Roboto;
+			font-size: 35px;
+			text-align: center;
+		}		
+
+		.fecha {
+			font-family: Roboto;
+			font-size: 35px;
+			text-align: center;
+		}
+		
+  </style>
+</head>
+<body class="mat-typography">
+	<script>
+	function loadImage() {
+		var img = new Image();
+		var src = "data:image/png;base64,!#QR#!";
+		img.onload = function() {
+			document.body.appendChild(img);
+		};
+		img.src = src;
+		img.width = 200;
+		img.height = 200;
+		img.align = center;
+		//if (!img.complete) {
+		//	setTimeout(loadImage, 1000); // Retry after 1 second if not loaded
+		//}
+	}
+	window.onload = loadImage;
+	</script>
+  <div>
+	<div style="text-align: center;">
+		<img src="C:\Users\romul\source\repos\BackEnd\Api.Rifamos.BackEnd\img\RifamoTodoLogo.svg">
+	</div>
+	<h1>Compra de Opciones</h1>
+	<div><p class="parrafo">Hola !#Nombre#!. Gracias por participar</div>
+	<div><p class="parrafo">Tienes</div>
+	<div><p class="resaltado">!#CantidadOpciones#!</div> 
+	<div><p class="parrafo">opciones</div>
+	<div><p class="resaltado">!#NombreRifa#!</div>
+	<div><p class="parrafo">por los siguientes premios:</div>
+	<div><p class="premio">1º Premio: !#Premio1#!</div>
+	<div><p class="premio">2º Premio: !#Premio2#!</div>
+	<div><p class="premio">3º Premio: !#Premio3#!</div>
+	<div><p class="parrafo">Fecha de la Rifa</div>
+	<div><p class="fecha">!#Fecha#!</div>
+	<div><p class="parrafo">Hora</div>	
+	<div><p class="fecha">!#Hora#!</div>
+	<div><p class="parrafo">Aún puedes participar en las siguientes Rifas</div>
+  </div>
+</body>
+</html>

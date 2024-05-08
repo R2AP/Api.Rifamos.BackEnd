@@ -12,11 +12,11 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             string sServeSmptp = "smtp.gmail.com";
 
-            string sEmailFrom = oEmail.EmailFrom; // "RifamosTodo.online@gmail.com";
-            string sEmailTo = oEmail.EmailTo; // "RifamosTodo.online@gmail.com";
-            string sEmailPassword = oEmail.EmailPassword; // "jgkipuqyxsuxmzyn";
-            string sEmailSubject= oEmail.EmailSubject; // "RifamosTodo.online: te enviamos tu opción de compra!";
-            string sEmailBody = oEmail.EmailBody; // "<!DOCTYPE html><html><head></head><body><div style=\"width:100%;\"><h1>SALUDOS Terrícolas</h1></div></body></html>";
+            string sEmailFrom = oEmail.EmailFrom;
+            string sEmailTo = oEmail.EmailTo;
+            string sEmailPassword = oEmail.EmailPassword;
+            string sEmailSubject= oEmail.EmailSubject;
+            string sEmailBody = oEmail.EmailBody;
 
             MailMessage oMailMessage = new(sEmailFrom, sEmailTo, sEmailSubject, sEmailBody)
             {

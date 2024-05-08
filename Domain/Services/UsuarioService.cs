@@ -9,19 +9,23 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
     public class UsuarioService : IUsuarioService
     {
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IEmailService _emailService;
         private readonly ICryptoService _cryptoService;
+        private readonly IConfiguration _configuration;
         private static readonly ILog log = LogManager.GetLogger(typeof(UsuarioService));
 
         public UsuarioService(
                             IUsuarioRepository usuarioRepository,
                             ICryptoService cryptoService,
+                            IEmailService emailService,                            
                             IConfiguration configuration/*,
                             IHostingEnvironment environment*/
                             )
         {
             _usuarioRepository = usuarioRepository;
             _cryptoService = cryptoService;
-            // _configuration = configuration;
+            _emailService = emailService;
+            _configuration = configuration;
             // _environment = environment;
         }
 
@@ -282,5 +286,76 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return oUsuarioFrontDTO;
 
         }
+
+        public async Task<UsuarioFrontDTO> RecuperarPassword(string oEmail)
+        {
+
+            Usuario oUsuarioActual = await GetUsuarioPorEmail(oEmail);
+            UsuarioFrontDTO oUsuarioFrontDTO = new();
+            List<string> oListToken = [];
+            string sPasswordNuevo = string.Empty; 
+
+            if (oUsuarioActual == null)
+            {
+                oUsuarioFrontDTO.Error = true;
+                oUsuarioFrontDTO.Mensaje = "Verifique, la cuenta de correo no se encuentra registrada.";
+                log.Error(sServicio + oUsuarioFrontDTO.Mensaje);
+                return oUsuarioFrontDTO;
+            }
+
+            byte[] oPasswordNuevo = new byte[16];
+
+            using(RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
+            rng.GetBytes(oPasswordNuevo);
+            }
+
+            sPasswordNuevo = Convert.ToBase64String(oPasswordNuevo);
+
+            //Encrypt the OpcionId con el ID devuelto
+            oListToken = _cryptoService.IEncrypt(sPasswordNuevo);
+
+            oUsuarioActual.Password = oListToken[0];
+            oUsuarioActual.Key1 = oListToken[1];
+            oUsuarioActual.Key2 = oListToken[2];
+            oUsuarioActual.AuditoriaUsuarioModificacion = oUsuarioActual.UsuarioId.ToString(); 
+            oUsuarioActual.AuditoriaFechaModificacion = DateTime.Now;
+
+            oUsuarioActual = await Update(oUsuarioActual);
+
+            //Obtenemos la plantilla de envío de email 
+            StreamReader oEmailBody = new("C:\\Users\\romul\\source\\repos\\BackEnd\\Api.Rifamos.BackEnd\\template\\EmailRecuperarPassword.html");
+
+            string oText = oEmailBody.ReadToEnd();
+            oEmailBody.Close();
+
+            //Reemplazamos los valores dinámicos
+            oText = oText.Replace("!#Nombre#!", oUsuarioActual.Nombres);
+            oText = oText.Replace("!#Password#!", sPasswordNuevo);
+        
+            EmailDTO oEmailDTO = new()
+            {
+                EmailFrom = _configuration["Email:EmailFrom"],
+                EmailTo = oUsuarioActual.Email,
+                EmailPassword = _configuration["Email:EmailPassword"],
+                EmailSubject = "RifamosTodo.online | Recuperar Password",
+                EmailBody = oText
+            };
+
+            //Invocamos el método de envío de correo.
+            bool oSendEmailGmail = _emailService.SendEmailGmail(oEmailDTO);
+
+            oUsuarioFrontDTO.UsuarioId = oUsuarioActual.UsuarioId;
+            oUsuarioFrontDTO.Nombres = oUsuarioActual.Nombres;
+            oUsuarioFrontDTO.ApellidoPaterno = oUsuarioActual.ApellidoPaterno; 
+            oUsuarioFrontDTO.ApellidoMaterno = oUsuarioActual.ApellidoMaterno;
+            oUsuarioFrontDTO.Email = oUsuarioActual.Email;
+            oUsuarioFrontDTO.TipoDocumento = oUsuarioActual.TipoDocumento;
+            oUsuarioFrontDTO.NumeroDocumento = oUsuarioActual.NumeroDocumento;
+            oUsuarioFrontDTO.Telefono = oUsuarioActual.Telefono;
+
+            return oUsuarioFrontDTO;
+
+        }
+
     }
 }

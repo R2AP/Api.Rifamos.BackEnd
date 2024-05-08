@@ -32,7 +32,9 @@ builder.Services.AddEndpointsApiExplorer();
 //Cors
 builder.Services.AddCors(options => {
     options.AddPolicy( name: RifamosPolicyAllowSpecificOrigins, policy => {
-        policy.WithOrigins("http://localhost:4200");
+        policy.WithOrigins("http://localhost:4200").AllowAnyHeader();
+        //.AllowAnyHeader().AllowAnyMethod();
+        //policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
     });
 });
 

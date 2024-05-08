@@ -122,5 +122,30 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }
 
+        //PUT: recuperar-password
+        /// <summary>
+        /// Recuperar password
+        /// </summary>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpPut("api/usuario/recuperar-password")]
+        public async Task<ActionResult> RecuperarPassword(string oEmail)
+        {
+            try
+            {        
+                log.Info("Inicio api/usuario/recuperar-password");
+
+                UsuarioFrontDTO oUsuarioFrontDTO  = await _usuarioService.RecuperarPassword(oEmail);
+
+                log.Info("Fin api/usuario/recuperar-password");
+
+                return Ok(oUsuarioFrontDTO);
+            }
+            catch (Exception ex)
+            {
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }        
+
     }
 }

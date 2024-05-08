@@ -1,5 +1,6 @@
 using QRCoder;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
+using System.Buffers.Text;
 
 namespace Api.Rifamos.BackEnd.Domain.Services{
     public class QRService : IQRService
@@ -14,8 +15,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             // _environment = environment;
         }
 
-        //public string GetQR(string QRId)
-        public byte[] GetQR(string QRId)
+        public string GetQR(string QRId)
+        //public byte[] GetQR(string QRId)
         {
 
             // Decodificamos la url para eliminar los valores ASCII Encoding Reference
@@ -24,7 +25,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             Console.WriteLine("The URL dencoding the given URL is: " + System.Web.HttpUtility.UrlDecode(QRId));
 
             var oQRGenerator = new QRCodeGenerator();
-            var oQRCodeData = oQRGenerator.CreateQrCode(QRId, QRCodeGenerator.ECCLevel.H);
+            var oQRCodeData = oQRGenerator.CreateQrCode(QRId, QRCodeGenerator.ECCLevel.M);
             BitmapByteQRCode oBitmapByteQRCode = new(oQRCodeData);
             var oBitMap = oBitmapByteQRCode.GetGraphic(20);
 
@@ -32,8 +33,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oMemoryStream.Write(oBitMap);
             byte[] aByteImage = oMemoryStream.ToArray(); 
 
-            //return  Convert.ToBase64String(aByteImage);
-            return aByteImage;
+            return Convert.ToBase64String(aByteImage);
 
         }
     }
