@@ -323,7 +323,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oUsuarioActual = await Update(oUsuarioActual);
 
             //Obtenemos la plantilla de envío de email 
-            StreamReader oEmailBody = new("C:\\Users\\romul\\source\\repos\\BackEnd\\Api.Rifamos.BackEnd\\template\\EmailRecuperarPassword.html");
+            string path = Directory.GetCurrentDirectory();
+            StreamReader oEmailBody = new($"{path}\\template\\EmailRecuperarPassword.html");
 
             string oText = oEmailBody.ReadToEnd();
             oEmailBody.Close();
