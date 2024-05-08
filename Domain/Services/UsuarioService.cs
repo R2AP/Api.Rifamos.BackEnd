@@ -338,7 +338,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 EmailFrom = _configuration["Email:EmailFrom"],
                 EmailTo = oUsuarioActual.Email,
                 EmailPassword = _configuration["Email:EmailPassword"],
-                EmailSubject = "RifamosTodo.online | Recuperar Password",
+                EmailSubject = "RifamosTodo.online | Recuperar Contraseña",
                 EmailBody = oText
             };
 
