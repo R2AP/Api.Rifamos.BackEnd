@@ -35,6 +35,10 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 log.Info("Inicio api/usuario/registro-usuario");
 
                 UsuarioFrontDTO oUsuarioFrontDTO = await _usuarioService.InsertUsuario(oUsuarioDTO);
+                if (oUsuarioFrontDTO.Error)
+                {
+                    return BadRequest(oUsuarioFrontDTO.Mensaje);
+                }
 
                 log.Info("Fin api/usuario/registro-usuario");
 
