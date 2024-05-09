@@ -1,6 +1,5 @@
 using QRCoder;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
-using System.Buffers.Text;
 
 namespace Api.Rifamos.BackEnd.Domain.Services{
     public class QRService : IQRService
@@ -32,6 +31,9 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             using var oMemoryStream = new MemoryStream();
             oMemoryStream.Write(oBitMap);
             byte[] aByteImage = oMemoryStream.ToArray(); 
+
+            //save to file
+            File.WriteAllBytes("C:\\Users\\romul\\source\\repos\\BackEnd\\Api.Rifamos.BackEnd\\img\\qr.png", aByteImage);
 
             return Convert.ToBase64String(aByteImage);
 

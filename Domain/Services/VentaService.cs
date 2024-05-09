@@ -212,7 +212,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oText = oText.Replace("!#Premio3#!", oListPremio[2].PremioDescripcion);
             oText = oText.Replace("!#Fecha#!", oRifa.FechaSorteo.ToString());
             oText = oText.Replace("!#Hora#!", oRifa.HoraSorteo.ToString());
-            oText = oText.Replace("!#QR#!", _qrService.GetQR("http://localhost:5175/api/QR/obtener-QR/" + oOpcion.TokenOpcion) );
+            //oText = oText.Replace("!#QR#!", _qrService.GetQR("http://localhost:5175/api/QR/obtener-QR/" + oOpcion.TokenOpcion) );
 
             EmailDTO oEmailDTO = new()
             {
