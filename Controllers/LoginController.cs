@@ -41,6 +41,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return NoContent();
                 }
 
+                if (oUsuarioFrontDTO.Error == true)
+                {
+                    return BadRequest(oUsuarioFrontDTO.Mensaje);
+                }
+
                 //log.Info("Fin api/login/loguearse");
 
                 return Ok(oUsuarioFrontDTO);
