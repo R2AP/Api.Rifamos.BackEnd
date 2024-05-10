@@ -87,7 +87,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public async Task<RifaFrontDTO> InsertRifa(RifaDTO oRifaDTO)
         {
 
-            string sPath = @"C:\\Users\\romul\\Downloads\\_MG_6476 CARNET.jpg";
+            string sPath = @"C:\\Users\\romul\\Downloads\\template.png";
 
             if (File.Exists(sPath)){
                 byte[] oFile = new byte[1024];
@@ -136,10 +136,23 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             Rifa oRifa = await Get(RifaDTO.RifaId);
 
+            string sPath = @"C:\\Users\\romul\\Downloads\\template.png";
+
+            if (File.Exists(sPath)){
+                byte[] oFile = new byte[1024];
+                Stream oStream = File.Open(sPath,FileMode.Open,FileAccess.Read,FileShare.None);
+                MemoryStream oMemoryStream = new();
+                oStream.CopyTo(oMemoryStream);
+                oFile = oMemoryStream.ToArray();
+                oRifa.Imagen = oFile;
+                oMemoryStream.Close();
+                oStream.Close();
+            }
+
             oRifa.RifaDescripcion = RifaDTO.RifaDescripcion;
             oRifa.FechaSorteo = RifaDTO.FechaSorteo;
             oRifa.HoraSorteo =  RifaDTO.HoraSorteo;
-            oRifa.Imagen = RifaDTO.Imagen;
+            //oRifa.Imagen = RifaDTO.Imagen;
             oRifa.Sponsor = RifaDTO.Sponsor;
             oRifa.EstadoRifa = RifaDTO.EstadoRifa;
             oRifa.AuditoriaUsuarioModificacion = RifaDTO.AuditoriaUsuario;
