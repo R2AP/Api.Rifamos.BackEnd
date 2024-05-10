@@ -340,7 +340,10 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 EmailTo = oUsuarioActual.Email,
                 EmailPassword = _configuration["Email:EmailPassword"],
                 EmailSubject = "RifamosTodo.online | Recuperar Contraseña",
-                EmailBody = oText
+                EmailBody = oText,
+                EmailAttachment = string.Empty,
+                EmailContentId = string.Empty,
+                EmailAttachmentContent = string.Empty
             };
 
             //Invocamos el método de envío de correo.

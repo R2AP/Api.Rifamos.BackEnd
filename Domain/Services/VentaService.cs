@@ -2,9 +2,11 @@ using Api.Rifamos.BackEnd.Adapter;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Repositories;
 using Api.Rifamos.BackEnd.Domain.Interfaces.Services;
 using Api.Rifamos.BackEnd.Domain.Models;
+using System.Drawing;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using System.Drawing.Imaging;
 //using Newtonsoft.Json;
 
 namespace Api.Rifamos.BackEnd.Domain.Services{
@@ -153,6 +155,12 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public async Task<VentaFrontDTO> InsertVentaOpcion(VentaDTO oVentaDTO)
         {
 
+            //Obtenemos la ruta principal para poder leer las plantillas y archivos
+            string path = Directory.GetCurrentDirectory();
+            string oNombreArchivo = string.Empty;
+            string oExtensionArchivoBPM = ".bpm";
+            string oExtensionArchivoPNG = ".png";
+
             //Registramos las Opciones y la Venta
             OpcionDTO oOpcionDTO = new(){
                 OpcionId = oVentaDTO.OpcionId, 
@@ -197,9 +205,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             Usuario oUsuario = await _usuarioService.GetUsuario(oOpcion.UsuarioId);
 
             //Obtenemos la plantilla de envío de email 
-            StreamReader oEmailBody = new("C:\\Users\\romul\\source\\repos\\BackEnd\\Api.Rifamos.BackEnd\\template\\EmailConfirmacionCompra.html");
-            //StreamReader oEmailBody = new("C:\\Users\\romul\\source\\repos\\BackEnd\\Api.Rifamos.BackEnd\\template\\EmailConfirmacionCompraPruebaWindowOnload.html");
-
+            StreamReader oEmailBody = new($"{path}\\template\\EmailConfirmacionCompra.html");
             string oText = oEmailBody.ReadToEnd();
             oEmailBody.Close();
 
@@ -212,19 +218,40 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oText = oText.Replace("!#Premio3#!", oListPremio[2].PremioDescripcion);
             oText = oText.Replace("!#Fecha#!", oRifa.FechaSorteo.ToString());
             oText = oText.Replace("!#Hora#!", oRifa.HoraSorteo.ToString());
-            //oText = oText.Replace("!#QR#!", _qrService.GetQR("http://localhost:5175/api/QR/obtener-QR/" + oOpcion.TokenOpcion) );
 
+            //Creamos el QR para ser enviado como atachment
+            byte[] oQR = _qrService.GetQR("http://localhost:5175/api/QR/obtener-QR/" + oOpcion.TokenOpcion);
+
+            //save to file
+            oNombreArchivo = "Ticket-" + oOpcion.OpcionId.ToString();
+            File.WriteAllBytes($"{path}\\qr\\" + oNombreArchivo + oExtensionArchivoPNG, oQR);
+
+            //save like png
+            // Bitmap oBitMap = new($"{path}\\qr\\" + oNombreArchivo + oExtensionArchivoBPM);
+            // MemoryStream oStream = new MemoryStream();
+            // oBitMap.Save(oStream, ImageFormat.Png);
+
+            //Reemplazamos en la plantilla el valor del nombre del archivo
+            oText = oText.Replace("!#FileName#!", oNombreArchivo);
+
+            //Creamos el objeto de la clase Email
             EmailDTO oEmailDTO = new()
             {
                 EmailFrom = _configuration["Email:EmailFrom"],
                 EmailTo = oUsuario.Email,
                 EmailPassword = _configuration["Email:EmailPassword"],
                 EmailSubject = "RifamosTodo.online | Compra de Opciones",
-                EmailBody = oText
+                EmailBody = oText,
+                EmailAttachment = string.Empty,
+                EmailContentId = oNombreArchivo,
+                EmailAttachmentContent = $"{path}\\qr\\" + oNombreArchivo + ".png",
             };
 
             //Invocamos el método de envío de correo.
             bool oSendEmailGmail = _emailService.SendEmailGmail(oEmailDTO);
+
+            //delete to file
+            File.Delete($"{path}\\qr\\" + oNombreArchivo + oExtensionArchivoBPM);
 
             //Devolvemos la entidad Opción + Venta
             VentaFrontDTO oVentaFrontDTO = new()
