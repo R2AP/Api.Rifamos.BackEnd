@@ -43,7 +43,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
 
                 if (oUsuarioFrontDTO.Error == true)
                 {
-                    return BadRequest(oUsuarioFrontDTO.Mensaje);
+                    return BadRequest(oUsuarioFrontDTO);
                 }
 
                 //log.Info("Fin api/login/loguearse");

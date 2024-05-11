@@ -37,7 +37,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 UsuarioFrontDTO oUsuarioFrontDTO = await _usuarioService.InsertUsuario(oUsuarioDTO);
                 if (oUsuarioFrontDTO.Error)
                 {
-                    return BadRequest(oUsuarioFrontDTO.Mensaje);
+                    return BadRequest(oUsuarioFrontDTO);
                 }
 
                 log.Info("Fin api/usuario/registro-usuario");
@@ -139,6 +139,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
                 log.Info("Inicio api/usuario/recuperar-password");
 
                 UsuarioFrontDTO oUsuarioFrontDTO  = await _usuarioService.RecuperarPassword(oEmail);
+
+                if (oUsuarioFrontDTO.Error)
+                {
+                    return BadRequest(oUsuarioFrontDTO);
+                }
 
                 log.Info("Fin api/usuario/recuperar-password");
 
