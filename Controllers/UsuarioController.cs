@@ -32,7 +32,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio api/usuario/registro-usuario");
+                //log.Info("Inicio api/usuario/registro-usuario");
 
                 UsuarioFrontDTO oUsuarioFrontDTO = await _usuarioService.InsertUsuario(oUsuarioDTO);
                 if (oUsuarioFrontDTO.Error)
@@ -40,7 +40,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return BadRequest(oUsuarioFrontDTO);
                 }
 
-                log.Info("Fin api/usuario/registro-usuario");
+                //log.Info("Fin api/usuario/registro-usuario");
 
                 return Ok(oUsuarioFrontDTO); 
             }
@@ -61,11 +61,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio api/usuario/actualizar-usuario");
+                //log.Info("Inicio api/usuario/actualizar-usuario");
 
                 var respuesta = await _usuarioService.UpdateUsuario(oUsuarioDTO);
 
-                log.Info("Fin api/usuario/actualizar-usuario");
+                //log.Info("Fin api/usuario/actualizar-usuario");
 
                 return Ok(respuesta); 
             }
@@ -86,11 +86,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio api/usuario/eliminar-usuario");
+                //log.Info("Inicio api/usuario/eliminar-usuario");
 
                 var respuesta = await _usuarioService.DeleteUsuario(oUsuarioId);
 
-                log.Info("Fin api/usuario/eliminar-usuario");
+                //log.Info("Fin api/usuario/eliminar-usuario");
 
                 return Ok(respuesta); 
             }
@@ -111,11 +111,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio api/usuario/actualizar-password-usuario");
+                //log.Info("Inicio api/usuario/actualizar-password-usuario");
 
                 var respuesta = await _usuarioService.UpdatePasswordUsuario(oUsuarioPasswordDTO);
 
-                log.Info("Fin api/usuario/actualizar-password-usuario");
+                //log.Info("Fin api/usuario/actualizar-password-usuario");
 
                 return Ok(respuesta);
             }
@@ -136,7 +136,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio api/usuario/recuperar-password");
+                //log.Info("Inicio api/usuario/recuperar-password");
 
                 UsuarioFrontDTO oUsuarioFrontDTO  = await _usuarioService.RecuperarPassword(oEmail);
 
@@ -145,7 +145,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return BadRequest(oUsuarioFrontDTO);
                 }
 
-                log.Info("Fin api/usuario/recuperar-password");
+                //log.Info("Fin api/usuario/recuperar-password");
 
                 return Ok(oUsuarioFrontDTO);
             }

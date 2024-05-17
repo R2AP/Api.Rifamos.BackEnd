@@ -32,7 +32,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                log.Info("Inicio api/QR/obtener-QR");
+                //log.Info("Inicio api/QR/obtener-QR");
 
                 var oQR = _QRService.GetQR(QRId);
 
@@ -41,7 +41,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return NoContent();
                 }
 
-                log.Info("Fin api/venta/obtener-venta");
+                //log.Info("Fin api/QR/obtener-venta");
 
                 return Ok(oQR);
 

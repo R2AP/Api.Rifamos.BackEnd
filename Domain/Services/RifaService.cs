@@ -10,7 +10,8 @@ using Api.Rifamos.BackEnd.Domain.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-//using Newtonsoft.Json;
+using log4net;
+
 
 namespace Api.Rifamos.BackEnd.Domain.Services{
     public class RifaService : IRifaService
@@ -19,7 +20,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         // public IConfiguration _configuration { get; }
         // private IHostingEnvironment _environment;
-        //private static readonly ILog log = LogManager.GetLogger(typeof(UltimusService));
+        private static readonly ILog log = LogManager.GetLogger(typeof(RifaService));
+        readonly string sServicio = "RifaService: ";
 
         public RifaService(IRifaRepository rifaRepository,
                             IConfiguration configuration/*,
@@ -230,6 +232,18 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             List<RifaFrontDTO> oListRifaFrontDTO = [];
 
             List<Rifa> oListRifa = await _rifaRepository.GetListRifaEstado(oEstadoId);
+
+            if (oListRifa.Count==0){
+                RifaFrontDTO oRifaFrontDTO = new()
+                {
+                    Error = true,
+                    Mensaje = "No se encontraron coincidencias para los criterios de búsqueda."
+                };
+                oListRifaFrontDTO.Add(oRifaFrontDTO);
+                log.Error(sServicio + oRifaFrontDTO.Mensaje);
+                return oListRifaFrontDTO;
+
+            }
 
             foreach(var oItem in oListRifa) {
                 

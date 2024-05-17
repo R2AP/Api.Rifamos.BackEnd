@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Api.Rifamos.BackEnd.Adapter{
 
-public class RifaFrontDTO{
+public class RifaFrontDTO : ErrorDTO{
     public int RifaId { get; set; }
 
     public string RifaDescripcion { get; set; } = null!;

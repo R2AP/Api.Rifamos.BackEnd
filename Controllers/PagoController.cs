@@ -30,11 +30,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio api/pago/registro-pago");
+                //log.Info("Inicio api/pago/registro-pago");
 
                 var oPago = await _pagoService.InsertPago(PagoDTO);
 
-                log.Info("Fin api/pago/registro-pago");
+                //log.Info("Fin api/pago/registro-pago");
 
                 return Ok(oPago); 
             }

@@ -34,7 +34,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                log.Info("Inicio api/opcion/obtener-lista-opcion");
+                //log.Info("Inicio api/opcion/obtener-lista-opcion");
 
                 var oListaOpcion = await _opcionService.GetListOpcion(oRifaId, oUsuarioId);
 
@@ -43,7 +43,12 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return NoContent();
                 }
 
-                log.Info("Fin api/opcion/obtener-lista-opcion");
+                if (oListaOpcion[0].Error == true)
+                {
+                    return BadRequest(oListaOpcion);
+                }                
+
+                //log.Info("Fin api/opcion/obtener-lista-opcion");
                 
                 return Ok(oListaOpcion);
             }
@@ -67,7 +72,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                log.Info("Inicio api/opcion/obtener-opcion");
+                //log.Info("Inicio api/opcion/obtener-opcion");
 
                 var oOpcion = await _opcionService.GetOpcionToken(oTokenOpcion);
 
@@ -76,7 +81,12 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return NoContent();
                 }
 
-                log.Info("Fin api/opcion/obtener-opcion");
+                if (oOpcion.Error == true)
+                {
+                    return BadRequest(oOpcion);
+                }
+
+                //log.Info("Fin api/opcion/obtener-opcion");
 
                 return Ok(oOpcion);
             }

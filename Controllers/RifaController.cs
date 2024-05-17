@@ -34,7 +34,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                log.Info("Inicio api/rifa/obtener-rifa");
+                //log.Info("Inicio api/rifa/obtener-rifa");
 
                 RifaFrontDTO oRifaFrontDTO = await _rifaService.GetRifa(oRifaId);
 
@@ -43,7 +43,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return NoContent();
                 }
 
-                log.Info("Fin api/rifa/obtener-rifa");
+                //log.Info("Fin api/rifa/obtener-rifa");
                 
                 return Ok(oRifaFrontDTO);
             }
@@ -66,7 +66,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                log.Info("Inicio api/rifa/obtener-lista-rifa-usuario");
+                //log.Info("Inicio api/rifa/obtener-lista-rifa-usuario");
 
                 List<RifaFrontDTO> oListaRifa = await _rifaService.GetListRifaUsuario(oUsuarioId);
 
@@ -75,7 +75,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return NoContent();
                 }
 
-                log.Info("Fin api/rifa/obtener-lista-rifa-usuario");
+                if (oListaRifa[0].Error == true)
+                {
+                    return BadRequest(oListaRifa);
+                }
+                //log.Info("Fin api/rifa/obtener-lista-rifa-usuario");
                 
                 return Ok(oListaRifa);
             }
@@ -98,7 +102,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                log.Info("Inicio api/rifa/obtener-lista-rifa-estado");
+                //log.Info("Inicio api/rifa/obtener-lista-rifa-estado");
 
                 List<RifaFrontDTO> oListaRifa = await _rifaService.GetListRifaEstado(oEstadoId);
 
@@ -107,7 +111,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return NoContent();
                 }
 
-                log.Info("Fin api/rifa/obtener-lista-rifa-estado");
+                //log.Info("Fin api/rifa/obtener-lista-rifa-estado");
 
                 return Ok(oListaRifa);
             }
@@ -128,11 +132,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio api/rifa/registro-rifa");
+                //log.Info("Inicio api/rifa/registro-rifa");
 
                 RifaFrontDTO oRifaFrontDTO = await _rifaService.InsertRifa(oRifaDTO);
 
-                log.Info("Fin api/rifa/registro-rifa");
+                //log.Info("Fin api/rifa/registro-rifa");
 
                 return Ok(oRifaFrontDTO); 
             }
@@ -153,11 +157,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio api/rifa/actualizar-rifa");
+                //log.Info("Inicio api/rifa/actualizar-rifa");
 
                 RifaFrontDTO oRifaFrontDTO = await _rifaService.UpdateRifa(oRifaDTO);
 
-                log.Info("Fin api/rifa/actualizar-rifa");
+                //log.Info("Fin api/rifa/actualizar-rifa");
 
                 return Ok(oRifaFrontDTO); 
             }
@@ -178,11 +182,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio api/rifa/eliminar-rifa");
+                //log.Info("Inicio api/rifa/eliminar-rifa");
 
                 RifaFrontDTO oRifaFrontDTO = await _rifaService.DeleteRifa(oRifaId);
 
-                log.Info("Fin api/rifa/eliminar-rifa");
+                //log.Info("Fin api/rifa/eliminar-rifa");
 
                 return Ok(oRifaFrontDTO); 
             }

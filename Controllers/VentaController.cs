@@ -32,7 +32,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                log.Info("Inicio api/venta/obtener-venta");
+                //log.Info("Inicio api/venta/obtener-venta");
 
                 VentaFrontDTO oVentaFrontDTO = await _ventaService.GetVentaOpcion(oVentaId);
 
@@ -41,7 +41,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return NoContent();
                 }
 
-                log.Info("Fin api/venta/obtener-venta");
+                //log.Info("Fin api/venta/obtener-venta");
 
                 return Ok(oVentaFrontDTO);
             }
@@ -62,11 +62,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio api/venta/registro-venta");
+                //log.Info("Inicio api/venta/registro-venta");
 
                 VentaFrontDTO oVentaFrontDTO = await _ventaService.InsertVentaOpcion(oVentaDTO);
 
-                log.Info("Fin api/venta/registro-venta");
+                //log.Info("Fin api/venta/registro-venta");
 
                 return Ok(oVentaFrontDTO); 
             }

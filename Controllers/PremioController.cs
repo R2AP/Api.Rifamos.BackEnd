@@ -31,7 +31,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                log.Info("Inicio api/premio/obtener-lista-premio");
+                //log.Info("Inicio api/premio/obtener-lista-premio");
 
                 var oListaPremio = await _premioService.GetListPremio(oRifaId);
 
@@ -40,7 +40,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return NoContent();
                 }
 
-                log.Info("Fin api/premio/obtener-lista-premio");
+                //log.Info("Fin api/premio/obtener-lista-premio");
                 return Ok(oListaPremio);
             }
             catch(Exception ex)
@@ -60,11 +60,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio api/premio/registro-premio");
+                //log.Info("Inicio api/premio/registro-premio");
 
                 var oPremio = await _premioService.InsertPremio(oPremioDTO);
 
-                log.Info("Fin api/premio/registro-premio");
+                //log.Info("Fin api/premio/registro-premio");
 
                 return Ok(oPremio); 
             }
@@ -85,11 +85,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio api/premio/actualizar-premio");
+                //log.Info("Inicio api/premio/actualizar-premio");
 
                 var oPremio = await _premioService.UpdatePremio(oPremioDTO);
 
-                log.Info("Fin api/premio/actualizar-premio");
+                //log.Info("Fin api/premio/actualizar-premio");
 
                 return Ok(oPremio); 
             }
@@ -110,11 +110,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio api/premio/eliminar-premio");
+                //log.Info("Inicio api/premio/eliminar-premio");
 
                 var oPremio = await _premioService.DeletePremio(oPremioId);
 
-                log.Info("Fin api/premio/eliminar-premio");
+                //log.Info("Fin api/premio/eliminar-premio");
 
                 return Ok(oPremio); 
             }

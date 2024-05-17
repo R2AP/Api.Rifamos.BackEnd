@@ -32,7 +32,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                log.Info("Inicio api/precio/obtener-precio");
+                //log.Info("Inicio api/precio/obtener-precio");
 
                 var oListaPrecio = await _precioService.GetPrecio(oPrecioId);
 
@@ -41,7 +41,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return NoContent();
                 }
 
-                log.Info("Fin api/precio/obtener-precio");
+                //log.Info("Fin api/precio/obtener-precio");
 
                 return Ok(oListaPrecio);
             }
@@ -64,7 +64,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {
-                log.Info("Inicio api/precio/listar-precio");
+                //log.Info("Inicio api/precio/listar-precio");
 
                 var oListPrecio = await _precioService.GetPrecioUnitario(oRifaId);
 
@@ -73,7 +73,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
                     return NoContent();
                 }
 
-                log.Info("Fin api/precio/listar-precio");
+                //log.Info("Fin api/precio/listar-precio");
 
                 return Ok(oListPrecio);
             }
@@ -94,11 +94,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio api/precio/registro-precio");
+                //log.Info("Inicio api/precio/registro-precio");
 
                 var oPrecio = await _precioService.InsertPrecio(oPrecioDTO);
 
-                log.Info("Fin api/precio/registro-precio");
+                //log.Info("Fin api/precio/registro-precio");
 
                 return Ok(oPrecio); 
             }
@@ -119,11 +119,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
         {
             try
             {        
-                log.Info("Inicio api/precio/actualizar-precio");
+                //log.Info("Inicio api/precio/actualizar-precio");
 
                 var oPrecio = await _precioService.UpdatePrecio(oPrecioDTO);
 
-                log.Info("Fin api/precio/actualizar-precio");
+                //log.Info("Fin api/precio/actualizar-precio");
 
                 return Ok(oPrecio); 
             }
@@ -145,11 +145,11 @@ namespace Api.Rifamos.BackEnd.Controllers{
             try
             {        
 
-                log.Info("Inicio api/precio/eliminar-precio");
+                //log.Info("Inicio api/precio/eliminar-precio");
 
                 var oPrecio = await _precioService.DeletePrecio(oPrecioId);
 
-                log.Info("Fin api/precio/eliminar-precio");
+                //log.Info("Fin api/precio/eliminar-precio");
 
                 return Ok(oPrecio); 
             }
