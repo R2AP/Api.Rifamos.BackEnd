@@ -71,6 +71,8 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             
             Rifa oRifa = await Get(oRifaId);
 
+            if (oRifa == null) return null;
+
             RifaFrontDTO oRifaFrontDTO = new(){
 
                 RifaId = oRifa.RifaId,
