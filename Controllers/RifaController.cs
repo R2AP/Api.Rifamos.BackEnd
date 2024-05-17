@@ -40,7 +40,7 @@ namespace Api.Rifamos.BackEnd.Controllers{
 
                 if (oRifaFrontDTO == null)
                 {
-                    return NoContent();
+                    return NotFound();
                 }
 
                 log.Info("Fin api/rifa/obtener-rifa");
