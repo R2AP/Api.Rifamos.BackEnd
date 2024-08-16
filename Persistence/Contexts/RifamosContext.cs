@@ -243,6 +243,7 @@ public partial class RifamosContext : DbContext
             entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
             entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
             entity.Property(e => e.RifaDescripcion).HasMaxLength(128);
+            entity.Property(e => e.RifaDetalle).HasMaxLength(512);
             entity.Property(e => e.Sponsor).HasMaxLength(128);
 
             entity.HasOne(d => d.EstadoRifaNavigation).WithMany(p => p.Rifas)

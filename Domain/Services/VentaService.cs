@@ -201,7 +201,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             //Envío de email con la confirmación de la compra
             //Seleccionamos las entidades que permiten generar el email de comprobación de compra de opciones
             Rifa oRifa = await _rifaService.Get(oOpcion.RifaId);
-            List<Premio> oListPremio = await _premioService.GetListPremio(oOpcion.RifaId);
+            List<PremioDTO> oListPremioDTO = await _premioService.GetListPremio(oOpcion.RifaId);
             Usuario oUsuario = await _usuarioService.GetUsuario(oOpcion.UsuarioId);
 
             //Obtenemos la plantilla de envío de email 
@@ -213,9 +213,9 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oText = oText.Replace("!#Nombre#!", oUsuario.Nombres);
             oText = oText.Replace("!#CantidadOpciones#!", oVentaDTO.CantidadOpciones.ToString());
             oText = oText.Replace("!#NombreRifa#!", oRifa.RifaDescripcion);            
-            oText = oText.Replace("!#Premio1#!", oListPremio[0].PremioDescripcion);
-            oText = oText.Replace("!#Premio2#!", oListPremio[1].PremioDescripcion);
-            oText = oText.Replace("!#Premio3#!", oListPremio[2].PremioDescripcion);
+            oText = oText.Replace("!#Premio1#!", oListPremioDTO[0].PremioDescripcion);
+            oText = oText.Replace("!#Premio2#!", oListPremioDTO[1].PremioDescripcion);
+            oText = oText.Replace("!#Premio3#!", oListPremioDTO[2].PremioDescripcion);
             oText = oText.Replace("!#Fecha#!", oRifa.FechaSorteo.ToString());
             oText = oText.Replace("!#Hora#!", oRifa.HoraSorteo.ToString());
 

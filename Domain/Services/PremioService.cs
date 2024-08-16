@@ -148,9 +148,12 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         }
 
-        public async Task<List<Premio>> GetListPremio(Int32 oRifaId)
+        public async Task<List<PremioDTO>> GetListPremio(Int32 oRifaId)
         {
-            return await _premioRepository.GetListPremio(oRifaId);
+
+            List<PremioDTO> oListPremioDTO = await _premioRepository.GetListPremio(oRifaId);
+
+            return oListPremioDTO;
         }
 
 

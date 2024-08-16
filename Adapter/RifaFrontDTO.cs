@@ -10,6 +10,8 @@ public class RifaFrontDTO : ErrorDTO{
 
     public string RifaDescripcion { get; set; } = null!;
 
+    public string RifaDetalle { get; set; } = null!;
+
     public DateOnly FechaSorteo { get; set; }
 
     public TimeOnly HoraSorteo { get; set; }
@@ -19,6 +21,8 @@ public class RifaFrontDTO : ErrorDTO{
     public string Sponsor { get; set; } = null!;
 
     public int EstadoRifa { get; set; }
+
+    public List<PremioDTO> ListPremio { get; set; } = null!;
 
     }
 }

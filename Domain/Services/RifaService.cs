@@ -17,6 +17,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
     public class RifaService : IRifaService
     {
         private readonly IRifaRepository _rifaRepository;
+        private readonly IPremioRepository _premioRepository;
 
         // public IConfiguration _configuration { get; }
         // private IHostingEnvironment _environment;
@@ -24,11 +25,13 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         readonly string sServicio = "RifaService: ";
 
         public RifaService(IRifaRepository rifaRepository,
+                            IPremioRepository premioRepository,
                             IConfiguration configuration/*,
                             IHostingEnvironment environment*/
                             )
         {
             _rifaRepository = rifaRepository;
+            _premioRepository = premioRepository;
             // _configuration = configuration;
             // _environment = environment;
         }
@@ -77,6 +80,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
                 RifaId = oRifa.RifaId,
                 RifaDescripcion = oRifa.RifaDescripcion,
+                RifaDetalle = oRifa.RifaDetalle,
                 FechaSorteo = oRifa.FechaSorteo,
                 HoraSorteo =  oRifa.HoraSorteo,
                 Imagen = oRifa.Imagen,
@@ -91,7 +95,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public async Task<RifaFrontDTO> InsertRifa(RifaDTO oRifaDTO)
         {
 
-            string sPath = @"C:\\Users\\romul\\Downloads\\template.png";
+            string sPath = @"C:\\Users\\romul\\Downloads\\Foto RRAP.png";
 
             if (File.Exists(sPath)){
                 byte[] oFile = new byte[1024];
@@ -108,6 +112,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
                 RifaId = oRifaDTO.RifaId,
                 RifaDescripcion = oRifaDTO.RifaDescripcion,
+                RifaDetalle = oRifaDTO.RifaDetalle,
                 FechaSorteo = oRifaDTO.FechaSorteo,
                 HoraSorteo =  oRifaDTO.HoraSorteo,
                 Imagen = oRifaDTO.Imagen,
@@ -124,6 +129,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
                 RifaId = oRifa.RifaId,
                 RifaDescripcion = oRifa.RifaDescripcion,
+                RifaDetalle = oRifa.RifaDetalle,
                 FechaSorteo = oRifa.FechaSorteo,
                 HoraSorteo =  oRifa.HoraSorteo,
                 Imagen = oRifa.Imagen,
@@ -140,7 +146,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             Rifa oRifa = await Get(RifaDTO.RifaId);
 
-            string sPath = @"C:\\Users\\romul\\Downloads\\template.png";
+            string sPath = @"C:\\Users\\romul\\Downloads\\Foto RRAP.png";            
 
             if (File.Exists(sPath)){
                 byte[] oFile = new byte[1024];
@@ -154,6 +160,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             }
 
             oRifa.RifaDescripcion = RifaDTO.RifaDescripcion;
+            oRifa.RifaDetalle = RifaDTO.RifaDetalle;
             oRifa.FechaSorteo = RifaDTO.FechaSorteo;
             oRifa.HoraSorteo =  RifaDTO.HoraSorteo;
             //oRifa.Imagen = RifaDTO.Imagen;
@@ -168,6 +175,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
                 RifaId = oRifa.RifaId,
                 RifaDescripcion = oRifa.RifaDescripcion,
+                RifaDetalle = oRifa.RifaDetalle,
                 FechaSorteo = oRifa.FechaSorteo,
                 HoraSorteo =  oRifa.HoraSorteo,
                 Imagen = oRifa.Imagen,
@@ -189,6 +197,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
                 RifaId = oRifa.RifaId,
                 RifaDescripcion = oRifa.RifaDescripcion,
+                RifaDetalle = oRifa.RifaDetalle,
                 FechaSorteo = oRifa.FechaSorteo,
                 HoraSorteo =  oRifa.HoraSorteo,
                 Imagen = oRifa.Imagen,
@@ -215,6 +224,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 RifaFrontDTO oRifaFrontDTO = new(){
                     RifaId = oRifa.RifaId,
                     RifaDescripcion = oRifa.RifaDescripcion,
+                    RifaDetalle = oRifa.RifaDetalle,
                     FechaSorteo = oRifa.FechaSorteo,
                     HoraSorteo =  oRifa.HoraSorteo,
                     Imagen = oRifa.Imagen,
@@ -232,6 +242,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         {
 
             List<RifaFrontDTO> oListRifaFrontDTO = [];
+            List<PremioFrontDTO> oListPremioFrontDTO = [];
 
             List<Rifa> oListRifa = await _rifaRepository.GetListRifaEstado(oEstadoId);
 
@@ -251,17 +262,22 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 
                 Rifa oRifa = oItem;
 
+                List<PremioDTO> oListPremioDTO = await _premioRepository.GetListPremio(oRifa.RifaId);
+
                 RifaFrontDTO oRifaFrontDTO = new(){
                     RifaId = oRifa.RifaId,
                     RifaDescripcion = oRifa.RifaDescripcion,
+                    RifaDetalle = oRifa.RifaDetalle,
                     FechaSorteo = oRifa.FechaSorteo,
                     HoraSorteo =  oRifa.HoraSorteo,
                     Imagen = oRifa.Imagen,
                     Sponsor = oRifa.Sponsor,
-                    EstadoRifa = oRifa.EstadoRifa
+                    EstadoRifa = oRifa.EstadoRifa,
+                    ListPremio = oListPremioDTO
                 };
 
                 oListRifaFrontDTO.Add(oRifaFrontDTO);
+
             }
 
             return oListRifaFrontDTO;

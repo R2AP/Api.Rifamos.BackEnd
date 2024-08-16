@@ -9,6 +9,8 @@ public class RifaDTO{
     public int RifaId { get; set; }
 
     public string RifaDescripcion { get; set; } = null!;
+    
+    public string RifaDetalle { get; set; } = null!;
 
     public DateOnly FechaSorteo { get; set; }
 

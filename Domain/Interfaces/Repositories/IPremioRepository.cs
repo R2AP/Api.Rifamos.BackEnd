@@ -1,11 +1,12 @@
 using Api.Rifamos.BackEnd.Domain.Models;
+using Api.Rifamos.BackEnd.Adapter;
 
 namespace Api.Rifamos.BackEnd.Domain.Interfaces.Repositories
 
 {
     public interface IPremioRepository : IRepositoryBase<Premio>
     {
-        Task<List<Premio>> GetListPremio(Int32 RifaId);
+        Task<List<PremioDTO>> GetListPremio(Int32 RifaId);
     }
 
 }
