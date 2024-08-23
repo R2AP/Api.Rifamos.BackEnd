@@ -242,6 +242,9 @@ public partial class RifamosContext : DbContext
             entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
             entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(64);
             entity.Property(e => e.AuditoriaUsuarioModificacion).HasMaxLength(64);
+            entity.Property(e => e.IndicadorPremium)
+                .HasMaxLength(1)
+                .HasComment("S = Premium, N = No es Premium");
             entity.Property(e => e.RifaDescripcion).HasMaxLength(128);
             entity.Property(e => e.RifaDetalle).HasMaxLength(512);
             entity.Property(e => e.Sponsor).HasMaxLength(128);

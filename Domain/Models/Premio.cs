@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Api.Rifamos.BackEnd.Domain.Models;
@@ -16,7 +15,7 @@ public partial class Premio
 
     public string Url { get; set; } = null!;
 
-    public BitArray? Imagen { get; set; }
+    public byte[]? Imagen { get; set; }
 
     public string AuditoriaUsuarioIngreso { get; set; } = null!;
 

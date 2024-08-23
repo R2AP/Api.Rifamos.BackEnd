@@ -72,6 +72,28 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public async Task<PremioFrontDTO> InsertPremio(PremioDTO oPremioDTO)
         {
 
+            string sPath = "";
+
+            if (oPremioDTO.PremioDescripcion == "Play Station 5" )
+                sPath = @"C:\\Users\\romul\\Downloads\\ps5.png";
+
+            if (oPremioDTO.PremioDescripcion == "Xbox Serie S" )
+                sPath = @"C:\\Users\\romul\\Downloads\\xbox.png";
+
+            if (oPremioDTO.PremioDescripcion == "Nintendo Switch" )
+                sPath = @"C:\\Users\\romul\\Downloads\\switch.png";
+
+            if (File.Exists(sPath)){
+                byte[] oFile = new byte[1024];
+                Stream oStream = File.Open(sPath,FileMode.Open,FileAccess.Read,FileShare.None);
+                MemoryStream oMemoryStream = new();
+                oStream.CopyTo(oMemoryStream);
+                oFile = oMemoryStream.ToArray();
+                oPremioDTO.Imagen = oFile;
+                oMemoryStream.Close();
+                oStream.Close();
+            }            
+
             Premio oPremio = new()
             {
 
@@ -103,13 +125,36 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         public async Task<PremioFrontDTO> UpdatePremio(PremioDTO oPremioDTO)
         {
+
             Premio oPremio = await _premioRepository.Get(oPremioDTO.PremioId);
+
+            string sPath = "";
+
+            if (oPremioDTO.PremioDescripcion == "Play Station 5" )
+                sPath = @"C:\\Users\\romul\\Downloads\\ps5.png";
+
+            if (oPremioDTO.PremioDescripcion == "Xbox Serie S" )
+                sPath = @"C:\\Users\\romul\\Downloads\\xbox.png";
+
+            if (oPremioDTO.PremioDescripcion == "Nintendo Switch" )
+                sPath = @"C:\\Users\\romul\\Downloads\\switch.png";
+
+            if (File.Exists(sPath)){
+                byte[] oFile = new byte[1024];
+                Stream oStream = File.Open(sPath,FileMode.Open,FileAccess.Read,FileShare.None);
+                MemoryStream oMemoryStream = new();
+                oStream.CopyTo(oMemoryStream);
+                oFile = oMemoryStream.ToArray();
+                oPremio.Imagen = oFile;
+                oMemoryStream.Close();
+                oStream.Close();
+            }
 
             oPremio.RifaId = oPremioDTO.RifaId;
             oPremio.PremioDescripcion = oPremioDTO.PremioDescripcion;
             oPremio.PremioDetalle = oPremioDTO.PremioDetalle;
             oPremio.Url = oPremioDTO.Url;
-            oPremio.Imagen = oPremioDTO.Imagen;
+            //oPremio.Imagen = oPremioDTO.Imagen;
             oPremio.AuditoriaUsuarioModificacion = oPremioDTO.AuditoriaUsuario;
             oPremio.AuditoriaFechaModificacion = DateTime.Now;
 

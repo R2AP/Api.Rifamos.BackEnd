@@ -15,7 +15,7 @@ public class PremioDTO{
 
     public string Url { get; set; } = null!;
 
-    public BitArray? Imagen { get; set; }
+    public byte[]? Imagen { get; set; }
 
     public string AuditoriaUsuario { get; set; } = null!;
 

@@ -83,7 +83,6 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 RifaDetalle = oRifa.RifaDetalle,
                 FechaSorteo = oRifa.FechaSorteo,
                 HoraSorteo =  oRifa.HoraSorteo,
-                Imagen = oRifa.Imagen,
                 Sponsor = oRifa.Sponsor,
                 EstadoRifa = oRifa.EstadoRifa
 
@@ -95,27 +94,27 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public async Task<RifaFrontDTO> InsertRifa(RifaDTO oRifaDTO)
         {
 
-            string sPath = @"C:\\Users\\romul\\Downloads\\Foto RRAP.png";
+            // string sPath = @"C:\\Users\\romul\\Downloads\\Foto RRAP.png";
 
-            if (File.Exists(sPath)){
-                byte[] oFile = new byte[1024];
-                Stream oStream = File.Open(sPath,FileMode.Open,FileAccess.Read,FileShare.None);
-                MemoryStream oMemoryStream = new();
-                oStream.CopyTo(oMemoryStream);
-                oFile = oMemoryStream.ToArray();
-                oRifaDTO.Imagen = oFile;
-                oMemoryStream.Close();
-                oStream.Close();
-            }
+            // if (File.Exists(sPath)){
+            //     byte[] oFile = new byte[1024];
+            //     Stream oStream = File.Open(sPath,FileMode.Open,FileAccess.Read,FileShare.None);
+            //     MemoryStream oMemoryStream = new();
+            //     oStream.CopyTo(oMemoryStream);
+            //     oFile = oMemoryStream.ToArray();
+            //     oRifaDTO.Imagen = oFile;
+            //     oMemoryStream.Close();
+            //     oStream.Close();
+            // }
 
             Rifa oRifa = new(){
 
                 RifaId = oRifaDTO.RifaId,
                 RifaDescripcion = oRifaDTO.RifaDescripcion,
+                IndicadorPremium = oRifaDTO.IndicadorPremium,
                 RifaDetalle = oRifaDTO.RifaDetalle,
                 FechaSorteo = oRifaDTO.FechaSorteo,
                 HoraSorteo =  oRifaDTO.HoraSorteo,
-                Imagen = oRifaDTO.Imagen,
                 Sponsor = oRifaDTO.Sponsor,
                 EstadoRifa = oRifaDTO.EstadoRifa,
                 AuditoriaUsuarioIngreso = oRifaDTO.AuditoriaUsuario,
@@ -129,10 +128,10 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
                 RifaId = oRifa.RifaId,
                 RifaDescripcion = oRifa.RifaDescripcion,
+                IndicadorPremium = oRifa.IndicadorPremium,
                 RifaDetalle = oRifa.RifaDetalle,
                 FechaSorteo = oRifa.FechaSorteo,
                 HoraSorteo =  oRifa.HoraSorteo,
-                Imagen = oRifa.Imagen,
                 Sponsor = oRifa.Sponsor,
                 EstadoRifa = oRifa.EstadoRifa
 
@@ -146,21 +145,21 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             Rifa oRifa = await Get(RifaDTO.RifaId);
 
-            string sPath = @"C:\\Users\\romul\\Downloads\\Foto RRAP.png";            
+            // string sPath = @"C:\\Users\\romul\\Downloads\\Foto RRAP.png";            
 
-            if (File.Exists(sPath)){
-                byte[] oFile = new byte[1024];
-                Stream oStream = File.Open(sPath,FileMode.Open,FileAccess.Read,FileShare.None);
-                MemoryStream oMemoryStream = new();
-                oStream.CopyTo(oMemoryStream);
-                oFile = oMemoryStream.ToArray();
-                oRifa.Imagen = oFile;
-                oMemoryStream.Close();
-                oStream.Close();
-            }
+            // if (File.Exists(sPath)){
+            //     byte[] oFile = new byte[1024];
+            //     Stream oStream = File.Open(sPath,FileMode.Open,FileAccess.Read,FileShare.None);
+            //     MemoryStream oMemoryStream = new();
+            //     oStream.CopyTo(oMemoryStream);
+            //     oFile = oMemoryStream.ToArray();
+            //     oMemoryStream.Close();
+            //     oStream.Close();
+            // }
 
             oRifa.RifaDescripcion = RifaDTO.RifaDescripcion;
             oRifa.RifaDetalle = RifaDTO.RifaDetalle;
+            oRifa.IndicadorPremium = RifaDTO.IndicadorPremium;
             oRifa.FechaSorteo = RifaDTO.FechaSorteo;
             oRifa.HoraSorteo =  RifaDTO.HoraSorteo;
             //oRifa.Imagen = RifaDTO.Imagen;
@@ -175,10 +174,10 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
                 RifaId = oRifa.RifaId,
                 RifaDescripcion = oRifa.RifaDescripcion,
+                IndicadorPremium = oRifa.IndicadorPremium,
                 RifaDetalle = oRifa.RifaDetalle,
                 FechaSorteo = oRifa.FechaSorteo,
                 HoraSorteo =  oRifa.HoraSorteo,
-                Imagen = oRifa.Imagen,
                 Sponsor = oRifa.Sponsor,
                 EstadoRifa = oRifa.EstadoRifa
 
@@ -197,10 +196,10 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
                 RifaId = oRifa.RifaId,
                 RifaDescripcion = oRifa.RifaDescripcion,
+                IndicadorPremium = oRifa.IndicadorPremium,
                 RifaDetalle = oRifa.RifaDetalle,
                 FechaSorteo = oRifa.FechaSorteo,
                 HoraSorteo =  oRifa.HoraSorteo,
-                Imagen = oRifa.Imagen,
                 Sponsor = oRifa.Sponsor,
                 EstadoRifa = oRifa.EstadoRifa
 
@@ -224,10 +223,10 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 RifaFrontDTO oRifaFrontDTO = new(){
                     RifaId = oRifa.RifaId,
                     RifaDescripcion = oRifa.RifaDescripcion,
+                    IndicadorPremium = oRifa.IndicadorPremium,
                     RifaDetalle = oRifa.RifaDetalle,
                     FechaSorteo = oRifa.FechaSorteo,
                     HoraSorteo =  oRifa.HoraSorteo,
-                    Imagen = oRifa.Imagen,
                     Sponsor = oRifa.Sponsor,
                     EstadoRifa = oRifa.EstadoRifa
                 };
@@ -267,10 +266,10 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 RifaFrontDTO oRifaFrontDTO = new(){
                     RifaId = oRifa.RifaId,
                     RifaDescripcion = oRifa.RifaDescripcion,
+                    IndicadorPremium = oRifa.IndicadorPremium,
                     RifaDetalle = oRifa.RifaDetalle,
                     FechaSorteo = oRifa.FechaSorteo,
                     HoraSorteo =  oRifa.HoraSorteo,
-                    Imagen = oRifa.Imagen,
                     Sponsor = oRifa.Sponsor,
                     EstadoRifa = oRifa.EstadoRifa,
                     ListPremio = oListPremioDTO
