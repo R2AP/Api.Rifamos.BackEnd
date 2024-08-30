@@ -49,6 +49,8 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
                             {
                                 RifaId = rif.RifaId,
                                 RifaDescripcion = rif.RifaDescripcion,
+                                RifaDetalle = rif.RifaDetalle,
+                                IndicadorPremium = rif.IndicadorPremium,
                                 FechaSorteo = rif.FechaSorteo,
                                 HoraSorteo = rif.HoraSorteo,
                                 Sponsor = rif.Sponsor,
