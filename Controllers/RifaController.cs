@@ -94,17 +94,18 @@ namespace Api.Rifamos.BackEnd.Controllers{
         ///<summary>
         ///Obtener una lista de rifas por estado
         ///</summary>
-        ///<param name="oEstadoId">Específica el id del estado selecconado.</param>
+        ///<param name="oEstadoId">Especifica el id del estado selecconado.</param>
+        ///<param name="oIndicadorPremium">Especifica el indicador si es Premium o no es Premium</param>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
         [HttpGet]
-        [Route("api/rifa/obtener-lista-rifa-estado/{oEstadoId}")]
-        public async Task<ActionResult> GetListRifa(Int32 oEstadoId)
+        [Route("api/rifa/obtener-lista-rifa-estado/{oEstadoId}/{oIndicadorPremium}")]
+        public async Task<ActionResult> GetListRifa(Int32 oEstadoId, String oIndicadorPremium)
         {
             try
             {
                 //log.Info("Inicio api/rifa/obtener-lista-rifa-estado");
 
-                List<RifaFrontDTO> oListaRifa = await _rifaService.GetListRifaEstado(oEstadoId);
+                List<RifaFrontDTO> oListaRifa = await _rifaService.GetListRifaEstado(oEstadoId, oIndicadorPremium);
 
                 if (oListaRifa == null)
                 {

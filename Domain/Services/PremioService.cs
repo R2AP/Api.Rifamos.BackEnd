@@ -139,6 +139,15 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             if (oPremioDTO.PremioDescripcion == "Nintendo Switch" )
                 sPath = @"C:\\Users\\romul\\Downloads\\switch.png";
 
+            if (oPremioDTO.PremioDescripcion == "Kawasaki" )
+                sPath = @"C:\\Users\\romul\\Downloads\\Kawasaki.png";
+
+            if (oPremioDTO.PremioDescripcion == "Honda" )
+                sPath = @"C:\\Users\\romul\\Downloads\\Honda.png";
+
+            if (oPremioDTO.PremioDescripcion == "Ducati" )
+                sPath = @"C:\\Users\\romul\\Downloads\\Ducati.png";
+
             if (File.Exists(sPath)){
                 byte[] oFile = new byte[1024];
                 Stream oStream = File.Open(sPath,FileMode.Open,FileAccess.Read,FileShare.None);

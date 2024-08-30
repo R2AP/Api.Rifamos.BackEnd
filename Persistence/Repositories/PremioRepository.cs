@@ -16,7 +16,8 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
         {
 
             return await (from prm in _context.Premios 
-                            where prm.RifaId == RifaId 
+                            where prm.RifaId == RifaId
+                            orderby prm.PremioId
                             select new PremioDTO
                             {
                                 PremioId = prm.PremioId,

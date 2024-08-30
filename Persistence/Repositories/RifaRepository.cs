@@ -39,11 +39,12 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
             return await rifa;
         }
 
-        public async Task<List<Rifa>> GetListRifaEstado(Int32 EstadoId)
+        public async Task<List<Rifa>> GetListRifaEstado(Int32 EstadoId, String oIndicadorPremium)
         {
 
             var rifa = (from rif in _context.Rifas 
                             where rif.EstadoRifa == EstadoId
+                            && rif.IndicadorPremium == oIndicadorPremium
                             select new Rifa
                             {
                                 RifaId = rif.RifaId,

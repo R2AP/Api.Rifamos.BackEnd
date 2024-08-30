@@ -237,21 +237,27 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return oListRifaFrontDTO;
         } 
 
-        public async Task<List<RifaFrontDTO>> GetListRifaEstado(Int32 oEstadoId)
+        public async Task<List<RifaFrontDTO>> GetListRifaEstado(Int32 oEstadoId, String oIndicadorPremium)
         {
 
+            // Lista sólo las Rifas Premium
             List<RifaFrontDTO> oListRifaFrontDTO = [];
             List<PremioFrontDTO> oListPremioFrontDTO = [];
 
-            List<Rifa> oListRifa = await _rifaRepository.GetListRifaEstado(oEstadoId);
+            List<Rifa> oListRifa = await _rifaRepository.GetListRifaEstado(oEstadoId, oIndicadorPremium);
 
             if (oListRifa.Count==0){
+
                 RifaFrontDTO oRifaFrontDTO = new()
                 {
                     Error = true,
                     Mensaje = "No se encontraron coincidencias para los criterios de búsqueda."
                 };
-                oListRifaFrontDTO.Add(oRifaFrontDTO);
+
+                if (oRifaFrontDTO.IndicadorPremium.ToString() == "S"){
+                    oListRifaFrontDTO.Add(oRifaFrontDTO);
+                };
+
                 log.Error(sServicio + oRifaFrontDTO.Mensaje);
                 return oListRifaFrontDTO;
 
@@ -281,7 +287,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             return oListRifaFrontDTO;
 
-        }
+        }   
       
     }
 
