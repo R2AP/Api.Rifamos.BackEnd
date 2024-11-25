@@ -15,7 +15,9 @@ public partial class Premio
 
     public string Url { get; set; } = null!;
 
-    public byte[]? Imagen { get; set; }
+    public byte[] Imagen { get; set; } = null!;
+
+    public byte[] ImagenCorta { get; set; } = null!;
 
     public string AuditoriaUsuarioIngreso { get; set; } = null!;
 
@@ -24,6 +26,8 @@ public partial class Premio
     public string? AuditoriaUsuarioModificacion { get; set; }
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
+
+    public virtual ICollection<Ganador> Ganadors { get; set; } = new List<Ganador>();
 
     public virtual Rifa Rifa { get; set; } = null!;
 }

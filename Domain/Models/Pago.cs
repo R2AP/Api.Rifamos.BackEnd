@@ -37,6 +37,4 @@ public partial class Pago
     public virtual EstadoPago EstadoPagoNavigation { get; set; } = null!;
 
     public virtual TipoPago TipoPagoNavigation { get; set; } = null!;
-
-    public virtual Ventum Venta { get; set; } = null!;
 }

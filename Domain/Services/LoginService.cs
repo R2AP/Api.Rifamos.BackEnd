@@ -74,22 +74,20 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             }
 
             //Valores para generar el token de sesión
-            oUsuarioDTO.UsuarioId = oUsuario.UsuarioId;
+            oUsuarioDTO.Email = oUsuario.Email;
             oUsuarioDTO.Nombres = oUsuario.Nombres;
             oUsuarioDTO.ApellidoPaterno = oUsuario.ApellidoPaterno; 
             oUsuarioDTO.ApellidoMaterno = oUsuario.ApellidoMaterno;
-            oUsuarioDTO.Email = oUsuario.Email;
             oUsuarioDTO.TipoDocumento = oUsuario.TipoDocumento;
             oUsuarioDTO.NumeroDocumento = oUsuario.NumeroDocumento;
             oUsuarioDTO.Telefono = oUsuario.Telefono;
             oUsuarioDTO.Token = GenerarToken(oUsuarioDTO);
 
             //Valores para devolver al controlador
-            oUsuarioFrontDTO.UsuarioId = oUsuario.UsuarioId;
+            oUsuarioFrontDTO.Email = oUsuario.Email;
             oUsuarioFrontDTO.Nombres = oUsuario.Nombres;
             oUsuarioFrontDTO.ApellidoPaterno = oUsuario.ApellidoPaterno; 
             oUsuarioFrontDTO.ApellidoMaterno = oUsuario.ApellidoMaterno;
-            oUsuarioFrontDTO.Email = oUsuario.Email;
             oUsuarioFrontDTO.TipoDocumento = oUsuario.TipoDocumento;
             oUsuarioFrontDTO.NumeroDocumento = oUsuario.NumeroDocumento;
             oUsuarioFrontDTO.Telefono = oUsuario.Telefono;

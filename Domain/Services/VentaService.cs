@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System.Drawing.Imaging;
-//using Newtonsoft.Json;
+//using Newtonsoft.Json; 
 
 namespace Api.Rifamos.BackEnd.Domain.Services{
     public class VentaService : IVentaService
@@ -18,7 +18,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         private readonly IOpcionService _opcionService;
         private readonly IPrecioService _precioService;
         private readonly IQRService _qrService;
-        private readonly IUsuarioService _usuarioService;
+        private readonly IRiferoService _riferoService;        
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
 
@@ -32,7 +32,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                             IOpcionService opcionService,
                             IPrecioService precioService,
                             IQRService qrService,
-                            IUsuarioService usuarioService,
+                            IRiferoService riferoService,
                             IEmailService emailService,
                             IConfiguration configuration/*,
                             IHostingEnvironment environment*/
@@ -44,7 +44,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             _opcionService = opcionService;
             _precioService = precioService;
             _qrService = qrService;
-            _usuarioService = usuarioService;
+            _riferoService = riferoService;
             _emailService = emailService;
             _configuration = configuration;
             // _environment = environment;
@@ -165,7 +165,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             OpcionDTO oOpcionDTO = new(){
                 OpcionId = oVentaDTO.OpcionId, 
                 RifaId = oVentaDTO.RifaId,
-                UsuarioId = oVentaDTO.UsuarioId,
+                RiferoId = oVentaDTO.RiferoId,
                 CantidadOpciones = oVentaDTO.CantidadOpciones,
                 TokenOpcion = "0",
                 TokenKey1 = "0",
@@ -202,7 +202,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             //Seleccionamos las entidades que permiten generar el email de comprobación de compra de opciones
             Rifa oRifa = await _rifaService.Get(oOpcion.RifaId);
             List<PremioDTO> oListPremioDTO = await _premioService.GetListPremio(oOpcion.RifaId);
-            Usuario oUsuario = await _usuarioService.GetUsuario(oOpcion.UsuarioId);
+            Rifero oRifero = await _riferoService.GetRifero(oOpcion.RiferoId);
 
             //Obtenemos la plantilla de envío de email 
             StreamReader oEmailBody = new($"{path}\\template\\EmailConfirmacionCompra.html");
@@ -210,7 +210,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oEmailBody.Close();
 
             //Reemplazamos los valores dinámicos
-            oText = oText.Replace("!#Nombre#!", oUsuario.Nombres);
+            oText = oText.Replace("!#Nombre#!", oRifero.Nombre);
             oText = oText.Replace("!#CantidadOpciones#!", oVentaDTO.CantidadOpciones.ToString());
             oText = oText.Replace("!#NombreRifa#!", oRifa.RifaDescripcion);            
             oText = oText.Replace("!#Premio1#!", oListPremioDTO[0].PremioDescripcion);
@@ -238,7 +238,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             EmailDTO oEmailDTO = new()
             {
                 EmailFrom = _configuration["Email:EmailFrom"],
-                EmailTo = oUsuario.Email,
+                EmailTo = oRifero.Email,
                 EmailPassword = _configuration["Email:EmailPassword"],
                 EmailSubject = "RifamosTodo.online | Compra de Opciones",
                 EmailBody = oText,

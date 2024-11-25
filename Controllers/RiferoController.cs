@@ -8,41 +8,41 @@ using Microsoft.AspNetCore.Authorization;
 namespace Api.Rifamos.BackEnd.Controllers{
 
     [ApiController]
-    public class UsuarioController : ControllerBase{
+    public class RiferoController : ControllerBase{
 
-        private readonly IUsuarioService _usuarioService;
-        private static readonly ILog log = LogManager.GetLogger(typeof(UsuarioController));
+        private readonly IRiferoService _RiferoService;
+        private static readonly ILog log = LogManager.GetLogger(typeof(RiferoController));
 
-        public UsuarioController(IUsuarioService usuarioService)
+        public RiferoController(IRiferoService RiferoService)
         {
-            _usuarioService = usuarioService;
+            _RiferoService = RiferoService;
 
             log4net.GlobalContext.Properties["fDirectory"] = AppContext.BaseDirectory;
             Logger.InicializarLog();
         }
 
-        //POST: api/usuario/registro-usuario
+        //POST: api/Rifero/registro-Rifero
         /// <summary>
-        /// Crear un nuevo Usuario.
+        /// Crear un nuevo Rifero.
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        [HttpPost("api/usuario/registro-usuario")]
-        //public async Task<ActionResult> InsertUsuario(Usuario Usuario, string Password)
-        public async Task<ActionResult> InsertUsuario(UsuarioDTO oUsuarioDTO)
+        [HttpPost("api/Rifero/registro-Rifero")]
+        //public async Task<ActionResult> InsertRifero(Rifero Rifero, string Password)
+        public async Task<ActionResult> InsertRifero(RiferoDTO oRiferoDTO)
         {
             try
             {        
-                //log.Info("Inicio api/usuario/registro-usuario");
+                //log.Info("Inicio api/Rifero/registro-Rifero");
 
-                UsuarioFrontDTO oUsuarioFrontDTO = await _usuarioService.InsertUsuario(oUsuarioDTO);
-                if (oUsuarioFrontDTO.Error)
+                RiferoFrontDTO oRiferoFrontDTO = await _RiferoService.InsertRifero(oRiferoDTO);
+                if (oRiferoFrontDTO.Error)
                 {
-                    return BadRequest(oUsuarioFrontDTO);
+                    return BadRequest(oRiferoFrontDTO);
                 }
 
-                //log.Info("Fin api/usuario/registro-usuario");
+                //log.Info("Fin api/Rifero/registro-Rifero");
 
-                return Ok(oUsuarioFrontDTO); 
+                return Ok(oRiferoFrontDTO); 
             }
             catch (Exception ex)
             {
@@ -51,21 +51,21 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }
 
-        //PUT: api/usuario/actualizar-usuario
+        //PUT: api/Rifero/actualizar-Rifero
         /// <summary>
-        /// Actualizar un registro de usuario.
+        /// Actualizar un registro de Rifero.
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        [HttpPut("api/usuario/actualizar-usuario")]
-        public async Task<ActionResult> UpdateUsuario(UsuarioDTO oUsuarioDTO)
+        [HttpPut("api/Rifero/actualizar-Rifero")]
+        public async Task<ActionResult> UpdateRifero(RiferoDTO oRiferoDTO)
         {
             try
             {        
-                //log.Info("Inicio api/usuario/actualizar-usuario");
+                //log.Info("Inicio api/Rifero/actualizar-Rifero");
 
-                var respuesta = await _usuarioService.UpdateUsuario(oUsuarioDTO);
+                var respuesta = await _RiferoService.UpdateRifero(oRiferoDTO);
 
-                //log.Info("Fin api/usuario/actualizar-usuario");
+                //log.Info("Fin api/Rifero/actualizar-Rifero");
 
                 return Ok(respuesta); 
             }
@@ -76,21 +76,21 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }
 
-        //DELETE: api/usuario/eliminar-usuario
+        //DELETE: api/Rifero/eliminar-Rifero
         /// <summary>
-        /// Eliminar un registro de usuario.
+        /// Eliminar un registro de Rifero.
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        [HttpDelete("api/usuario/eliminar-usuario")]
-        public async Task<ActionResult> DeleteUsuario(string oEmail)
+        [HttpDelete("api/Rifero/eliminar-Rifero")]
+        public async Task<ActionResult> DeleteRifero(Int32 oRiferoId)
         {
             try
             {        
-                //log.Info("Inicio api/usuario/eliminar-usuario");
+                //log.Info("Inicio api/Rifero/eliminar-Rifero");
 
-                var respuesta = await _usuarioService.DeleteUsuario(oEmail);
+                var respuesta = await _RiferoService.DeleteRifero(oRiferoId);
 
-                //log.Info("Fin api/usuario/eliminar-usuario");
+                //log.Info("Fin api/Rifero/eliminar-Rifero");
 
                 return Ok(respuesta); 
             }
@@ -101,21 +101,21 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }
 
-        //PUT: actualizar-password-usuario
+        //PUT: actualizar-password-Rifero
         /// <summary>
-        /// Actualizar el password del usuario.
+        /// Actualizar el password del Rifero.
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        [HttpPut("api/usuario/actualizar-password-usuario")]
-        public async Task<ActionResult> UpdatePasswordUsuario(UsuarioPasswordDTO oUsuarioPasswordDTO)
+        [HttpPut("api/Rifero/actualizar-password-Rifero")]
+        public async Task<ActionResult> UpdatePasswordRifero(RiferoPasswordDTO oRiferoPasswordDTO)
         {
             try
             {        
-                //log.Info("Inicio api/usuario/actualizar-password-usuario");
+                //log.Info("Inicio api/Rifero/actualizar-password-Rifero");
 
-                var respuesta = await _usuarioService.UpdatePasswordUsuario(oUsuarioPasswordDTO);
+                var respuesta = await _RiferoService.UpdatePasswordRifero(oRiferoPasswordDTO);
 
-                //log.Info("Fin api/usuario/actualizar-password-usuario");
+                //log.Info("Fin api/Rifero/actualizar-password-Rifero");
 
                 return Ok(respuesta);
             }
@@ -131,23 +131,23 @@ namespace Api.Rifamos.BackEnd.Controllers{
         /// Recuperar password
         /// </summary>
         ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
-        [HttpPut("api/usuario/recuperar-password")]
+        [HttpPut("api/Rifero/recuperar-password")]
         public async Task<ActionResult> RecuperarPassword(string oEmail)
         {
             try
             {        
-                //log.Info("Inicio api/usuario/recuperar-password");
+                //log.Info("Inicio api/Rifero/recuperar-password");
 
-                UsuarioFrontDTO oUsuarioFrontDTO  = await _usuarioService.RecuperarPassword(oEmail);
+                RiferoFrontDTO oRiferoFrontDTO  = await _RiferoService.RecuperarPassword(oEmail);
 
-                if (oUsuarioFrontDTO.Error)
+                if (oRiferoFrontDTO.Error)
                 {
-                    return BadRequest(oUsuarioFrontDTO);
+                    return BadRequest(oRiferoFrontDTO);
                 }
 
-                //log.Info("Fin api/usuario/recuperar-password");
+                //log.Info("Fin api/Rifero/recuperar-password");
 
-                return Ok(oUsuarioFrontDTO);
+                return Ok(oRiferoFrontDTO);
             }
             catch (Exception ex)
             {

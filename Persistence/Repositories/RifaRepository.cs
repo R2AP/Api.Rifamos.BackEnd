@@ -18,7 +18,7 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
 
             var rifa = (from opc in _context.Opcions
                             join rif in _context.Rifas on new {RifaId = opc.RifaId} equals new {RifaId = rif.RifaId}
-                            where opc.UsuarioId == UsuarioId && rif.EstadoRifa == 2 // Alta
+                            where opc.RiferoId == UsuarioId && rif.EstadoRifa == 2 // Alta
                             select new Rifa
                             {
                                 RifaId = rif.RifaId,

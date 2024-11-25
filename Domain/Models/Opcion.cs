@@ -9,7 +9,7 @@ public partial class Opcion
 
     public int RifaId { get; set; }
 
-    public int UsuarioId { get; set; }
+    public int RiferoId { get; set; }
 
     public int CantidadOpciones { get; set; }
 
@@ -33,7 +33,7 @@ public partial class Opcion
 
     public virtual Rifa Rifa { get; set; } = null!;
 
-    public virtual Usuario Usuario { get; set; } = null!;
+    public virtual Rifero Rifero { get; set; } = null!;
 
     public virtual Ventum? Ventum { get; set; }
 }

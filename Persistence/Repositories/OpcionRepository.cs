@@ -9,16 +9,16 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
 {
     public class OpcionRepository(RifamosContext context) : RepositoryBase<Opcion>(context), IOpcionRepository
     {
-        public async Task<List<Opcion>> GetListOpcion(Int32 RifaId, Int32 UsuarioId )
+        public async Task<List<Opcion>> GetListOpcion(Int32 RifaId, int RiferoId )
         {
 
             return await (from opc in _context.Opcions 
-                            where opc.RifaId == RifaId && opc.UsuarioId == UsuarioId
+                            where opc.RifaId == RifaId && opc.RiferoId == RiferoId
                             select new Opcion
                             {
                                 OpcionId = opc.OpcionId,
                                 RifaId = opc.RifaId,
-                                UsuarioId = opc.UsuarioId,
+                                RiferoId = opc.RiferoId,
                                 TokenOpcion = opc.TokenOpcion,
                                 TokenKey1 = opc.TokenKey1,
                                 TokenKey2 = opc.TokenKey2,

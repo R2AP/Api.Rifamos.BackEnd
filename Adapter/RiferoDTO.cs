@@ -1,7 +1,11 @@
 namespace Api.Rifamos.BackEnd.Adapter{
 
-public class UsuarioDTO{
-    public string Email { get; set; }
+public class RiferoDTO{
+    public int RiferoId { get; set; }
+    
+    public string Email { get; set; } = null!;
+    
+    public string Password { get; set; } = null!;
 
     public string Nombres { get; set; } = null!;
 
@@ -9,9 +13,7 @@ public class UsuarioDTO{
 
     public string? ApellidoMaterno { get; set; }
 
-    public string Password { get; set; } = null!;
-
-    public int TipoDocumento { get; set; }
+    public int TipoDocumentoID { get; set; }
 
     public string NumeroDocumento { get; set; } = null!;
 

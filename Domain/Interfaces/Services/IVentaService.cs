@@ -16,6 +16,6 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
 
         //Métodos Complementarios
         Task<VentaFrontDTO> GetVentaOpcion(Int32 oVentaId);
-        Task<VentaFrontDTO> InsertVentaOpcion(VentaDTO oVentaDTO);
+        Task<VentaFrontDTO> InsertVentaOpcion(VentaDTO oVentaDTO); 
     }
 }

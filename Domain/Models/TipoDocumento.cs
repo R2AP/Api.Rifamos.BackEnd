@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Api.Rifamos.BackEnd.Domain.Models;
 
+/// <summary>
+/// Tipo de Documento de Identidad
+/// </summary>
 public partial class TipoDocumento
 {
     public int TipoDocumentoId { get; set; }
@@ -16,6 +19,8 @@ public partial class TipoDocumento
     public string? AuditoriaUsuarioModificacion { get; set; }
 
     public DateTime? AuditoriaFechaModificacion { get; set; }
+
+    public virtual ICollection<Rifero> Riferos { get; set; } = new List<Rifero>();
 
     public virtual ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
 }

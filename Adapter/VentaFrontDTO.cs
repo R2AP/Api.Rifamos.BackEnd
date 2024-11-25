@@ -9,7 +9,7 @@ public class VentaFrontDTO{
 
     public int RifaId { get; set; }
 
-    public int UsuarioId { get; set; }
+    public int RiferoId { get; set; }
 
     public int CantidadOpciones { get; set; }
 

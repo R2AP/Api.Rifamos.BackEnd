@@ -89,7 +89,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             oOpcionFrontDTO.OpcionId = oOpcion.OpcionId;
             oOpcionFrontDTO.RifaId = oOpcion.RifaId;
-            oOpcionFrontDTO.UsuarioId = oOpcion.UsuarioId;
+            oOpcionFrontDTO.RiferoId = oOpcion.RiferoId;
             oOpcionFrontDTO.TokenOpcion = oOpcion.TokenOpcion;
             oOpcionFrontDTO.CantidadOpciones = oOpcion.CantidadOpciones;
             oOpcionFrontDTO.EstadoOpcion = oOpcion.EstadoOpcion;
@@ -123,7 +123,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 {
                     OpcionId = item.OpcionId,
                     RifaId = item.RifaId,
-                    UsuarioId = item.UsuarioId,
+                    RiferoId = item.RiferoId,
                     CantidadOpciones = item.CantidadOpciones,
                     TokenOpcion = item.TokenOpcion,
                     EstadoOpcion = item.EstadoOpcion
@@ -142,7 +142,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             Opcion oOpcion = new()
             {
                 RifaId = oOpcionDTO.RifaId,
-                UsuarioId = oOpcionDTO.UsuarioId,
+                RiferoId = oOpcionDTO.RiferoId,
                 CantidadOpciones = oOpcionDTO.CantidadOpciones,
                 TokenOpcion = "0",
                 TokenKey1 =  "0",

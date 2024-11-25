@@ -33,8 +33,6 @@ public partial class Ventum
 
     public virtual Monedum MonedaNavigation { get; set; } = null!;
 
-    public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
-
     public virtual TipoComprobante TipoComprobanteNavigation { get; set; } = null!;
 
     public virtual Opcion Venta { get; set; } = null!;

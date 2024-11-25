@@ -32,14 +32,14 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         readonly string sServicio = "UsuarioService.GetUsuarioPorEmail: ";
 
         //Métodos Básicos
-        public async Task<Usuario> Get(Int32 oUsuarioId) => await _usuarioRepository.Get(oUsuarioId);
+        public async Task<Usuario> Get(string oEmail) => await _usuarioRepository.Get(oEmail);
 
         public async Task<Usuario> Insert(Usuario oUsuario)
         {
      
             await _usuarioRepository.Post(oUsuario);
 
-            return await Get(oUsuario.UsuarioId);
+            return await Get(oUsuario.Email);
 
         }
 
@@ -48,14 +48,14 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             await _usuarioRepository.Put(oUsuario);
 
-            return await Get(oUsuario.UsuarioId);
+            return await Get(oUsuario.Email);
 
         }
 
-        public async Task<Usuario> Delete(Int32 oUsuarioId) 
+        public async Task<Usuario> Delete(string oEmail) 
         {
 
-            Usuario oUsuario = await Get(oUsuarioId);
+            Usuario oUsuario = await Get(oEmail);
 
             await _usuarioRepository.Delete(oUsuario);
 
@@ -97,14 +97,14 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         }
 
-        public async Task<Usuario> GetUsuario(Int32 oUsuarioId)
+        public async Task<Usuario> GetUsuario(string oEmail)
         {
-            return await Get(oUsuarioId);
+            return await Get(oEmail);
         }
 
-        public async Task<Usuario> GetUsuarioPorEmail(string Email)
+        public async Task<Usuario> GetUsuarioPorEmail(string oEmail)
         {
-            return await _usuarioRepository.GetUsuarioPorEmail(Email);
+            return await _usuarioRepository.GetUsuarioPorEmail(oEmail);
         }
 
         public async Task<UsuarioFrontDTO> InsertUsuario(UsuarioDTO oUsuarioDTO)
@@ -141,7 +141,6 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             Usuario oUsuario = new(){
 
-                UsuarioId = oUsuarioDTO.UsuarioId,
                 Nombres = oUsuarioDTO.Nombres, 
                 ApellidoPaterno = oUsuarioDTO.ApellidoPaterno, 
                 ApellidoMaterno = oUsuarioDTO.ApellidoMaterno,
@@ -159,11 +158,10 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             oUsuario = await Insert(oUsuario);
 
-            oUsuarioFrontDTO.UsuarioId = oUsuario.UsuarioId;
+            oUsuarioFrontDTO.Email = oUsuario.Email;
             oUsuarioFrontDTO.Nombres = oUsuario.Nombres;
             oUsuarioFrontDTO.ApellidoPaterno = oUsuario.ApellidoPaterno; 
             oUsuarioFrontDTO.ApellidoMaterno = oUsuario.ApellidoMaterno;
-            oUsuarioFrontDTO.Email = oUsuario.Email;
             oUsuarioFrontDTO.TipoDocumento = oUsuario.TipoDocumento;
             oUsuarioFrontDTO.NumeroDocumento = oUsuario.NumeroDocumento;
             oUsuarioFrontDTO.Telefono = oUsuario.Telefono;
@@ -175,10 +173,9 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public async Task<UsuarioFrontDTO> UpdateUsuario(UsuarioDTO oUsuarioDTO)
         {
 
-            Usuario oUsuario = await Get(oUsuarioDTO.UsuarioId);
+            Usuario oUsuario = await Get(oUsuarioDTO.Email);
 
             //El ID no se modifica
-            oUsuario.UsuarioId = oUsuario.UsuarioId;
             oUsuario.Nombres = oUsuarioDTO.Nombres;
             oUsuario.ApellidoPaterno = oUsuarioDTO.ApellidoPaterno;
             oUsuario.ApellidoMaterno = oUsuarioDTO.ApellidoMaterno;
@@ -196,11 +193,10 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             UsuarioFrontDTO oUsuarioFrontDTO = new()
             {
-                UsuarioId = oUsuario.UsuarioId,
+                Email = oUsuario.Email,
                 Nombres = oUsuario.Nombres,
                 ApellidoPaterno = oUsuario.ApellidoPaterno,
                 ApellidoMaterno = oUsuario.ApellidoMaterno,
-                Email = oUsuario.Email,
                 TipoDocumento = oUsuario.TipoDocumento,
                 NumeroDocumento = oUsuario.NumeroDocumento,
                 Telefono = oUsuario.Telefono
@@ -210,20 +206,19 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         }
 
-        public async Task<UsuarioFrontDTO> DeleteUsuario(Int32 UsuarioId)
+        public async Task<UsuarioFrontDTO> DeleteUsuario(string oEmail)
         {
 
-            Usuario oUsuario = await Get(UsuarioId); 
+            Usuario oUsuario = await Get(oEmail); 
 
-            await Delete(UsuarioId);
+            await Delete(oEmail);
 
             UsuarioFrontDTO oUsuarioFrontDTO = new()
             {
-                UsuarioId = oUsuario.UsuarioId,
+                Email = oUsuario.Email,
                 Nombres = oUsuario.Nombres,
                 ApellidoPaterno = oUsuario.ApellidoPaterno,
                 ApellidoMaterno = oUsuario.ApellidoMaterno,
-                Email = oUsuario.Email,
                 TipoDocumento = oUsuario.TipoDocumento,
                 NumeroDocumento = oUsuario.NumeroDocumento,
                 Telefono = oUsuario.Telefono
@@ -274,7 +269,6 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             oUsuarioActual = await Update(oUsuarioActual);
 
-            oUsuarioFrontDTO.UsuarioId = oUsuarioActual.UsuarioId;
             oUsuarioFrontDTO.Nombres = oUsuarioActual.Nombres;
             oUsuarioFrontDTO.ApellidoPaterno = oUsuarioActual.ApellidoPaterno; 
             oUsuarioFrontDTO.ApellidoMaterno = oUsuarioActual.ApellidoMaterno;
@@ -317,7 +311,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             oUsuarioActual.Password = oListToken[0];
             oUsuarioActual.Key1 = oListToken[1];
             oUsuarioActual.Key2 = oListToken[2];
-            oUsuarioActual.AuditoriaUsuarioModificacion = oUsuarioActual.UsuarioId.ToString(); 
+            oUsuarioActual.AuditoriaUsuarioModificacion = oUsuarioActual.Email; 
             oUsuarioActual.AuditoriaFechaModificacion = DateTime.Now;
 
             oUsuarioActual = await Update(oUsuarioActual);
@@ -349,11 +343,10 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             //Invocamos el método de envío de correo.
             bool oSendEmailGmail = _emailService.SendEmailGmail(oEmailDTO);
 
-            oUsuarioFrontDTO.UsuarioId = oUsuarioActual.UsuarioId;
+            oUsuarioFrontDTO.Email = oUsuarioActual.Email;
             oUsuarioFrontDTO.Nombres = oUsuarioActual.Nombres;
             oUsuarioFrontDTO.ApellidoPaterno = oUsuarioActual.ApellidoPaterno; 
             oUsuarioFrontDTO.ApellidoMaterno = oUsuarioActual.ApellidoMaterno;
-            oUsuarioFrontDTO.Email = oUsuarioActual.Email;
             oUsuarioFrontDTO.TipoDocumento = oUsuarioActual.TipoDocumento;
             oUsuarioFrontDTO.NumeroDocumento = oUsuarioActual.NumeroDocumento;
             oUsuarioFrontDTO.Telefono = oUsuarioActual.Telefono;
