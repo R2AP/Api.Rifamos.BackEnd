@@ -12,13 +12,13 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
     {
         public PremioRepository(RifamosContext context) : base(context) { }
 
-        public async Task<List<PremioDTO>> GetListPremio(Int32 RifaId)
+        public async Task<List<Premio>> GetListPremio(Int32 RifaId)
         {
 
             return await (from prm in _context.Premios 
                             where prm.RifaId == RifaId
                             orderby prm.PremioId
-                            select new PremioDTO
+                            select new Premio
                             {
                                 PremioId = prm.PremioId,
                                 RifaId = prm.RifaId,
@@ -26,6 +26,11 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
                                 PremioDetalle = prm.PremioDetalle,
                                 Url = prm.Url,
                                 Imagen = prm.Imagen,
+                                ImagenCorta = prm.ImagenCorta,
+                                AuditoriaUsuarioIngreso = prm.AuditoriaUsuarioIngreso,
+                                AuditoriaFechaIngreso = prm.AuditoriaFechaIngreso,
+                                AuditoriaUsuarioModificacion = prm.AuditoriaUsuarioModificacion,
+                                AuditoriaFechaModificacion = prm.AuditoriaFechaModificacion
                             }).ToListAsync();
 
         }

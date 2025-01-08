@@ -69,23 +69,6 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         }
 
 		//Métodos Complementarios
-        public async Task<GanadorFrontDTO> GetGanador(Int32 oPremioId)
-        {
-            
-            Ganador oGanador = await Get(oPremioId);
-
-            if (oGanador == null) return null;
-
-            GanadorFrontDTO oGanadorFrontDTO = new(){
-
-                PremioId = oGanador.PremioId,
-                RiferoId = oGanador.RiferoId,
-
-            };
-
-            return oGanadorFrontDTO;
-        }
-
         public async Task<GanadorFrontDTO> InsertGanador(GanadorDTO oGanadorDTO)
         {
 
@@ -110,6 +93,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return oGanadorFrontDTO;
 
         }
+
         public async Task<GanadorFrontDTO> UpdateGanador(GanadorDTO oGanadorDTO)
         {
 
@@ -151,27 +135,22 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         }        
 
-        // public async Task<List<GanadorFrontDTO>> GetListGanador(Int32 oUsuarioId)
-        // {
+        public async Task<Ganador> GetGanadorPorPremio(Int32 oPremioId)
+        {
+            
+            Ganador oGanador = new(){}; //await _ganadorRepository.GetGanadorPorPremio(oPremioId);
 
-        //     List<GanadorFrontDTO> oListRifaFrontDTO = [];
+            if (oGanador == null) return null;
 
-        //     List<Ganador> oListGanador = await _ganadorRepository.GetAll();
+            // GanadorFrontDTO oGanadorFrontDTO = new(){
 
-        //     foreach(var oItem in oListGanador) {
-                
-        //         Ganador oGanador = oItem;
+            //     PremioId = oGanadorDTO.PremioId,
+            //     RiferoId = oGanadorDTO.RiferoId,
 
-        //         GanadorFrontDTO oGanadorFrontDTO = new(){
-        //             PremioId = oGanador.PremioId,
-        //             RiferoId = oGanador.RiferoId
-        //         };
+            // };
 
-        //         oListRifaFrontDTO.Add(oGanadorFrontDTO);
-        //     }
-
-        //     return oListRifaFrontDTO;
-        // } 
+            return oGanador;
+        }
       
     }
 

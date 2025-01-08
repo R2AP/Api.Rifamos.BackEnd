@@ -17,6 +17,8 @@ public class PremioFrontDTO : ErrorDTO{
 
     public byte[]? Imagen { get; set; }
 
+    public List<GanadorDTO> ListGanador { get; set; } = null!;
+    
     }
 }
 

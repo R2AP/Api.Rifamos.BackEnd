@@ -39,7 +39,7 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
             return await rifa;
         }
 
-        public async Task<List<Rifa>> GetListRifaEstado(Int32 EstadoId, String oIndicadorPremium)
+        public async Task<List<Rifa>> GetListRifaEstadoIndicadorPremium(Int32 EstadoId, String oIndicadorPremium)
         {
 
             var rifa = (from rif in _context.Rifas 
@@ -64,6 +64,31 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
 
             return await rifa;
         }
-      
+
+        public async Task<List<Rifa>> GetListRifaEstado(Int32 EstadoId)
+        {
+
+            var rifa = (from rif in _context.Rifas 
+                            where rif.EstadoRifa == EstadoId
+                            select new Rifa
+                            {
+                                RifaId = rif.RifaId,
+                                RifaDescripcion = rif.RifaDescripcion,
+                                RifaDetalle = rif.RifaDetalle,
+                                IndicadorPremium = rif.IndicadorPremium,
+                                FechaSorteo = rif.FechaSorteo,
+                                HoraSorteo = rif.HoraSorteo,
+                                Sponsor = rif.Sponsor,
+                                EstadoRifa = rif.EstadoRifa,
+                                AuditoriaUsuarioIngreso = rif.AuditoriaUsuarioIngreso,
+                                AuditoriaFechaIngreso = rif.AuditoriaFechaIngreso,
+                                AuditoriaUsuarioModificacion = rif.AuditoriaUsuarioModificacion,
+                                AuditoriaFechaModificacion = rif.AuditoriaFechaModificacion, 
+
+                            }).ToListAsync();
+
+            return await rifa;
+        }
+
     }
 }

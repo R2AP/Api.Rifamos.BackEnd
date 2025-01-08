@@ -13,5 +13,20 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
     {
         public GanadorRepository(RifamosContext context) : base(context) { }
 
+        public async Task<List<Ganador>> GetGanadorPorPremio(Int32 oPremioId)
+        {
+            var ganador = (from gan in _context.Ganadors
+                            where gan.PremioId == oPremioId // Alta
+                            select new Ganador
+                            {
+                                GanadorId = gan.GanadorId,
+                                PremioId = gan.PremioId,
+                                RiferoId = gan.RiferoId
+                            })
+                            .ToListAsync();
+
+            return await ganador;            
+        }
+
     }
 }

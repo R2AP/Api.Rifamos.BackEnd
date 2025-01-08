@@ -18,6 +18,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
     {
         private readonly IRifaRepository _rifaRepository;
         private readonly IPremioRepository _premioRepository;
+        private readonly IGanadorRepository _ganadorRepository;
 
         // public IConfiguration _configuration { get; }
         // private IHostingEnvironment _environment;
@@ -26,12 +27,14 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
         public RifaService(IRifaRepository rifaRepository,
                             IPremioRepository premioRepository,
+                            IGanadorRepository ganadorRepository,
                             IConfiguration configuration/*,
                             IHostingEnvironment environment*/
                             )
         {
             _rifaRepository = rifaRepository;
             _premioRepository = premioRepository;
+            _ganadorRepository = ganadorRepository;    
             // _configuration = configuration;
             // _environment = environment;
         }
@@ -70,6 +73,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
 		//Métodos Complementarios
         public async Task<RifaFrontDTO> GetRifa(Int32 oRifaId)
+
         {
             
             Rifa oRifa = await Get(oRifaId);
@@ -90,7 +94,6 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             return oRifaFrontDTO;
         }
-
         public async Task<RifaFrontDTO> InsertRifa(RifaDTO oRifaDTO)
         {
 
@@ -186,7 +189,6 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return oRifaFrontDTO;
 
         }
-
         public async Task<RifaFrontDTO> DeleteRifa(Int32 oRifaId)
         {
 
@@ -208,7 +210,6 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return oRifaFrontDTO;
 
         }        
-
         public async Task<List<RifaFrontDTO>> GetListRifaUsuario(Int32 oUsuarioId)
         {
 
@@ -240,13 +241,13 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public async Task<List<RifaFrontDTO>> GetListRifaEstado(Int32 oEstadoId, String oIndicadorPremium)
         {
 
-            // Lista sólo las Rifas Premium
             List<RifaFrontDTO> oListRifaFrontDTO = [];
-            List<PremioFrontDTO> oListPremioFrontDTO = [];
 
-            List<Rifa> oListRifa = await _rifaRepository.GetListRifaEstado(oEstadoId, oIndicadorPremium);
+            List<Rifa> oListRifa = await _rifaRepository.GetListRifaEstado(oEstadoId);
 
-            if (oListRifa.Count==0){
+            //List<Rifa> oListRifa = await _rifaRepository.GetListRifaEstadoIndicadorPremium(oEstadoId, oIndicadorPremium);
+
+/*             if (oListRifa.Count==0){
 
                 RifaFrontDTO oRifaFrontDTO = new()
                 {
@@ -261,34 +262,118 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                 log.Error(sServicio + oRifaFrontDTO.Mensaje);
                 return oListRifaFrontDTO;
 
-            }
+            } */
 
-            foreach(var oItem in oListRifa) {
+/*             foreach(var oItemListRifa in oListRifa) {
                 
-                Rifa oRifa = oItem;
+                if (oItemListRifa.IndicadorPremium == oIndicadorPremium){
+                
+                    Rifa oRifa = oItemListRifa;
 
-                List<PremioDTO> oListPremioDTO = await _premioRepository.GetListPremio(oRifa.RifaId);
+                    List<Premio> oListPremio = await _premioRepository.GetListPremio(oRifa.RifaId);
 
-                RifaFrontDTO oRifaFrontDTO = new(){
-                    RifaId = oRifa.RifaId,
-                    RifaDescripcion = oRifa.RifaDescripcion,
-                    IndicadorPremium = oRifa.IndicadorPremium,
-                    RifaDetalle = oRifa.RifaDetalle,
-                    FechaSorteo = oRifa.FechaSorteo,
-                    HoraSorteo =  oRifa.HoraSorteo,
-                    Sponsor = oRifa.Sponsor,
-                    EstadoRifa = oRifa.EstadoRifa,
-                    ListPremio = oListPremioDTO
-                };
+                    oRifa.Premios = oListPremio;
 
-                oListRifaFrontDTO.Add(oRifaFrontDTO);
+                    if (oEstadoId == 4){
 
+                        foreach(var oItemListPremio in oListPremio){
+
+                            Ganador oGanador = await _ganadorRepository.GetGanadorPorPremio(oItemListPremio.PremioId);
+                            
+                        } 
+
+
+                    }
+
+
+                }
+
+            } */
+
+            if (oListRifa.Count!=0){
+
+                foreach(var oItemListRifa in oListRifa) {
+
+                    List<PremioDTO> oListPremioDTO = [];
+
+                    if (oItemListRifa.IndicadorPremium == oIndicadorPremium){
+
+                        List<Premio> oListPremio = await _premioRepository.GetListPremio(oItemListRifa.RifaId);
+
+                        foreach(var oItemListPremio in oListPremio){
+
+                            List<GanadorDTO> oListGanadorDTO = [];
+
+                            PremioDTO oPremioDTO = new(){
+
+                                PremioId = oItemListPremio.PremioId,
+                                RifaId = oItemListPremio.RifaId,
+                                PremioDescripcion = oItemListPremio.PremioDescripcion,
+                                PremioDetalle = oItemListPremio.PremioDetalle,
+                                Url = oItemListPremio.Url,
+                                Imagen = oItemListPremio.Imagen
+
+                            };                      
+
+                            List<Ganador> oListGanador = await _ganadorRepository.GetGanadorPorPremio(oItemListPremio.PremioId);
+
+                            foreach(var oItemListGanador in oListGanador){
+
+                                GanadorDTO oGanadorDTO = new(){
+                                    GanadorId = oItemListGanador.GanadorId,
+                                    PremioId = oItemListGanador.PremioId,
+                                    RiferoId = oItemListGanador.RiferoId,
+                                };
+
+                                oListGanadorDTO.Add(oGanadorDTO);
+                                oPremioDTO.Ganador = oListGanadorDTO;
+
+                            }
+
+                            oListPremioDTO.Add(oPremioDTO);
+
+                        } 
+
+                        RifaFrontDTO oRifaFrontDTO  = new (){
+
+                            RifaId = oItemListRifa.RifaId, 
+                            RifaDescripcion = oItemListRifa.RifaDescripcion, 
+                            IndicadorPremium = oItemListRifa.IndicadorPremium, 
+                            RifaDetalle = oItemListRifa.RifaDetalle, 
+                            FechaSorteo = oItemListRifa.FechaSorteo, 
+                            HoraSorteo = oItemListRifa.HoraSorteo, 
+                            Sponsor = oItemListRifa.Sponsor, 
+                            EstadoRifa = oItemListRifa.EstadoRifa,
+                            ListPremio = oListPremioDTO,               
+                        };
+
+                        oListRifaFrontDTO.Add(oRifaFrontDTO);
+                        
+                    };            
+                }
             }
 
             return oListRifaFrontDTO;
 
         }   
-      
+
+        // public async Task<List<RifaFrontDTO>> GetListRifaGanadores(Int32 oEstadoId)
+        // {
+
+        //     List<RifaFrontDTO> oListRifaFrontDTO = [];
+        //     List<PremioFrontDTO> oListPremioFrontDTO = [];
+        //     List<GanadorDTO> oListGanadorFrontDTO = [];
+
+        //     List<Rifa> oListRifa = GetListRifaEstado(oEstadoId);
+
+        //     public async Task<List<RifaFrontDTO>> GetListRifaEstado(Int32 oEstadoId, String oIndicadorPremium)
+
+        //     }
+
+        //     return oListRifaFrontDTO;
+
+        // }   
+
     }
 
 }

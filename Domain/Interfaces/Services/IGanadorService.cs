@@ -12,10 +12,10 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
         Task<Ganador> Delete(Int32 oPremioId);
 
         //Métodos Complementarios
-        Task<GanadorFrontDTO> GetGanador(Int32 oPremioId);
         Task<GanadorFrontDTO> InsertGanador(GanadorDTO oGanadorDTO);
         Task<GanadorFrontDTO> UpdateGanador(GanadorDTO oGanadorDTO);
         Task<GanadorFrontDTO> DeleteGanador(Int32 oPremioId);
+        Task<Ganador> GetGanadorPorPremio(Int32 oPremioId);
     }
 
 }

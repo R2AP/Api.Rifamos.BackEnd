@@ -120,9 +120,7 @@ public partial class RifamosContext : DbContext
 
             entity.ToTable("Ganador");
 
-            entity.Property(e => e.GanadorId)
-                .ValueGeneratedNever()
-                .HasColumnName("GanadorID");
+            entity.Property(e => e.GanadorId).HasColumnName("GanadorID");
             entity.Property(e => e.AuditoriaFechaIngreso).HasColumnType("timestamp without time zone");
             entity.Property(e => e.AuditoriaFechaModificacion).HasColumnType("timestamp without time zone");
             entity.Property(e => e.AuditoriaUsuarioIngreso).HasMaxLength(325);
@@ -444,6 +442,7 @@ public partial class RifamosContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Venta_VentaID_fkey");
         });
+        modelBuilder.HasSequence("ganador_ganadorid_seq");
 
         OnModelCreatingPartial(modelBuilder);
     }

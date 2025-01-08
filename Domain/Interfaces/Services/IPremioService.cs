@@ -17,7 +17,7 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
 
 		//Métodos Complementarios
         Task<List<PremioDTO>> GetListPremio(Int32 oRifaId);
-        Task<PremioFrontDTO> InsertPremio(PremioDTO oPremioDTO);
+        Task<PremioFrontDTO> InsertPremio(PremioDTO oPremioDTO); 
         Task<PremioFrontDTO> UpdatePremio(PremioDTO oPremioDTO);
         Task<PremioFrontDTO> DeletePremio(Int32 oPremioId);  
     }

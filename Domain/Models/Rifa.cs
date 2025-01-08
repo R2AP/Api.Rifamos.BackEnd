@@ -39,4 +39,5 @@ public partial class Rifa
     public virtual ICollection<Precio> Precios { get; set; } = new List<Precio>();
 
     public virtual ICollection<Premio> Premios { get; set; } = new List<Premio>();
+    
 }

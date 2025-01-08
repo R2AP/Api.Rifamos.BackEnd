@@ -19,6 +19,8 @@ public class PremioDTO{
 
     public string AuditoriaUsuario { get; set; } = null!;
 
+    public List<GanadorDTO> Ganador { get; set; } = null!;
+
     }
 }
 
