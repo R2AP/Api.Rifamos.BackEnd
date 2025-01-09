@@ -19,6 +19,7 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         private readonly IRifaRepository _rifaRepository;
         private readonly IPremioRepository _premioRepository;
         private readonly IGanadorRepository _ganadorRepository;
+        private readonly IPrecioRepository _precioRepository;
 
         // public IConfiguration _configuration { get; }
         // private IHostingEnvironment _environment;
@@ -28,20 +29,21 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
         public RifaService(IRifaRepository rifaRepository,
                             IPremioRepository premioRepository,
                             IGanadorRepository ganadorRepository,
+                            IPrecioRepository precioRepository,
                             IConfiguration configuration/*,
                             IHostingEnvironment environment*/
                             )
         {
             _rifaRepository = rifaRepository;
             _premioRepository = premioRepository;
-            _ganadorRepository = ganadorRepository;    
+            _ganadorRepository = ganadorRepository; 
+            _precioRepository = precioRepository;
             // _configuration = configuration;
             // _environment = environment;
         }
 
         //Métodos Básicos
         public async Task<Rifa> Get(Int32 oRifaId) => await _rifaRepository.Get(oRifaId);
-
         public async Task<Rifa> Insert(Rifa oRifa)
         {
      
@@ -50,7 +52,6 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return await Get(oRifa.RifaId);
 
         }
-
         public async Task<Rifa> Update(Rifa oRifa)
         {
 
@@ -59,7 +60,6 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
             return await Get(oRifa.RifaId);
 
         }
-
         public async Task<Rifa> Delete(Int32 oRifaId)
         {
 
@@ -245,94 +245,90 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
 
             List<Rifa> oListRifa = await _rifaRepository.GetListRifaEstado(oEstadoId);
 
-            //List<Rifa> oListRifa = await _rifaRepository.GetListRifaEstadoIndicadorPremium(oEstadoId, oIndicadorPremium);
-
-/*             if (oListRifa.Count==0){
+            if (oListRifa.Count==0){
 
                 RifaFrontDTO oRifaFrontDTO = new()
                 {
                     Error = true,
-                    Mensaje = "No se encontraron coincidencias para los criterios de búsqueda."
-                };
-
-                if (oRifaFrontDTO.IndicadorPremium.ToString() == "S"){
-                    oListRifaFrontDTO.Add(oRifaFrontDTO);
+                    Mensaje = "GetListRifaEstado: No se encontraron coincidencias para los criterios de búsqueda."
                 };
 
                 log.Error(sServicio + oRifaFrontDTO.Mensaje);
                 return oListRifaFrontDTO;
 
-            } */
-
-/*             foreach(var oItemListRifa in oListRifa) {
-                
-                if (oItemListRifa.IndicadorPremium == oIndicadorPremium){
-                
-                    Rifa oRifa = oItemListRifa;
-
-                    List<Premio> oListPremio = await _premioRepository.GetListPremio(oRifa.RifaId);
-
-                    oRifa.Premios = oListPremio;
-
-                    if (oEstadoId == 4){
-
-                        foreach(var oItemListPremio in oListPremio){
-
-                            Ganador oGanador = await _ganadorRepository.GetGanadorPorPremio(oItemListPremio.PremioId);
-                            
-                        } 
-
-
-                    }
-
-
-                }
-
-            } */
+            }
 
             if (oListRifa.Count!=0){
 
                 foreach(var oItemListRifa in oListRifa) {
 
                     List<PremioDTO> oListPremioDTO = [];
+                    List<PrecioDTO> oListPrecioDTO = [];
 
                     if (oItemListRifa.IndicadorPremium == oIndicadorPremium){
 
-                        List<Premio> oListPremio = await _premioRepository.GetListPremio(oItemListRifa.RifaId);
+                        List<Precio> oListPrecio = await _precioRepository.GetListPrecioUnitario(oItemListRifa.RifaId);
 
-                        foreach(var oItemListPremio in oListPremio){
+                        if (oListPrecio.Count!=0){
+                        
+                            foreach(var oItemListPrecio in oListPrecio){
 
-                            List<GanadorDTO> oListGanadorDTO = [];
+                                PrecioDTO oPrecioDTO = new(){
 
-                            PremioDTO oPremioDTO = new(){
+                                    PrecioId = oItemListPrecio.PrecioId,
+                                    RifaId = oItemListPrecio.RifaId,
+                                    PrecioUnitario = oItemListPrecio.PrecioUnitario,
 
-                                PremioId = oItemListPremio.PremioId,
-                                RifaId = oItemListPremio.RifaId,
-                                PremioDescripcion = oItemListPremio.PremioDescripcion,
-                                PremioDetalle = oItemListPremio.PremioDetalle,
-                                Url = oItemListPremio.Url,
-                                Imagen = oItemListPremio.Imagen
-
-                            };                      
-
-                            List<Ganador> oListGanador = await _ganadorRepository.GetGanadorPorPremio(oItemListPremio.PremioId);
-
-                            foreach(var oItemListGanador in oListGanador){
-
-                                GanadorDTO oGanadorDTO = new(){
-                                    GanadorId = oItemListGanador.GanadorId,
-                                    PremioId = oItemListGanador.PremioId,
-                                    RiferoId = oItemListGanador.RiferoId,
                                 };
 
-                                oListGanadorDTO.Add(oGanadorDTO);
-                                oPremioDTO.Ganador = oListGanadorDTO;
+                                oListPrecioDTO.Add(oPrecioDTO);
 
                             }
 
-                            oListPremioDTO.Add(oPremioDTO);
+                        }
 
-                        } 
+                        List<Premio> oListPremio = await _premioRepository.GetListPremio(oItemListRifa.RifaId);
+
+                        if (oListPremio.Count!=0){
+
+                            foreach(var oItemListPremio in oListPremio){
+
+                                List<GanadorDTO> oListGanadorDTO = [];
+
+                                PremioDTO oPremioDTO = new(){
+
+                                    PremioId = oItemListPremio.PremioId,
+                                    RifaId = oItemListPremio.RifaId,
+                                    PremioDescripcion = oItemListPremio.PremioDescripcion,
+                                    PremioDetalle = oItemListPremio.PremioDetalle,
+                                    Url = oItemListPremio.Url,
+                                    Imagen = oItemListPremio.Imagen,
+                                    //ImagenCorta = oItemListPremio.ImagenCorta,
+
+                                };                      
+
+                                List<Ganador> oListGanador = await _ganadorRepository.GetGanadorPorPremio(oItemListPremio.PremioId);
+
+                                if (oListGanador.Count!=0){
+
+                                    foreach(var oItemListGanador in oListGanador){
+
+                                        GanadorDTO oGanadorDTO = new(){
+                                            GanadorId = oItemListGanador.GanadorId,
+                                            PremioId = oItemListGanador.PremioId,
+                                            RiferoId = oItemListGanador.RiferoId,
+                                        };
+
+                                        oListGanadorDTO.Add(oGanadorDTO);
+                                        oPremioDTO.Ganador = oListGanadorDTO;
+
+                                    }
+                                }
+
+                                oListPremioDTO.Add(oPremioDTO);
+
+                            } 
+                        }
 
                         RifaFrontDTO oRifaFrontDTO  = new (){
 
@@ -344,7 +340,10 @@ namespace Api.Rifamos.BackEnd.Domain.Services{
                             HoraSorteo = oItemListRifa.HoraSorteo, 
                             Sponsor = oItemListRifa.Sponsor, 
                             EstadoRifa = oItemListRifa.EstadoRifa,
-                            ListPremio = oListPremioDTO,               
+                            ListPremio = oListPremioDTO,
+                            ListPrecio = oListPrecioDTO,
+                            Error = false,
+                            Mensaje = "Éxito" 
                         };
 
                         oListRifaFrontDTO.Add(oRifaFrontDTO);

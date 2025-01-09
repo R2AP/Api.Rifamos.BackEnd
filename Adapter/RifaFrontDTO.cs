@@ -24,6 +24,8 @@ public class RifaFrontDTO : ErrorDTO{
 
     public List<PremioDTO> ListPremio { get; set; } = null!;
 
+    public List<PrecioDTO> ListPrecio { get; set; } = null!;
+
     }
 }
 

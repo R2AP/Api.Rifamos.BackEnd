@@ -29,5 +29,24 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
 
         }
 
+        public async Task<List<Precio>> GetListPrecioUnitario(Int32 oRifaId)
+        {
+            return await (from prc in _context.Precios
+                          join rif in _context.Rifas on new { RifaId = prc.RifaId } equals new { RifaId = rif.RifaId }
+                          where prc.RifaId == oRifaId
+                          select new Precio
+                          {
+                              PrecioId = prc.PrecioId,
+                              RifaId = prc.RifaId,
+                              PrecioUnitario = prc.PrecioUnitario,
+                              AuditoriaUsuarioIngreso = prc.AuditoriaUsuarioIngreso,
+                              AuditoriaFechaIngreso = prc.AuditoriaFechaIngreso,
+                              AuditoriaUsuarioModificacion = prc.AuditoriaUsuarioModificacion,
+                              AuditoriaFechaModificacion = prc.AuditoriaFechaModificacion,
+
+                          })
+                          .ToListAsync();
+
+        }
     }
 }
