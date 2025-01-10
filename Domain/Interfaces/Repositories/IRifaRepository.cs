@@ -8,6 +8,7 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Repositories
         Task<List<Rifa>> GetListRifaUsuario(Int32 UsuarioId);
         Task<List<Rifa>> GetListRifaEstadoIndicadorPremium(Int32 EstadoId, String IndicadorPremium);
         Task<List<Rifa>> GetListRifaEstado(Int32 EstadoId);
+        Task<List<Rifa>> GetRifaId(Int32 oRifaId);
         
     }
 

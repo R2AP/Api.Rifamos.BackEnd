@@ -123,6 +123,38 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }
 
+        //GET: api/rifa/obtener-rifa-id
+        ///<summary>
+        ///Obtener una rifa unica por id
+        ///</summary>
+        ///<param name="oRifaId">Especifica el id de la Rifa.</param>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpGet]
+        [Route("api/rifa/obtener-rifa-id/{oRifaId}")]
+        public async Task<ActionResult> GetRifaId(Int32 oRifaId)
+        {
+            try
+            {
+                //log.Info("Inicio api/rifa/obtener-rifa-id");
+
+                List<RifaFrontDTO> oListaRifa = await _rifaService.GetRifaId(oRifaId);
+
+                if (oListaRifa == null)
+                {
+                    return NoContent();
+                }
+
+                //log.Info("Fin api/rifa/obtener-rifa-id");
+
+                return Ok(oListaRifa);
+            }
+            catch(Exception ex)
+            {
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }
+
         //POST: api/rifa/registro-rifa
         /// <summary>
         /// Crear una nueva Rifa.

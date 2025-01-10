@@ -90,5 +90,30 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
             return await rifa;
         }
 
+        public async Task<List<Rifa>> GetRifaId(Int32 oRifaId)
+        {
+
+            var rifa = (from rif in _context.Rifas 
+                            where rif.RifaId == oRifaId
+                            select new Rifa
+                            {
+                                RifaId = rif.RifaId,
+                                RifaDescripcion = rif.RifaDescripcion,
+                                RifaDetalle = rif.RifaDetalle,
+                                IndicadorPremium = rif.IndicadorPremium,
+                                FechaSorteo = rif.FechaSorteo,
+                                HoraSorteo = rif.HoraSorteo,
+                                Sponsor = rif.Sponsor,
+                                EstadoRifa = rif.EstadoRifa,
+                                AuditoriaUsuarioIngreso = rif.AuditoriaUsuarioIngreso,
+                                AuditoriaFechaIngreso = rif.AuditoriaFechaIngreso,
+                                AuditoriaUsuarioModificacion = rif.AuditoriaUsuarioModificacion,
+                                AuditoriaFechaModificacion = rif.AuditoriaFechaModificacion, 
+
+                            }).ToListAsync();
+
+            return await rifa;
+        }
+
     }
 }
