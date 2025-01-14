@@ -21,6 +21,7 @@ namespace Api.Rifamos.BackEnd.Domain.Interfaces.Services
         Task<RifaFrontDTO> DeleteRifa(Int32 oRifaId);
         Task<List<RifaFrontDTO>> GetListRifaUsuario(Int32 oUsuarioId);
         Task<List<RifaFrontDTO>> GetListRifaEstado(Int32 oUsuarioId, string oIndicadorPremium);
+        Task<List<RifaFrontFechaDTO>> GetListRifaFechaTerminado(Int32 Anho);
         Task<List<RifaFrontDTO>> GetRifaId(Int32 oRifaId);
     }
 }

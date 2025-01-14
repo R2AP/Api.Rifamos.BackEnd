@@ -123,6 +123,38 @@ namespace Api.Rifamos.BackEnd.Controllers{
             }
         }
 
+        //GET: api/rifa/obtener-lista-rifa-fecha-terminado
+        ///<summary>
+        ///Obtener una lista de rifas por estado
+        ///</summary>
+        ///<param name="oAnho">Especifica el id del estado selecconado.</param>
+        ///<returns>Devuelve una respuesta HTTP y su estado.</returns>
+        [HttpGet]
+        [Route("api/rifa/obtener-lista-rifa-fecha-terminado/{oAnho}")]
+        public async Task<ActionResult> GetListRifaFechaTerminado(Int32 oAnho)
+        {
+            try
+            {
+                //log.Info("Inicio api/rifa/obtener-lista-rifa-fecha-terminado");
+
+                List<RifaFrontFechaDTO> oListaRifa = await _rifaService.GetListRifaFechaTerminado(oAnho);
+
+                if (oListaRifa == null)
+                {
+                    return NoContent();
+                }
+
+                //log.Info("Fin api/rifa/obtener-lista-rifa-fecha-terminado");
+
+                return Ok(oListaRifa);
+            }
+            catch(Exception ex)
+            {
+                log.Error(String.Format("Se ha producido el siguiente error: [{0}]", ex.Message), ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Se ha producido un error interno en el servidor, póngase en contacto con el administrador del sistema"});
+            }
+        }
+
         //GET: api/rifa/obtener-rifa-id
         ///<summary>
         ///Obtener una rifa unica por id

@@ -5,6 +5,7 @@ using Api.Rifamos.BackEnd.Domain.Models;
 using Api.Rifamos.BackEnd.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Microsoft.VisualBasic;
 
 namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
 {
@@ -88,6 +89,32 @@ namespace Api.Rifamos.BackEnd.Domain.Persistence.Repositories
                             }).ToListAsync();
 
             return await rifa;
+        }
+
+        public async Task<List<Rifa>> GetListRifaFechaTerminado(Int32 Anho)
+        {
+            var rifa = (from rif in _context.Rifas 
+                            where rif.FechaSorteo.Year == Anho
+                            && rif.EstadoRifa == 4 // TERMINADO
+                            select new Rifa
+                            {
+                                RifaId = rif.RifaId,
+                                RifaDescripcion = rif.RifaDescripcion,
+                                RifaDetalle = rif.RifaDetalle,
+                                IndicadorPremium = rif.IndicadorPremium,
+                                FechaSorteo = rif.FechaSorteo,
+                                HoraSorteo = rif.HoraSorteo,
+                                Sponsor = rif.Sponsor,
+                                EstadoRifa = rif.EstadoRifa,
+                                AuditoriaUsuarioIngreso = rif.AuditoriaUsuarioIngreso,
+                                AuditoriaFechaIngreso = rif.AuditoriaFechaIngreso,
+                                AuditoriaUsuarioModificacion = rif.AuditoriaUsuarioModificacion,
+                                AuditoriaFechaModificacion = rif.AuditoriaFechaModificacion, 
+
+                            }).OrderBy(s => s.FechaSorteo)  // Ordenamos por FechaSorteo de forma ascendente
+                            .ToListAsync();
+
+            return await rifa;            
         }
 
         public async Task<List<Rifa>> GetRifaId(Int32 oRifaId)
